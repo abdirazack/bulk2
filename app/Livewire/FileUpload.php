@@ -27,6 +27,10 @@ class FileUpload extends Component
 
     public function save()
     {
+        $this->validate([
+            'file' => 'required',
+        ]);
+        
         $reader = ReaderEntityFactory::createReaderFromFile($this->file->getRealPath());
         $reader->open($this->file->getRealPath());
     
@@ -45,6 +49,7 @@ class FileUpload extends Component
         $this->fileData = $fileData;
 
         $this->modifiedData = $fileData;
+        $this->fileData = [];
     }
 
     
