@@ -16,6 +16,7 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen ">
+        @livewire('wire-elements-modal')
             <livewire:layout.navigation />
 
             <!-- Page Heading -->
