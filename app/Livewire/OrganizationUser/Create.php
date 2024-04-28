@@ -51,7 +51,7 @@ class Create extends ModalComponent
             'username' => $this->username,
             'email' => $this->email,
             'password' => bcrypt($this->password),
-            'organization_id' => 1,//auth()->user()->organization_id,
+            'organization_id' => Auth()->user()->organization_id,
         ]);
     }
 }

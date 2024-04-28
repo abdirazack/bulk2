@@ -18,7 +18,7 @@ class Show extends Component
     {
         return view('livewire.organization-user.show'
         , [
-            'organizationUsers' => OrganizationUser::paginate(10)
+            'organizationUsers' => OrganizationUser::where('organization_id', Auth()->user()->organization_id)->paginate(10)
         ]);
     }
 

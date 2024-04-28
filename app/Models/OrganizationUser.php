@@ -4,13 +4,14 @@ namespace App\Models;
 
 use App\Models\Role;
 use App\Models\Organization;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class OrganizationUser extends Model
+class OrganizationUser extends Authenticatable
 {
     use HasFactory, SoftDeletes;
     protected $table = 'organization_users';
