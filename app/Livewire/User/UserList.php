@@ -6,12 +6,17 @@ use App\Models\User;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\On;
 
 class UserList extends Component
 {    
     use WithPagination;
 
-
+    #[on('theme-changed')]
+    public function refresh()
+    {
+        $this->render();
+    }
     
     public function render()
     {

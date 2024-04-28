@@ -10,7 +10,7 @@ class OrganizationWallet extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'organization_wallet';
+    protected $table = 'organization_wallets';
 
     protected $fillable = [
         'organization_id',

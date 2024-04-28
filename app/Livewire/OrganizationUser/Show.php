@@ -18,7 +18,7 @@ class Show extends Component
     {
         return view('livewire.organization-user.show'
         , [
-            'organizationUsers' => OrganizationUser::where('organization_id', Auth()->user()->organization_id)->paginate(10)
+            'organizationUsers' => OrganizationUser::with('roles')->where('organization_id', Auth()->user()->organization_id)->paginate(10)
         ]);
     }
 
@@ -31,5 +31,11 @@ class Show extends Component
             session()->flash('error', 'Organization User is associated with some records.');
         }
        
+    }
+
+    public function viewUser($user_id)
+    {
+        return redirect()->route('organization-user.view', ['user_id' => $user_id]);
+
     }
 }

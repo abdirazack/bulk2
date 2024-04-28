@@ -41,13 +41,13 @@ new class extends Component {
                     <i class="fa-solid fa-users text-secondary"></i>
                     Roles
                 </a>
-                <a class="btn btn-ghost btn-sm" href="{{ route('users') }}" wire:navigate>
+                {{-- <a class="btn btn-ghost btn-sm" href="{{ route('users') }}" wire:navigate>
                     <i class="fa-solid fa-user text-secondary"></i>
                     Users
-                </a>
+                </a> --}}
                 <a class="btn btn-ghost btn-sm" href="{{ route('organization-user') }}" wire:navigate>
                     <i class="fa-solid fa-user text-secondary"></i>
-                    Organization Users
+                     Users
                 </a>
                 
 
@@ -55,7 +55,7 @@ new class extends Component {
                     <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
                         <div class="w-10 rounded-full">
                             <img alt="Tailwind CSS Navbar component"
-                                src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                                src="https://daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg" />
                         </div>
                     </div>
                     <ul tabindex="0"
@@ -71,7 +71,7 @@ new class extends Component {
                                 <span class="badge">3</span>
                             </a>
                         </li>
-                        <li><a>Settings</a></li>
+                        <li><a href="{{route('settings')}}" wire:navigate>Settings</a></li>
                         <li><button wire:click="logout">Logout</button></li>
                     </ul>
                 </div>

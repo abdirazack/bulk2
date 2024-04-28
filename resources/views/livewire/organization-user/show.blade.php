@@ -29,6 +29,7 @@
                                 <th></th>
                                 <th>Name</th>
                                 <th>Email</th>
+                                <th>Role</th>
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
@@ -38,10 +39,23 @@
                                     <th>{{ $loop->index + 1 }}</th>
                                     <td>{{ $user->username }}</td>
                                     <td>{{ $user->email }}</td>
+                                    <td>
+                                        @if ($user->roles->isNotEmpty())
+                                            @foreach ($user->roles as $role)
+                                                {{ $role->name }}
+                                                @if (!$loop->last)
+                                                    ,
+                                                @endif
+                                            @endforeach
+                                        @else
+                                        @endif
+                                    </td>
                                     
                                     <td>
                                         <button class="btn btn-sm btn-danger"
                                            wire:click="$dispatch('openModal', {component: 'organization-user.edit', arguments: {user: {{$user->id}}}})">Edit</button>
+                                        <button class="btn btn-sm btn-warning"
+                                           wire:click="viewUser({{$user->id}})">View</button>
                                         <button class="btn btn-sm bg-red-700"
                                             wire:confirm="Are you sure you want to delete this post?"
                                             wire:click="delete({{ $user->id }})">Delete</button>

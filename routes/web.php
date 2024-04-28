@@ -1,14 +1,17 @@
 <?php
 
-use App\Livewire\OrganizationUser\Show as OrganizationUserShow;
 use App\Models\User;
+use App\Livewire\Setting;
 use App\Livewire\User\UserList;
-
-use App\Livewire\FileUpload;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Role\View as RoleView;
+
 use App\Livewire\Role\Index as RoleIndex;
+use App\Livewire\File\Upload as FileUpload;
+use App\Livewire\File\Preview as FilePreview;
 use App\Livewire\Organization\OrganizationUser;
+use App\Livewire\OrganizationUser\Show as OrganizationUserShow;
+use App\Livewire\OrganizationUser\View as OrganizationUserView;
 
 
 Route::view('/', 'welcome');
@@ -38,6 +41,17 @@ Route::get('/file-upload', FileUpload::class)->name('file-upload')->middleware('
 
 //organization-user
 Route::get('/organization-user', OrganizationUserShow::class)->name('organization-user')->middleware('auth');
+
+//organization-user.view
+
+Route::get('/organization-user/view/{user_id}', OrganizationUserView::class)->name('organization-user.view')->middleware('auth');
+
+// file.preview
+
+Route::get('/file/preview/{fileData}', FilePreview::class)->name('file.preview')->middleware('auth');
+
+//settings
+Route::get('/settings', Setting::class)->name('settings')->middleware('auth');
 
 
 
