@@ -18,8 +18,7 @@ return new class extends Migration
             $table->string('email', 255);
             $table->string('username', 255);
             $table->string('password', 255);
-            $table->timestamp('created_at')->useCurrent(); // Automatically sets the current timestamp on creation
-            $table->timestamp('updated_at')->useCurrent(); // Automatically sets the current timestamp on update
+            $table->timestamps();
             $table->softDeletes();
         });
     }

@@ -8,8 +8,8 @@
         <form wire:submit.prevent="store">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <x-input-label for="name" value="{{ __('Name') }}" />
-                    <x-text-input wire:model="name" id="name" type="text"
+                    <x-input-label for="name" value="{{ __('Username') }}" />
+                    <x-text-input wire:model="username" id="name" type="text"
                         class="mt-1 block
                         w-full" />
                     

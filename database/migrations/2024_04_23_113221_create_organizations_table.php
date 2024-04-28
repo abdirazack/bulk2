@@ -17,8 +17,7 @@ return new class extends Migration
             $table->string('email', 255);
             $table->string('phone', 20);
             $table->text('address');
-            $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->useCurrent();
+            $table->timestamps();
             $table->softDeletes();
         });
     }

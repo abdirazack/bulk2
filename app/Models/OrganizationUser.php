@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class OrganizationUser extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $table = 'organization_user';
+    protected $table = 'organization_users';
     
    protected $fillable = [
     'organization_id',

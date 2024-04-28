@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\OrganizationUser\Show as OrganizationUserShow;
 use App\Models\User;
 use App\Livewire\User\UserList;
 
@@ -22,9 +23,9 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-    Route::get('/organization-user/{id?}', OrganizationUser::class)
-    ->name('organization-user')
-    ->middleware('auth');
+    // Route::get('/organization-user/{id?}', OrganizationUser::class)
+    // ->name('organization-user')
+    // ->middleware('auth');
 Route::get('/view-role/{id?}', RoleView::class)
     ->name('view-role')
     ->middleware('auth');
@@ -34,5 +35,10 @@ Route::get('/roles', RoleIndex::class)->name('roles')->middleware('auth');
 
 
 Route::get('/file-upload', FileUpload::class)->name('file-upload')->middleware('auth');  
+
+//organization-user
+Route::get('/organization-user', OrganizationUserShow::class)->name('organization-user')->middleware('auth');
+
+
 
 require __DIR__.'/auth.php';

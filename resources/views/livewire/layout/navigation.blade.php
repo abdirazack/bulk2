@@ -45,6 +45,10 @@ new class extends Component {
                     <i class="fa-solid fa-user text-secondary"></i>
                     Users
                 </a>
+                <a class="btn btn-ghost btn-sm" href="{{ route('organization-user') }}" wire:navigate>
+                    <i class="fa-solid fa-user text-secondary"></i>
+                    Organization Users
+                </a>
                 
 
                 <div class="dropdown dropdown-end">
