@@ -3,9 +3,13 @@
 namespace App\Livewire\File;
 
 use Livewire\Component;
+use App\Jobs\ProcessPayment;
+use App\Models\OrganizationBatch;
+use Livewire\Attributes\On; 
 
 class Preview extends Component
 {
+    public $progress;
     public $fileData = [];
 
     public $recurring;
@@ -20,6 +24,7 @@ class Preview extends Component
         // dd($this->fileData);    
     }
   
+
 
     public function render()
     {
@@ -42,9 +47,29 @@ class Preview extends Component
             $this->modifiedData[$key][] = $this->recurring;
             $this->modifiedData[$key][] = $this->paymentDate;
         }
-        dd($this->modifiedData);
+        // dd($this->modifiedData);
+        // loged in user organization id
+        $organizationId = auth()->user()->organization_id;
+        // dd($organizationId);
 
-        return redirect()->route('file.save', ['modifiedData' => json_encode($this->modifiedData)]);
+        // create new instance of OrganizationBatch
+        $organizationBatch = new OrganizationBatch([
+            'batch_number' => 'BATCH-' . time(),
+            'total_records' => count($this->modifiedData),
+            'total_amount' => array_sum(array_column($this->modifiedData, 3)),
+            'status' => 'pending'
+        ]);
+
+        $organizationBatch->save();
+
+        $organization_batch_id = $organizationBatch->id;
+
+    //    call process payment job
+        ProcessPayment::dispatch($this->modifiedData, $organizationId, $organization_batch_id);
+
+        session()->flash('message', 'Payments processed successfully!');
+
+        return redirect()->route('file-upload');
     }
 
     public function cancel()

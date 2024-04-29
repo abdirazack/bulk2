@@ -5,7 +5,11 @@
     </div>
     <div>
         @if (session()->has('message'))
-            <div class="alert alert-success">
+            <div class="alert alert-success"
+                x-data="{show:true}"
+                x-show="show"
+                x-init="setTimeout(() => show = false, 3000)"
+            >
                 {{ session('message') }}
             </div>
         @endif

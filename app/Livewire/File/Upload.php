@@ -5,22 +5,26 @@ namespace App\Livewire\File;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
-
+use Livewire\Attributes\On; 
 
 
 class Upload extends Component
 {
     use WithFileUploads;
 
+    public $ProgressValue = -1;  
     public $file;
     public $hasHeaders;
 
 
     public $fileData;
 
+    #[on('percentageProgress')]
     public function render()
     {
-        return view('livewire.file.upload');
+        $this->ProgressValue++;
+        return view('livewire.file.upload'
+        );
     }
 
 
@@ -37,7 +41,11 @@ class Upload extends Component
     
         foreach ($reader->getSheetIterator() as $sheet) {
             foreach ($sheet->getRowIterator() as $row) {
-                // Extract cell values from the row and convert them to strings
+                //if has headers, skip the first row
+                if ($this->hasHeaders) {
+                    $this->hasHeaders = false;
+                    continue;
+                }
                 $cellValues = array_map('strval', $row->toArray());
                 $fileData[] = $cellValues;
             }

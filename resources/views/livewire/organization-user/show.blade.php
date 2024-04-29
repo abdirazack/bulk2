@@ -8,7 +8,8 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
        
             <div class="mt-5">
-                <div class="overflow-x-auto">
+                <div class="overflow-x-auto"
+                >
                     @if (session()->has('message'))
                         <div class="alert alert-success">
                             {{ session('message') }}

@@ -31,12 +31,12 @@
                         </div>
                     </div>
                     <div>
-                        <div class="card bordered p-4">
+                        <div class="card bordered p-4 bg-base-100">
                             <h2 class="text-lg font-bold">Roles</h2>
                             <div class="grid grid-flow-col">
                                 @if ($user->roles->isNotEmpty())
                                     @foreach ($user->roles as $role)
-                                        <div class="card bordered p-4 mb-3 me-2">
+                                        <div class="card bordered p-4 mb-3 me-2 bg-base-300">
                                             <h2 class="text-lg font-bold">{{ $role->name }}</h2>
                                             <p>{{ $role->description }}</p>
                                              <button class="btn btn-sm btn-primary"
@@ -53,24 +53,12 @@
             </div>
 
              @if ($user_id)
-                 
-                 <div class="justify-between bordered p-4 m-4">
-                    
-                         @if ($this->doesUserHaveRole())
-                             {{-- {{ dd( $this->user->roles()->first()->id) }} --}}
-                             {{-- <div class="card bordered p-4 mb-3 me-2">
-                                 <h2 class="text-lg font-bold">{{ $this->user->roles()->first()->name }}</h2>
-                                 <p>{{ $this->user->roles()->first()->description }}</p>
-                                 <div class="flex justify-end">
-                                     <button class="btn btn-sm btn-primary"
-                                         wire:click="detach({{ $this->user->roles()->first()->id }})">Remove</button>
-                                 </div>
-                             </div> --}}
-                         @else
+                 <div class="justify-between bordered p-4 m-4 bg-base-200">
+                         @if (!$this->doesUserHaveRole())
                          <h1 class="text-xl font-semibold text-center text-accent">Roles</h1>
                           <div class="grid grid-flow-col">
                              @foreach ($roles as $role)
-                                 <div class="card bordered p-4 mb-3 me-2" wire:key="{{ $role->id }}">
+                                 <div class="card bordered p-4 mb-3 me-2 bg-base-100" wire:key="{{ $role->id }}">
                                      <h2 class="text-lg font-bold">{{ $role->name }}</h2>
                                      <p>{{ $role->description }}</p>
                                      <div class="flex justify-end">
@@ -80,6 +68,8 @@
                                  </div>
                              @endforeach
                      </div>
+                        @else
+                            <p class="text-center">User already has a role</p>
                          @endif
                  </div>
              @endif

@@ -19,4 +19,15 @@ class Setting extends Component
         // re render the app
         return redirect(request()->header('Referer'));
     }
+
+    // clear cache
+    public function clearCache()
+    {
+        \Artisan::call('cache:clear');
+        \Artisan::call('config:clear');
+        \Artisan::call('route:clear');
+        \Artisan::call('view:clear');
+        \Artisan::call('config:cache');
+        return redirect(request()->header('Referer'));
+    }
 }
