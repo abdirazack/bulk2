@@ -3,4 +3,4 @@ deployment:
   tasks:
     - export DEPLOYPATH=/home/somxchan/org
     - /bin/cp -R css $DEPLOYPATH
-    - /bin/cp index.html $DEPLOYPATH
+    - /bin/cp public/index.php $DEPLOYPATH
