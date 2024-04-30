@@ -1,6 +1,6 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/somxchan/public_html/org
+    - export DEPLOYPATH=/home/somxchan/organizations.somxchange.com/
     - /bin/cp -R css $DEPLOYPATH
     - /bin/cp index.html $DEPLOYPATH
