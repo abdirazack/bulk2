@@ -1,6 +1,6 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/somxchan/repositories/bulk2
+    - export DEPLOYPATH=/home/somxchan/org
     - /bin/cp -R css $DEPLOYPATH
     - /bin/cp index.html $DEPLOYPATH
