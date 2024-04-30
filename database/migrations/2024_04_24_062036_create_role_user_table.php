@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('role_user', function (Blueprint $table) {
-            $table->foreignId('role_id')->constrained()->onDelete('cascade');
+        Schema::create('org_role_user', function (Blueprint $table) {
+            $table->foreignId('org_role_id')->constrained()->onDelete('cascade');
             $table->foreignId('organization_user_id')->constrained()->onDelete('cascade');
-            $table->primary(['role_id', 'organization_user_id']);
+            $table->primary(['org_role_id', 'organization_user_id']);
         });
     }
 

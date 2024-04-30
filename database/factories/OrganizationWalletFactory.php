@@ -18,8 +18,8 @@ class OrganizationWalletFactory extends Factory
     {
         return [
             
-            'organization_id' => \App\Models\Organization::factory(),
-            'balance' => $this->faker->randomFloat(2, 0, 1000000),
+            // 'organization_id' => \App\Models\Organization::factory(),
+            // 'balance' => $this->faker->randomFloat(2, 0, 1000000),
         ];
     }
 }

@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Role extends Model
 {
     use HasFactory;
-    protected $table = 'roles';   
+    protected $table = 'org_roles';   
 
 
     public function users(): BelongsToMany
@@ -20,6 +20,8 @@ class Role extends Model
 
     public function permissions(): BelongsToMany
     {
-        return $this->belongsToMany(Permission::class);
+        return $this->belongsToMany(Permission::class, 'org_permission_org_role', 'org_role_id', 'org_permission_id');
     }
+
+   
 }

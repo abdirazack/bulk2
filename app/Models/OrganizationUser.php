@@ -37,11 +37,8 @@ protected function casts(): array
 
 public function roles(): BelongsToMany
 {
-    return $this->belongsToMany(Role::class, 'role_user',  'organization_user_id', 'role_id');
+    return $this->belongsToMany(Role::class, 'org_role_user',  'organization_user_id', 'org_role_id');
 }
-
-
-
 
 
 public function hasRole(string $role): bool

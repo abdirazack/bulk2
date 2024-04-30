@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Organization;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,6 +11,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class OrganizationUserFactory extends Factory
 {
+    protected static ?string $password;
+
     /**
      * Define the model's default state.
      *
@@ -17,10 +21,10 @@ class OrganizationUserFactory extends Factory
     public function definition(): array
     {
         return [
-            'organization_id' => \App\Models\Organization::factory(),
+            'organization_id' => Organization::factory(),
             'email' => $this->faker->unique()->safeEmail,
             'username' => $this->faker->userName,
-            'password' => $this->faker->password,
+            'password' => static::$password ??= Hash::make('password'),
         ];
     }
 }
