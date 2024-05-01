@@ -28,12 +28,12 @@ new class extends Component {
             <div class="hidden sm:flex gap-2">
                 <a class="btn btn-ghost btn-sm  {{ request()->routeIs('dashboard') ? 'active' : '' }}"
                     href="{{ route('dashboard') }}" wire:navigate>
-                    <i class="fa-solid fa-house"></i>
+                    <i class="fa-solid fa-house text-secondary"></i>
                     Dashboard
                 </a>
                 <a class="btn btn-ghost btn-sm  {{ request()->routeIs('dashboard') ? 'active' : '' }}"
                     href="{{ route('file-upload') }}" wire:navigate>
-                    <i class="fa-solid fa-house"></i>
+                    <i class="fa-solid fa-upload text-secondary"></i>
                     Upload
                 </a>
 
@@ -48,6 +48,10 @@ new class extends Component {
                 <a class="btn btn-ghost btn-sm" href="{{ route('organization-user') }}" wire:navigate>
                     <i class="fa-solid fa-user text-secondary"></i>
                      Users
+                </a>
+                <a class="btn btn-ghost btn-sm" href="{{ route('organization-payment') }}" wire:navigate>
+                    <i class="fa-regular fa-credit-card text-secondary"></i>
+                     payments
                 </a>
                 
 

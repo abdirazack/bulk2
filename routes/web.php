@@ -9,6 +9,7 @@ use App\Livewire\Role\View as RoleView;
 use App\Livewire\Role\Index as RoleIndex;
 use App\Livewire\File\Upload as FileUpload;
 use App\Livewire\File\Preview as FilePreview;
+use App\Livewire\OrganizationPayment\Index as OrganizationPayment;
 use App\Livewire\Organization\OrganizationUser;
 use App\Livewire\OrganizationUser\Show as OrganizationUserShow;
 use App\Livewire\OrganizationUser\View as OrganizationUserView;
@@ -48,7 +49,9 @@ Route::get('/organization-user/view/{user_id}', OrganizationUserView::class)->na
 
 // file.preview
 
-Route::get('/file/preview/{fileData}', FilePreview::class)->name('file.preview')->middleware('auth');
+Route::get('file/preview', [FilePreview::class, 'mount'])->name('file.preview')->middleware('auth');
+// OrganizationPayment
+Route::get('/organization-payment', OrganizationPayment::class)->name('organization-payment')->middleware('auth');
 
 //settings
 Route::get('/settings', Setting::class)->name('settings')->middleware('auth');

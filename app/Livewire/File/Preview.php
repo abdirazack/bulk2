@@ -5,7 +5,7 @@ namespace App\Livewire\File;
 use Livewire\Component;
 use App\Jobs\ProcessPayment;
 use App\Models\OrganizationBatch;
-use Livewire\Attributes\On; 
+use Livewire\Attributes\On;
 
 class Preview extends Component
 {
@@ -18,20 +18,32 @@ class Preview extends Component
 
     public $modifiedData = [];
 
-    public function mount($fileData)
+    public $hasHeaders;
+
+    public function mount()
     {
+        $fileData = request('fileData');
+        $hasHeaders = request('hasHeaders');
+        if ($hasHeaders) {
+            array_shift($fileData);
+        }
         $this->fileData = json_decode($fileData, true);
-        // dd($this->fileData);    
+        // dd($this->fileData);
+        $this->hasHeaders = $hasHeaders;
+
     }
-  
+
 
 
     public function render()
     {
-        return view('livewire.file.preview'
-        , [
-            'fileData' => $this->fileData
-        ]);
+        return view(
+            'livewire.file.preview'
+            ,
+            [
+                'fileData' => $this->fileData
+            ]
+        );
     }
 
     public function saveModifiedData()
@@ -64,7 +76,7 @@ class Preview extends Component
 
         $organization_batch_id = $organizationBatch->id;
 
-    //    call process payment job
+        //    call process payment job
         ProcessPayment::dispatch($this->modifiedData, $organizationId, $organization_batch_id);
 
         session()->flash('message', 'Payments processed successfully!');

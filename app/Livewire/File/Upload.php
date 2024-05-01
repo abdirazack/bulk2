@@ -54,10 +54,14 @@ class Upload extends Component
         $reader->close();
     
         $this->fileData = $fileData;
+        // dd($this->fileData);
 
         $fileData = json_encode($fileData);
         
-        return redirect()->route('file.preview', ['fileData' => $fileData]);
+        return redirect()->route('file.preview', [
+            'fileData' => $fileData,
+            'hasHeaders' => $this->hasHeaders,
+        ]);
     }
 
 }

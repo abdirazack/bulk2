@@ -16,8 +16,8 @@ class ProcessPayment implements ShouldQueue
 
     protected $modifiedData;
     protected $organization_id;
-    protected $payment_date ;
-    protected $orgranization_batch_id;
+    protected $payment_date;
+    protected $organization_batch_id;
 
 
     /**
@@ -27,7 +27,7 @@ class ProcessPayment implements ShouldQueue
     {
         $this->modifiedData = $modifiedData;
         $this->organization_id = $organizationId;
-        $this->orgranization_batch_id = $batchId;
+        $this->organization_batch_id = $batchId;
     }
 
 
@@ -53,26 +53,25 @@ class ProcessPayment implements ShouldQueue
             $recurring = $data[4];
             $payment_date = $data[5];
 
-            
-
             // Create a new OrganizationPayment instance
             $organizationPayment = new OrganizationPayment([
                 'organization_id' => $this->organization_id,
-                'organization_batch_id' => $this->orgranization_batch_id,
-                'account_provider' => $data[1],
-                'account_name' => $data[0],
+                'organization_batch_id' => $this->organization_batch_id,
+                'account_provider' => $account_provider,
+                'account_name' => $name,
                 'account_number' => $account_number,
-                'amount' => $data[3],
-                'payment_date' => $data[5],
+                'amount' => $amount,
+                'payment_date' => $payment_date,
                 'status' => 'pending',
-                'is_recurring' => $data[4]
+                'is_recurring' => $recurring,
             ]);
+
+            // Save the organization payment
             $organizationPayment->save();
-            // everytime the payment is saved, we should trigger an event to increase the progress bar in upload component 
-             $this->dispatch('percentageProgress');
+
+
+            // Track the successful payment
+
         }
-
-
-
     }
 }

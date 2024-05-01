@@ -19,12 +19,12 @@
                 <span class="text-base label-text me-3">File has headers?</span>
                 <input type="checkbox" wire:model="hasHeaders" required class="checkbox checkbox-primary" />
             </label>
-            <div >
+            <div class="join" >
             <input type="file" x-data type="file" wire:model="file" required
                 accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                class="file-input input-primary file-input-bordered w-full max-w-xs" />
+                class="file-input input-primary file-input-bordered w-full max-w-xs join-item" />
 
-                  <button wire:click="save" class="btn btn-primary mt-2">Upload</button>
+                  <button wire:click="save" class="btn btn-primary  join-item">Upload</button>
             </div>
             @error('file')
                 <span class="error text-red-500">{{ $message }}</span>
