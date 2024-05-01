@@ -58,7 +58,8 @@
                                 <td class="">
                                     <input type="checkbox" wire:click="toggleIsRecurring({{ $org->id }})"
                                         class="toggle {{ $org->is_recurring ? 'toggle-success' : 'toggle-warning' }}"
-                                        {{ $org->is_recurring ? 'checked' : '' }} />
+                                        {{ $org->is_recurring ? 'checked' : '' }} /> &nbsp;
+                                         {{ $org->is_recurring ? 'YES' : 'NO' }}
                                 </td>
 
 
