@@ -49,7 +49,7 @@ Route::get('/organization-user/view/{user_id}', OrganizationUserView::class)->na
 
 // file.preview
 
-Route::get('file/preview', [FilePreview::class, 'mount'])->name('file.preview')->middleware('auth');
+Route::get('file/preview', FilePreview::class)->name('file.preview')->middleware('auth');
 // OrganizationPayment
 Route::get('/organization-payment', OrganizationPayment::class)->name('organization-payment')->middleware('auth');
 

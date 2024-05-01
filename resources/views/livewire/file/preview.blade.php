@@ -31,9 +31,12 @@
                     <table class="table table-compact table-zebra">
                         <thead>
                             <tr>
-                                @foreach ($fileData[0] as $header)
-                                    <th>{{ $header }}</th>
-                                @endforeach
+                              <th>Name </th>
+                              <th>Account Provider</th>
+                                <th>Account Number</th>
+                                <th>Amount</th>
+                                <th>Is Recurring</th>
+                                <th>Payment Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -46,6 +49,7 @@
                                                     class="input input-bordered w-full max-w-xs"
                                                     wire:model.lazy="fileData.{{ $index }}.{{ $loop->index }}">
                                             </td>
+                                           
                                         @endforeach
                                     </tr>
                                 @endif

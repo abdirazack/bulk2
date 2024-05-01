@@ -27,9 +27,9 @@ class Preview extends Component
         if ($hasHeaders) {
             array_shift($fileData);
         }
+        $this->hasHeaders = $hasHeaders;
         $this->fileData = json_decode($fileData, true);
         // dd($this->fileData);
-        $this->hasHeaders = $hasHeaders;
 
     }
 
