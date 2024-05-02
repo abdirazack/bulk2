@@ -27,15 +27,14 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-    // Route::get('/organization-user/{id?}', OrganizationUser::class)
-    // ->name('organization-user')
-    // ->middleware('auth');
+// Route::get('/organization-user/{id?}', OrganizationUser::class)
+// ->name('organization-user')
+// ->middleware('auth');
 Route::get('/view-role/{id?}', RoleView::class)
     ->name('view-role')
     ->middleware('auth');
 
 Route::get('/users', UserList::class)->name('users')->middleware('auth');
-Route::get('/roles', RoleIndex::class)->name('roles')->middleware('auth');
 
 
 // Route::get('/file-upload', FileUpload::class)->name('file-upload')->middleware('auth');  
@@ -49,17 +48,21 @@ Route::get('/organization-user/view/{user_id}', OrganizationUserView::class)->na
 
 // file.preview
 
-Route::get('file/preview', FilePreview::class)->name('file.preview')->middleware('auth');
 // OrganizationPayment
-Route::get('/organization-payment', OrganizationPayment::class)->name('organization-payment')->middleware('auth');
 
 //settings
 Route::get('/settings', Setting::class)->name('settings')->middleware('auth');
 
-Route::group(['middleware' => ['role:admin']], function () { 
-    Route::get('/file-upload', FileUpload::class)->name('file-upload')->middleware('auth');  
- });
+Route::group(['middleware' => ['role:admin']], function () {
+    Route::get('/file-upload', FileUpload::class)->name('file-upload')->middleware('auth');
+    Route::get('/organization-payment', OrganizationPayment::class)->name('organization-payment')->middleware('auth');
+    Route::get('file/preview', FilePreview::class)->name('file.preview')->middleware('auth');
+    Route::get('/roles', RoleIndex::class)->name('roles')->middleware('auth');
 
 
 
-require __DIR__.'/auth.php';
+});
+
+
+
+require __DIR__ . '/auth.php';

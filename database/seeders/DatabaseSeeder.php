@@ -35,6 +35,7 @@ class DatabaseSeeder extends Seeder
         $edit_users = Permission::create(['name' => 'edit_users']);
         $delete_users = Permission::create(['name' => 'delete_users']);
         $view_users = Permission::create(['name' => 'view_users']);
+        $view_user_roles = Permission::create(['name' => 'view_user_roles']);
 
         $upload_files = Permission::create(['name' => 'upload_files']);
 
