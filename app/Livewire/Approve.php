@@ -2,10 +2,11 @@
 
 namespace App\Livewire;
 
-use App\Jobs\ProcessPayment;
-use App\Models\OrganizationWallet;
-use App\Models\UploadedData;
 use Livewire\Component;
+use App\Jobs\ProcessPayment;
+use App\Models\UploadedData;
+use App\Models\OrganizationWallet;
+use app\Models\Notification;
 
 class Approve extends Component
 {
@@ -78,8 +79,15 @@ class Approve extends Component
             session()->flash('error', 'Data not found.');
             return;
         }
+        
+        // Mark all unread notifications for the current user as read
+       
+        
+        // Update the status of the associated organization batch to 'rejected'
         $uploadedData->organizationBatch->status = 'rejected';
         $uploadedData->organizationBatch->save();
+        
         session()->flash('success', 'Data rejected successfully.');
     }
+    
 }

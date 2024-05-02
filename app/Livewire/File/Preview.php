@@ -84,6 +84,8 @@ class Preview extends Component
         $UploadedData->save();
 
         session()->flash('message', 'File uploaded successfully!');
+
+        return redirect()->route('file-upload');
     }
 
     public function cancel()

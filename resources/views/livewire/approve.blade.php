@@ -1,4 +1,11 @@
 <div>
+
+    <div>
+        <x-slot name="header">
+            <h2 class="font-semibold text-xl leading-tight">
+                {{ __('Approve') }}
+            </h2>
+        </x-slot>
     {{-- Care about people's approval and you will be their prisoner. --}}
     <div class="card w-full bg-neutral text-neutral-content">
         @if (session()->has('success'))
@@ -11,7 +18,7 @@
             {{ session('error') }}
         </div>
     @endif
-        <div class="card-body items-center text-center">
+        <div class="card-body  items-center text-center">
           <h2 class="card-title">All Pending Approvals </h2>
   
           <div class="overflow-x-auto ">
@@ -30,7 +37,7 @@
               </thead>
               <tbody>
                 <!-- row 1 -->
-                <tr class="bg-base-200">
+                <tr class="bg-base-300 ">
                   
                 @foreach($uploadedData as $index => $uploadedData_item)
 

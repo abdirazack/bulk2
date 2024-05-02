@@ -20,8 +20,11 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::view('/', 'welcome');
 
-Route::get('dashboard', [DashboardController::class, 'index']) 
-    ->middleware(['auth', 'verified']) 
+
+Route::get('dashboard', function () {
+    return view('dashboard', ['users' => User::all()]);
+})
+    ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
 Route::view('profile', 'profile')
