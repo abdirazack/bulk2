@@ -67,7 +67,7 @@
 
                                 <td class="text-center">
                                     <button class="btn btn-sm btn-danger"
-                                        wire:click="$dispatch('openModal', {component: 'organization-payment.edit', arguments: {user: {{ $org->id }}}})">Edit</button>
+                                        wire:click="$dispatch('openModal', {component: 'organization-payment.edit', arguments: {user: {{ $org->id }}}})">Payment Details</button>
 
                                     {{-- <button class="btn btn-sm bg-red-700"
                                         wire:confirm="Are you sure you want to delete this post?"

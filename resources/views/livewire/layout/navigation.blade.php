@@ -55,6 +55,8 @@ new class extends Component {
                     <i class="fa-regular fa-credit-card text-secondary"></i>
                      payments
                 </a>
+                <a href="{{ route('approval') }}" wire:navigate class="btn btn-ghost btn-sm"><i class="fa-solid fa-file-invoice text-secondary"></i>Approval</a"></a>
+                
                 
 
                 <div class="dropdown dropdown-end">
