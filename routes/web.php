@@ -38,7 +38,7 @@ Route::get('/users', UserList::class)->name('users')->middleware('auth');
 Route::get('/roles', RoleIndex::class)->name('roles')->middleware('auth');
 
 
-Route::get('/file-upload', FileUpload::class)->name('file-upload')->middleware('auth');  
+// Route::get('/file-upload', FileUpload::class)->name('file-upload')->middleware('auth');  
 
 //organization-user
 Route::get('/organization-user', OrganizationUserShow::class)->name('organization-user')->middleware('auth');
@@ -55,6 +55,10 @@ Route::get('/organization-payment', OrganizationPayment::class)->name('organizat
 
 //settings
 Route::get('/settings', Setting::class)->name('settings')->middleware('auth');
+
+Route::group(['middleware' => ['role:admin']], function () { 
+    Route::get('/file-upload', FileUpload::class)->name('file-upload')->middleware('auth');  
+ });
 
 
 

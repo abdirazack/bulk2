@@ -2,10 +2,11 @@
 
 namespace App\Livewire\Organization;
 
-use App\Models\Role;
-use Livewire\Attributes\Computed;
-use Livewire\Component;
+
 use App\Models\User;
+use Livewire\Component;
+use Livewire\Attributes\Computed;
+use Spatie\Permission\Models\Role;
 
 class OrganizationUser extends Component
 {

@@ -37,10 +37,12 @@ new class extends Component {
                     Upload
                 </a>
 
+                @can('create_users')
                 <a class="btn btn-ghost btn-sm" href="{{ route('roles') }}" wire:navigate>
                     <i class="fa-solid fa-users text-secondary"></i>
                     Roles
                 </a>
+                @endcan
                 {{-- <a class="btn btn-ghost btn-sm" href="{{ route('users') }}" wire:navigate>
                     <i class="fa-solid fa-user text-secondary"></i>
                     Users

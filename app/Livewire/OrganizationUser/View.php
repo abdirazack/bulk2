@@ -2,9 +2,9 @@
 
 namespace App\Livewire\OrganizationUser;
 
-use App\Models\OrganizationUser;
-use App\Models\Role;
 use Livewire\Component;
+use App\Models\OrganizationUser;
+use Spatie\Permission\Models\Role;
 
 class View extends Component
 {

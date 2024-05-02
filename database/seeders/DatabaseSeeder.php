@@ -2,41 +2,63 @@
 
 namespace Database\Seeders;
 
-use App\Models\Role;
+
 use App\Models\User;
-use App\Models\Permission;
+
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Organization;
 use Illuminate\Database\Seeder;
 use App\Models\OrganizationUser;
-use Database\Seeders\RolesTableSeeder;
-use Database\Seeders\PermissionsTableSeeder;
-use Database\Seeders\OrganizationsTableSeeder;
-use Database\Seeders\OrganizationUsersTableSeeder;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
+
 
 class DatabaseSeeder extends Seeder
 {
+    protected static ?string $password;
     /**
      * Seed the application's database.
      */
     public function run(): void
     {
         // User::factory(50)->create();
-        Organization::factory(5)->create();
-        OrganizationUser::factory(20)->create();
-        Role::factory(5)->create();
-        Permission::factory(20)->create();
+       $org1 = Organization::create(['name' => 'Organization 1', 'email' => 'org1@gmail.com', 'phone' => '666666666', 'address' => '1234 Main St']);
+       
+        
 
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+       $admin =  Role::create(['name' => 'admin']);
 
-        // $this->call([
-        //     OrganizationsTableSeeder::class,
-        //     OrganizationUsersTableSeeder::class,
-        //     PermissionsTableSeeder::class,
-        //     RolesTableSeeder::class,
-        // ]);
+       $user = Role::create(['name' => 'user']);
+
+        $create_users = Permission::create(['name' => 'create_users']);
+        $edit_users = Permission::create(['name' => 'edit_users']);
+        $delete_users = Permission::create(['name' => 'delete_users']);
+        $view_users = Permission::create(['name' => 'view_users']);
+
+        $upload_files = Permission::create(['name' => 'upload_files']);
+
+        $admin_user = OrganizationUser::create([
+            'organization_id' => $org1->id,
+            'email' => 'admin@gmail.com',
+            'username' => 'admin',
+            'password' => static::$password ??= Hash::make('admin1234'),
+        ]);
+
+        $normal_user =  OrganizationUser::create([
+            'organization_id' => $org1->id,
+            'email' => 'user@gmail.com',
+            'username' => 'user',
+            'password' => static::$password ??= Hash::make('user1234'),
+        ]);
+
+        // give admin role some permissions
+        $admin->givePermissionTo( Permission::all());
+
+        $user->givePermissionTo( $view_users);
+
+
+        $admin_user->assignRole($admin);
+        $normal_user->assignRole($user);
     }
 }

@@ -2,9 +2,10 @@
 
 namespace App\Livewire\Role;
 
-use App\Models\Role;
+
 use Livewire\Component;
 use Livewire\Attributes\Computed;
+use Spatie\Permission\Models\Role;
 
 class Index extends Component
 {

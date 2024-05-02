@@ -2,11 +2,13 @@
 
 namespace App\Livewire\Role;
 
-use App\Models\Role;
+
 use Livewire\Component;
-use App\Models\Permission;
+
 use Livewire\Attributes\On;
 use Livewire\Attributes\Computed;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class View extends Component
 {
