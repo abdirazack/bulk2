@@ -59,7 +59,7 @@ class Preview extends Component
             $this->modifiedData[$key][] = $this->recurring;
             $this->modifiedData[$key][] = $this->paymentDate;
         }
-        // dd($this->modifiedData);
+        dd($this->modifiedData);
         // loged in user organization id
         $organizationId = auth()->user()->organization_id;
         // dd($organizationId);
