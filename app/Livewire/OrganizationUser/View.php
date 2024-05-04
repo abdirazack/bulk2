@@ -46,16 +46,18 @@ class View extends Component
 
     public function attach($role_id)
     {
+        $role = Role::findOrFail($role_id);
         $user = OrganizationUser::findOrFail($this->user_id);
-        $user->roles()->attach($role_id);
+        $user->assignRole($role);
         $this->mount($this->user_id);
         $this->render();
     }
 
     public function detach($role_id)
     {
+        $role = Role::findOrFail($role_id);
         $user = OrganizationUser::findOrFail($this->user_id);
-        $user->roles()->detach($role_id);
+        $user->removeRole($role);
         $this->mount($this->user_id);
         $this->render();
     }

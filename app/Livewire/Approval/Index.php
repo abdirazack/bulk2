@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Approval;
 
+use App\Models\Activities;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use App\Jobs\ProcessPayment;
@@ -73,6 +74,12 @@ class Index extends Component
             session()->flash('error', 'authorization failed.');
             return;
         }
+        Activities::create([
+            'organization_user_id' => auth()->user()->id,
+            'action' => 'approved',
+            'description' => 'Data approved successfully.'
+        ]);
+        
 
         session()->flash('success', 'Data approved successfully.');
     }

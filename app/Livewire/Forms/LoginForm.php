@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Models\Activities;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
@@ -39,6 +40,12 @@ class LoginForm extends Form
         }
 
         RateLimiter::clear($this->throttleKey());
+
+        Activities::create([
+            'organization_user_id' => auth()->user()->id,
+            'action' => 'login',
+            'description' => 'User logged in successfully.',
+        ]);
     }
 
     /**

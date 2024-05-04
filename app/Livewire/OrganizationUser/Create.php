@@ -3,6 +3,7 @@
 namespace App\Livewire\OrganizationUser;
 
 use Livewire\Component;
+use App\Models\Activities;
 use App\Models\OrganizationUser;
 use LivewireUI\Modal\ModalComponent;
 
@@ -36,7 +37,14 @@ class Create extends ModalComponent
         }
 
         try {
-            $this->createUser();
+           $user =  $this->createUser();
+
+           Activities::create([
+            'organization_user_id' => auth()->user()->id,
+            'action' => 'created',
+            'description' => 'Created new user.' . $user->id . $user->name
+        ]);
+
         } catch (\Exception $e) {
             session()->flash('error', 'Something went wrong.');
         }
@@ -47,7 +55,7 @@ class Create extends ModalComponent
 
     public function createUser()
     {
-        OrganizationUser::create([
+       return  OrganizationUser::create([
             'username' => $this->username,
             'email' => $this->email,
             'password' => bcrypt($this->password),
