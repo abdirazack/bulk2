@@ -20,7 +20,7 @@
                 </div>
             @endif
             <div class="card-body  items-center text-center">
-                <h2 class="card-title">All Pending Approvals </h2>
+                <h2 class="card-title">All Pending Approvals</h2>
 
                 <div class="overflow-x-auto bg-base-300 rounded shadow-lg p-5">
                     <table class="table">
