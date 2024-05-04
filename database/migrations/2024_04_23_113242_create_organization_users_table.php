@@ -16,8 +16,10 @@ return new class extends Migration
             $table->unsignedBigInteger('organization_id');
             $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
             $table->string('email', 255);
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('username', 255);
             $table->string('password', 255);
+            $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
         });
