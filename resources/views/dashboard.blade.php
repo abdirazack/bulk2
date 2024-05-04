@@ -11,18 +11,18 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                
                     <div class="stats shadow">
-                        <div class="flex flex-row justify-items-center">
-                            <div class="stat flex-1">
+                        <div class="flex flex-row gap-2 justify-items-center">
+                            <div class="bg-base-300 stat flex-1">
                                 <div class="stat-title">Total Users</div>
                                 <div class="stat-value">{{ count($users) }}</div>
                                 <div class="stat-desc">21% more than last month</div>
                             </div>
-                            <div class="stat flex-2">
+                            <div class="stat flex-2 bg-base-300">
                                 <div class="stat-title">Total Users</div>
                                 <div class="stat-value">{{ count($users) }}</div>
                                 <div class="stat-desc">21% more than last month</div>
                             </div>
-                            <div class="stat flex-3">
+                            <div class="stat flex-3 bg-base-300">
                                 <div class="stat-title">Total Users</div>
                                 <div class="stat-value">{{ count($users) }}</div>
                                 <div class="stat-desc">21% more than last month</div>
