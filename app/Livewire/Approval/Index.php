@@ -2,23 +2,32 @@
 
 namespace App\Livewire\Approval;
 
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use App\Jobs\ProcessPayment;
 use App\Models\UploadedData;
+use Livewire\WithPagination;
 
 class Index extends Component
 {
-    public function render()
+    use WithPagination;
+
+    #[Computed]
+    public function uploadedData()
     {
         $organizationId = auth()->user()->organization_id;
 
         // Fetch pending batches with payments for the logged-in organization
-        $uploadedData = UploadedData::where('organization_id', $organizationId)
+        return UploadedData::where('organization_id', $organizationId)
             ->with('organizationBatch')
             ->whereHas('organizationBatch', function ($query) {
                 $query->where('status', 'pending');
             })
-            ->get();
+            ->paginate(5);
+    }   
+    public function render()
+    {
+        $uploadedData = $this->uploadedData;
         return view('livewire.approval.index', compact('uploadedData'));
     }
 

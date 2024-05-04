@@ -12,19 +12,17 @@ class Upload extends Component
 {
     use WithFileUploads;
 
-    public $ProgressValue = -1;  
+    public $ProgressValue = -2;  
     public $file;
     public $hasHeaders;
 
 
-    public $fileData;
+    public $fileData=0;
 
     #[on('percentageProgress')]
     public function render()
     {
-        $this->ProgressValue++;
-        return view('livewire.file.upload'
-        );
+        return view('livewire.file.upload');
     }
 
 
@@ -34,29 +32,35 @@ class Upload extends Component
             'file' => 'required',
         ]);
         
-        $reader = ReaderEntityFactory::createReaderFromFile($this->file->getRealPath());
-        $reader->open($this->file->getRealPath());
-    
         $fileData = [];
+        $reader = ReaderEntityFactory::createReaderFromFile($this->file->getRealPath());
     
-        foreach ($reader->getSheetIterator() as $sheet) {
-            foreach ($sheet->getRowIterator() as $row) {
-                //if has headers, skip the first row
-                if ($this->hasHeaders) {
-                    $this->hasHeaders = false;
-                    continue;
+        try{
+            $reader->open($this->file->getRealPath());
+            foreach ($reader->getSheetIterator() as $sheet) {
+                foreach ($sheet->getRowIterator() as $row) {
+                    //if has headers, skip the first row
+                    if ($this->hasHeaders) {
+                        $this->hasHeaders = false;
+                        continue;
+                    }
+                    $cellValues = array_map('strval', $row->toArray());
+                    $fileData[] = $cellValues;
                 }
-                $cellValues = array_map('strval', $row->toArray());
-                $fileData[] = $cellValues;
             }
+            $reader->close();
+        }
+        catch (\Exception $e) {
+            $reader->close();
+            session()->flash('error', 'Error Looping through file.' . $e->getMessage());
         }
     
-        $reader->close();
-    
         $this->fileData = $fileData;
-        // dd($this->fileData);
+
 
         $fileData = json_encode($fileData);
+
+        session()->flash('success', 'File uploaded successfully, Now make your changes.');
         
         return redirect()->route('file.preview', [
             'fileData' => $fileData,

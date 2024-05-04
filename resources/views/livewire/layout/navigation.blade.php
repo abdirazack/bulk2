@@ -105,7 +105,7 @@ new class extends Component {
                 <div class="dropdown dropdown-end">
                     <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
                         <div class="w-10 rounded-full">
-                            <img alt="Tailwind CSS Navbar component"
+                            <img alt="profile image"
                                 src="https://daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg" />
                         </div>
                     </div>

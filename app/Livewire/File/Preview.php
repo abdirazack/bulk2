@@ -46,6 +46,7 @@ class Preview extends Component
     public function saveModifiedData()
     {
         $this->modifiedData = $this->fileData;
+        $organization_batch_id = '';
 
         //check if date and recurring is selected
         if ($this->recurring && $this->paymentDate != null) {
@@ -55,37 +56,47 @@ class Preview extends Component
             }
         }
 
-        // Get login user id and organization id
-        $loginUserId = auth()->user()->id;
-        $orgId = auth()->user()->organization_id;
+
 
         // Create a new instance of OrganizationBatch
-        $organizationBatch = new OrganizationBatch([
-            'batch_number' => 'BATCH-' . time(),
-            'total_records' => count($this->modifiedData),
-            'total_amount' => array_sum(array_column($this->modifiedData, 3)),
-            'status' => 'pending',
-        ]);
+        try{
+            $organizationBatch = new OrganizationBatch();
+            $organizationBatch->batch_number = 'BATCH-' . time();
+            $organizationBatch->total_records = count($this->modifiedData);
+            $organizationBatch->total_amount = array_sum(array_column($this->modifiedData, 3));
+            $organizationBatch->status = 'pending';
+            $organizationBatch->save();
 
-        $organizationBatch->save();
+           $organization_batch_id = $organizationBatch->id;
+        }catch(\Exception $e){
+            // dd($e->getMessage());  
+            session()->flash('error', 'Error saving batch data. Please try again later.' . $e->getMessage()); 
+        }
+
+     
+       
 
         // Convert modified data to JSON
         $fileDataJson = json_encode($this->modifiedData);
 
         // Insert data into UploadedData table
-        $UploadedData = new UploadedData([
-            'file_name' => 'FILE-' . time(),
-            'file_data' => $fileDataJson,
-            'created_by' => $loginUserId,
-            'organization_id' => $orgId,
-            'organization_batch_id' => $organizationBatch->id,
-        ]);
+        try{
+            $UploadedData = new UploadedData();
+            $UploadedData->file_name = 'FILE-' . time();
+            $UploadedData->file_data = $fileDataJson;
+            $UploadedData->created_by = auth()->user()->id;
+            $UploadedData->organization_id = auth()->user()->organization_id;
+            $UploadedData->organization_batch_id = $organizationBatch->id;
+            $UploadedData->save();
+        }
+        catch(\Exception $e){
+            // dd($e->getMessage());  
+            session()->flash('error', 'Error saving uploaded data. Please try again later.' . $e->getMessage()); 
+        }
+       
+        session()->flash('success', 'File uploaded successfully!');
 
-        $UploadedData->save();
-
-        session()->flash('message', 'File uploaded successfully!');
-
-        return redirect()->route('file-upload');
+        return redirect()->route('approval');
     }
 
     public function cancel()

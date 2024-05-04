@@ -8,9 +8,14 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 ">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="mt-6">
-                @if (session()->has('message'))
+                @if (session()->has('success'))
                     <div class="alert alert-success">
-                        {{ session('message') }}
+                        {{ session('success') }}
+                    </div>
+                @endif
+                @if (session()->has('error'))
+                    <div class="alert alert-warning">
+                        {{ session('error') }}
                     </div>
                 @endif
                 <h2 class="text-2xl font-semibold text-center text-info">File Preview</h2>
