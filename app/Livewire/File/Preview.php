@@ -45,16 +45,28 @@ class Preview extends Component
 
     public function saveModifiedData()
     {
+        // validate payment date
+       $val = $this->validate([
+            'paymentDate' => 'required|date',
+        ]);
+        
         $this->modifiedData = $this->fileData;
         $organization_batch_id = '';
 
         //check if date and recurring is selected
-        if ($this->recurring && $this->paymentDate != null) {
+        if ($this->paymentDate != null) 
+        {
             foreach ($this->modifiedData as $key => $value) {
-                $this->modifiedData[$key][] = $this->recurring;
+                if($this->recurring == null){
+                    $this->modifiedData[$key][] = false;
+                }
+                else{
+                    $this->modifiedData[$key][] = true;
+                }
+              
                 $this->modifiedData[$key][] = $this->paymentDate;
-            }
-        }
+       }
+    }
 
 
 
