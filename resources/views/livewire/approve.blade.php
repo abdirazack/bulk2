@@ -7,7 +7,7 @@
             </h2>
         </x-slot>
     {{-- Care about people's approval and you will be their prisoner. --}}
-    <div class="card w-full bg-neutral text-neutral-content">
+    <div class="card w-full bg-base-100 ">
         @if (session()->has('success'))
         <div class="alert alert-success">
             {{ session('success') }}
@@ -37,7 +37,7 @@
               </thead>
               <tbody>
                 <!-- row 1 -->
-                <tr class="bg-base-300 ">
+                <tr class="bg-base-300 hover">
                   
                 @foreach($uploadedData as $index => $uploadedData_item)
 

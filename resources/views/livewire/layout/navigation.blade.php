@@ -3,8 +3,29 @@
 use App\Livewire\Actions\Logout;
 use Livewire\Volt\Component;
 use app\Models\User;
+use App\Models\UploadedData;
 
 new class extends Component {
+
+    public $organizationId;
+    public $uploadedData;
+    public $notificationsCount;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->organizationId = auth()->user()->organization_id;
+
+        $this->uploadedData = UploadedData::where('organization_id', $this->organizationId)
+            ->with('organizationBatch')
+            ->whereHas('organizationBatch', function ($query) {
+                $query->where('status', 'pending');
+            })
+            ->get();
+
+        $this->notificationsCount = $this->uploadedData->count();
+    }
     /**
      * Log the current user out of the application.
      */
@@ -59,24 +80,10 @@ new class extends Component {
                 <a href="{{ route('approval') }}" class="btn btn-ghost btn-sm">
                     <i class="fa-solid fa-file-invoice text-secondary"></i>
                     Approval
-                    <span class="badge badge-primary">
-                        @php
-                            use App\Models\UploadedData;
-                            $organizationId = auth()->user()->organization_id;
+                    <span class="badge badge-secondary">
 
-// Fetch pending batches with payments for the logged-in organization
-                            $uploadedData = UploadedData::where('organization_id', $organizationId)
-                                ->with('organizationBatch')
-                                ->whereHas('organizationBatch', function ($query) {
-                                    $query->where('status', 'pending');
-                                })
-                                ->get();
-
-                            $notificationsCount = $uploadedData->count();
-
-                        @endphp
                 
-                        {{ $notificationsCount > 0 ? $notificationsCount : 'No Pending' }}
+                        {{ $notificationsCount > 0 ? $notificationsCount : 0 }}
                     </span>
                 </a>
                 
