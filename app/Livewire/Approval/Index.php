@@ -1,18 +1,15 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Approval;
 
 use Livewire\Component;
 use App\Jobs\ProcessPayment;
 use App\Models\UploadedData;
-use App\Models\OrganizationWallet;
-use app\Models\Notification;
 
-class Approve extends Component
+class Index extends Component
 {
     public function render()
     {
-        // Get the ID of the logged-in organization
         $organizationId = auth()->user()->organization_id;
 
         // Fetch pending batches with payments for the logged-in organization
@@ -22,8 +19,7 @@ class Approve extends Component
                 $query->where('status', 'pending');
             })
             ->get();
-
-        return view('livewire.approve', compact('uploadedData'));
+        return view('livewire.approval.index', compact('uploadedData'));
     }
 
     public function approve($id)
@@ -89,5 +85,4 @@ class Approve extends Component
         
         session()->flash('success', 'Data rejected successfully.');
     }
-    
 }

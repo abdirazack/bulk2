@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Models\User;
-use App\Livewire\Approve;
 use App\Livewire\Setting;
 use App\Livewire\User\UserList;
 use Illuminate\Support\Facades\Route;
@@ -18,12 +17,14 @@ use App\Livewire\OrganizationPayment\Index as OrganizationPayment;
 use App\Livewire\OrganizationPayment\Index;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
+use App\Livewire\Approval\Index as ApprovalIndex;
+
 Route::view('/', 'welcome');
 
 
 Route::get('dashboard', function () {
     return view('dashboard', ['users' => User::all()]);
-})
+    })
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
@@ -34,9 +35,7 @@ Route::view('profile', 'profile')
 // Route::get('/organization-user/{id?}', OrganizationUser::class)
 // ->name('organization-user')
 // ->middleware('auth');
-Route::get('/view-role/{id?}', RoleView::class)
-    ->name('view-role')
-    ->middleware('auth');
+
 
 Route::get('/users', UserList::class)->name('users')->middleware('auth');
 
@@ -62,8 +61,10 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/organization-payment', OrganizationPayment::class)->name('organization-payment')->middleware('auth');
     Route::get('file/preview', FilePreview::class)->name('file.preview')->middleware('auth');
     Route::get('/roles', RoleIndex::class)->name('roles')->middleware('auth');
-        Route::get('/approval', Approve::class)->name('approval')->middleware('auth');
-
+    Route::get('/approval', ApprovalIndex::class)->name('approval')->middleware('auth');
+    Route::get('/view-role/{id?}', RoleView::class)
+    ->name('view-role')
+    ->middleware('auth');
 
 
 });
