@@ -52,7 +52,7 @@ new class extends Component {
                     <i class="fa-solid fa-house text-secondary"></i>
                     Dashboard
                 </a>
-                @can('create_users')
+                
                     <div class="dropdown">
 
                         <div tabindex="0" role="button" class="btn btn-ghost btn-sm dropdown-icon">
@@ -73,7 +73,7 @@ new class extends Component {
                             </li>
                         </ul>
                     </div>
-                @endcan
+              
                 <a class="btn btn-ghost btn-sm  {{ request()->routeIs('dashboard') ? 'active' : '' }}"
                     href="{{ route('file-upload') }}" wire:navigate>
                     <i class="fa-solid fa-upload text-secondary"></i>
