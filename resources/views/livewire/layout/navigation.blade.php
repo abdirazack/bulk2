@@ -42,7 +42,8 @@ new class extends Component {
         <nav class="navbar justify-between ">
             <!-- Logo -->
             <a class="btn btn-ghost text-lg" href="{{ route('dashboard') }}" wire:navigate>
-                {{ env('APP_NAME', 'App') }}
+                {{ env('APP_NAME', 'Bulk Payments') }}
+                 <span class="badge">{{auth()->user()->organization->name}}</span>
             </a>
 
             <!-- Menu for desktop -->
@@ -80,11 +81,6 @@ new class extends Component {
                     Upload
                 </a>
 
-
-
-
-
-
                 <a class="btn btn-ghost btn-sm" href="{{ route('organization-payment') }}" wire:navigate>
                     <i class="fa-regular fa-credit-card text-secondary"></i>
                     payments
@@ -99,14 +95,11 @@ new class extends Component {
                     </span>
                 </a>
 
-
-
-
                 <div class="dropdown dropdown-end">
                     <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
                         <div class="w-10 rounded-full">
-                            <img alt="profile image"
-                                src="https://daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg" />
+                            <img alt="{{ auth()->user()->username }}"
+                            src="{{ Avatar::create(auth()->user()->username)->toBase64() }}"/>
                         </div>
                     </div>
                     <ul tabindex="0"
