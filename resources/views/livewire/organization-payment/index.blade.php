@@ -34,6 +34,7 @@
                             <th></th>
                             <th>Name</th>
                             {{-- <th>Batch</th> --}}
+                            <th>Approved By</th>
                             <th>Account Name</th>
                             <th>Account Provider</th>
                             <th>Account Number</th>
@@ -49,6 +50,7 @@
                             <tr class="hover" wire:key="{{ $org->id }}">
                                 <th>{{ $loop->index + 1 }}</th>
                                 <td>{{ $org->organization->name }}</td>
+                                <td>{{ $org->user->username }}</td>
                                 {{-- <td>{{ $org->organizationBatch->batch_number }}</td> --}}
                                 <td>{{ $org->account_name }}</td>
                                 <td>{{ $org->account_provider }}</td>

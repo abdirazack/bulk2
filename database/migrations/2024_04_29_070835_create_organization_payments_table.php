@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('organization_id')->constrained();
             $table->foreignId('organization_batch_id')->constrained();
+            $table->foreignId('organization_user_id')->constrained()->onDelete('cascade')->comment('The user who made the payment');
             $table->string('account_provider');
             $table->string('account_name');
             $table->string('account_number');

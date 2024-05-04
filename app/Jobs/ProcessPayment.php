@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use auth;
 use Illuminate\Bus\Queueable;
 use App\Models\OrganizationPayment;
 use Illuminate\Queue\SerializesModels;
@@ -16,18 +17,21 @@ class ProcessPayment implements ShouldQueue
 
     protected $modifiedData;
     protected $organization_id;
-    protected $payment_date;
+    
     protected $organization_batch_id;
+
+    protected $organization_user_id;
 
 
     /**
      * Create a new job instance.
      */
-    public function __construct(array $modifiedData, int $organizationId, int $batchId)
+    public function __construct(array $modifiedData, int $organizationId, int $batchId, $organization_user_id)
     {
         $this->modifiedData = $modifiedData;
         $this->organization_id = $organizationId;
         $this->organization_batch_id = $batchId;
+        $this->organization_user_id = $organization_user_id;
     }
 
 
@@ -57,6 +61,7 @@ class ProcessPayment implements ShouldQueue
             $organizationPayment = new OrganizationPayment([
                 'organization_id' => $this->organization_id,
                 'organization_batch_id' => $this->organization_batch_id,
+                'organization_user_id' => $this->organization_user_id,
                 'account_provider' => $account_provider,
                 'account_name' => $name,
                 'account_number' => $account_number,
@@ -65,7 +70,6 @@ class ProcessPayment implements ShouldQueue
                 'status' => 'pending',
                 'is_recurring' => $recurring,
             ]);
-
             // Save the organization payment
             $organizationPayment->save();
 

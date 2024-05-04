@@ -23,5 +23,9 @@ class OrganizationBatch extends Model
         return $this->hasMany(OrganizationPayment::class);
     }   
 
+    public function user()
+    {
+        return $this->belongsTo(OrganizationUser::class, 'organization_user_id');
+    }
     
 }

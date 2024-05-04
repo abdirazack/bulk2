@@ -2,12 +2,13 @@
 
 namespace App\Livewire\Approval;
 
-use App\Models\Activities;
-use Livewire\Attributes\Computed;
 use Livewire\Component;
+use App\Models\Activities;
 use App\Jobs\ProcessPayment;
 use App\Models\UploadedData;
 use Livewire\WithPagination;
+use App\Models\OrganizationUser;
+use Livewire\Attributes\Computed;
 
 class Index extends Component
 {
@@ -69,7 +70,10 @@ class Index extends Component
 
         if ($loginOrg == $organizationId && $organization_batch_id != null) {
             //    call process payment job
-            ProcessPayment::dispatch($file_data, $organizationId, $organization_batch_id);
+        //    dd($file_data);
+           $retunedstuff =  ProcessPayment::dispatch($file_data, $organizationId, $organization_batch_id, $organization_user_id = auth()->user()->id);
+
+           dd($retunedstuff);
         } else {
             session()->flash('error', 'authorization failed.');
             return;
@@ -79,7 +83,7 @@ class Index extends Component
             'action' => 'approved',
             'description' => 'Data approved successfully.'
         ]);
-        
+
 
         session()->flash('success', 'Data approved successfully.');
     }
@@ -100,5 +104,10 @@ class Index extends Component
         $uploadedData->organizationBatch->save();
         
         session()->flash('success', 'Data rejected successfully.');
+    }
+
+    public function getUserName($id)
+    {
+        return OrganizationUser::find($id)->name;
     }
 }

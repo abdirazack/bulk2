@@ -28,6 +28,7 @@
                         <thead>
                             <tr>
                                 <th>Batch</th>
+                                <th>Created By</th>
                                 <th>Total Amount</th>
                                 <th>Status</th>
                                 <th>Total Records</th>
@@ -41,7 +42,9 @@
 
                             @foreach ($uploadedData as $index => $uploadedData_item)
                                 <tr class="hover">
+                               
                                     <td>{{ $uploadedData_item->organizationBatch->batch_number }}</td>
+                                    <td>{{$uploadedData_item->user->username}}</td>
                                     <td>{{ $uploadedData_item->organizationBatch->total_amount }}</td>
                                     <td>{{ $uploadedData_item->organizationBatch->status }}</td>
                                     <td>{{ $uploadedData_item->organizationBatch->total_records }}</td>

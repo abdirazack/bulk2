@@ -73,6 +73,7 @@ class Preview extends Component
         // Create a new instance of OrganizationBatch
         try{
             $organizationBatch = new OrganizationBatch();
+            $organizationBatch->organization_user_id = auth()->user()->id;
             $organizationBatch->batch_number = 'BATCH-' . time();
             $organizationBatch->total_records = count($this->modifiedData);
             $organizationBatch->total_amount = array_sum(array_column($this->modifiedData, 3));

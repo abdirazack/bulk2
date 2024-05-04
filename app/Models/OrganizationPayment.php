@@ -15,6 +15,7 @@ class OrganizationPayment extends Model
     protected $fillable = [
         'organization_id',
         'organization_batch_id',
+        'organization_user_id',
         'account_provider',
         'account_name',
         'account_number',
@@ -33,4 +34,9 @@ class OrganizationPayment extends Model
     {
         return $this->belongsTo(OrganizationBatch::class);
     } 
+
+    public function user()
+    {
+        return $this->belongsTo(OrganizationUser::class, 'organization_user_id');
+    }
 }
