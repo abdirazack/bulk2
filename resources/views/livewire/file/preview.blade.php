@@ -18,7 +18,7 @@
                     <div class="flex justify-center gap-12">
                         <label class="label">
                             <span class="text-base label-text me-3">Is this Payment Recurring?</span>
-                            <input type="checkbox" wire:model="recurring" required
+                            <input type="checkbox" wire:model="recurring" 
                                 class="checkbox checkbox-primary" />
                         </label>
                         {{-- date picker --}}
