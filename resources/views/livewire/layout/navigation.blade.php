@@ -2,6 +2,7 @@
 
 use App\Livewire\Actions\Logout;
 use Livewire\Volt\Component;
+use app\Models\User;
 
 new class extends Component {
     /**
@@ -55,6 +56,31 @@ new class extends Component {
                     <i class="fa-regular fa-credit-card text-secondary"></i>
                      payments
                 </a>
+                <a href="{{ route('approval') }}" class="btn btn-ghost btn-sm">
+                    <i class="fa-solid fa-file-invoice text-secondary"></i>
+                    Approval
+                    <span class="badge badge-primary">
+                        @php
+                            use App\Models\UploadedData;
+                            $organizationId = auth()->user()->organization_id;
+
+// Fetch pending batches with payments for the logged-in organization
+                            $uploadedData = UploadedData::where('organization_id', $organizationId)
+                                ->with('organizationBatch')
+                                ->whereHas('organizationBatch', function ($query) {
+                                    $query->where('status', 'pending');
+                                })
+                                ->get();
+
+                            $notificationsCount = $uploadedData->count();
+
+                        @endphp
+                
+                        {{ $notificationsCount > 0 ? $notificationsCount : 'No Pending' }}
+                    </span>
+                </a>
+                
+                
                 
 
                 <div class="dropdown dropdown-end">

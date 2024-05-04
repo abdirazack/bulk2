@@ -3,9 +3,8 @@
 namespace App\Livewire\File;
 
 use Livewire\Component;
-use App\Jobs\ProcessPayment;
+use App\Models\UploadedData;
 use App\Models\OrganizationBatch;
-use Livewire\Attributes\On;
 
 class Preview extends Component
 {
@@ -33,53 +32,58 @@ class Preview extends Component
 
     }
 
-
-
     public function render()
     {
         return view(
             'livewire.file.preview'
             ,
             [
-                'fileData' => $this->fileData
+                'fileData' => $this->fileData,
             ]
         );
     }
 
     public function saveModifiedData()
     {
-        $this->validate([
-            'recurring' => 'required',
-            'paymentDate' => 'required',
-        ]);
-
         $this->modifiedData = $this->fileData;
 
-        foreach ($this->modifiedData as $key => $value) {
-            $this->modifiedData[$key][] = $this->recurring;
-            $this->modifiedData[$key][] = $this->paymentDate;
+        //check if date and recurring is selected
+        if ($this->recurring && $this->paymentDate != null) {
+            foreach ($this->modifiedData as $key => $value) {
+                $this->modifiedData[$key][] = $this->recurring;
+                $this->modifiedData[$key][] = $this->paymentDate;
+            }
         }
-        dd($this->modifiedData);
-        // loged in user organization id
-        $organizationId = auth()->user()->organization_id;
-        // dd($organizationId);
 
-        // create new instance of OrganizationBatch
+        // Get login user id and organization id
+        $loginUserId = auth()->user()->id;
+        $orgId = auth()->user()->organization_id;
+
+        // Create a new instance of OrganizationBatch
         $organizationBatch = new OrganizationBatch([
             'batch_number' => 'BATCH-' . time(),
             'total_records' => count($this->modifiedData),
             'total_amount' => array_sum(array_column($this->modifiedData, 3)),
-            'status' => 'pending'
+            'status' => 'pending',
         ]);
 
         $organizationBatch->save();
 
-        $organization_batch_id = $organizationBatch->id;
+        // Convert modified data to JSON
+        $fileDataJson = json_encode($this->modifiedData);
 
-        //    call process payment job
-        ProcessPayment::dispatch($this->modifiedData, $organizationId, $organization_batch_id);
+        // Insert data into UploadedData table
+        $UploadedData = new UploadedData([
+            'file_name' => 'FILE-' . time(),
+            'file_data' => $fileDataJson,
+            'created_by' => $loginUserId,
+            'organization_id' => $orgId,
+            'organization_batch_id' => $organizationBatch->id,
+        ]);
 
-        session()->flash('message', 'Payments processed successfully!');
+        $UploadedData->save();
+
+        session()->flash('message', 'File uploaded successfully!');
 
         return redirect()->route('file-upload');
     }
@@ -88,6 +92,5 @@ class Preview extends Component
     {
         return redirect()->route('file-upload');
     }
-
 
 }

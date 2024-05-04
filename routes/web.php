@@ -1,21 +1,25 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Models\User;
+use App\Livewire\Approve;
 use App\Livewire\Setting;
 use App\Livewire\User\UserList;
 use Illuminate\Support\Facades\Route;
-use App\Livewire\Role\View as RoleView;
 
+use App\Livewire\Role\View as RoleView;
 use App\Livewire\Role\Index as RoleIndex;
 use App\Livewire\File\Upload as FileUpload;
 use App\Livewire\File\Preview as FilePreview;
-use App\Livewire\OrganizationPayment\Index as OrganizationPayment;
 use App\Livewire\Organization\OrganizationUser;
 use App\Livewire\OrganizationUser\Show as OrganizationUserShow;
 use App\Livewire\OrganizationUser\View as OrganizationUserView;
-
+use App\Livewire\OrganizationPayment\Index as OrganizationPayment;
+use App\Livewire\OrganizationPayment\Index;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::view('/', 'welcome');
+
 
 Route::get('dashboard', function () {
     return view('dashboard', ['users' => User::all()]);
@@ -58,6 +62,7 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/organization-payment', OrganizationPayment::class)->name('organization-payment')->middleware('auth');
     Route::get('file/preview', FilePreview::class)->name('file.preview')->middleware('auth');
     Route::get('/roles', RoleIndex::class)->name('roles')->middleware('auth');
+        Route::get('/approval', Approve::class)->name('approval')->middleware('auth');
 
 
 
