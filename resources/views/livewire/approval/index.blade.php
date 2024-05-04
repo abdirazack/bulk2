@@ -33,7 +33,7 @@
                                 <th>Total Records</th>
                                 <th>Created At</th>
                                 <th>Uploaded Files</th>
-                                <th>Action</th>
+                                <th class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -49,7 +49,7 @@
                                     <td>{{ $uploadedData_item->file_name }}</td>
 
 
-                                    <td>
+                                    <td class="text-center">
                                         <button class="btn btn-primary"
                                             wire:click="approve({{ $uploadedData_item->id }})">Approve</button>
                                         <button class="btn btn-secondary"

@@ -52,7 +52,7 @@
                                     @endif
                                 </td>
 
-                                <td>
+                                <td class="text-center">
                                     @can('edit_users')
                                         <button class="btn btn-sm btn-danger"
                                             wire:click="$dispatch('openModal', {component: 'organization-user.edit', arguments: {user: {{ $user->id }}}})">Edit</button>
