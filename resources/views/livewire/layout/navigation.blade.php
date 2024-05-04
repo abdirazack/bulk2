@@ -6,7 +6,6 @@ use app\Models\User;
 use App\Models\UploadedData;
 
 new class extends Component {
-
     public $organizationId;
     public $uploadedData;
     public $notificationsCount;
@@ -53,42 +52,55 @@ new class extends Component {
                     <i class="fa-solid fa-house text-secondary"></i>
                     Dashboard
                 </a>
+                @can('create_users')
+                    <div class="dropdown">
+
+                        <div tabindex="0" role="button" class="btn btn-ghost btn-sm dropdown-icon">
+                           <i class="fa-solid fa-users text-secondary"></i> User MGMT <i class="fas fa-chevron-down"></i> <!-- Adjust the icon as needed -->
+                        </div>
+                        <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                            <li>
+                                <a class="btn btn-ghost btn-sm" href="{{ route('organization-user') }}" wire:navigate>
+                                    <i class="fa-solid fa-user text-secondary"></i>
+                                    Users
+                                </a>
+                            </li>
+                            <li>
+                                <a class="btn btn-ghost btn-sm" href="{{ route('roles') }}" wire:navigate>
+                                    <i class="fa-solid fa-users text-secondary"></i>
+                                    Roles
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                @endcan
                 <a class="btn btn-ghost btn-sm  {{ request()->routeIs('dashboard') ? 'active' : '' }}"
                     href="{{ route('file-upload') }}" wire:navigate>
                     <i class="fa-solid fa-upload text-secondary"></i>
                     Upload
                 </a>
 
-                {{-- @can('create_users') --}}
-                <a class="btn btn-ghost btn-sm" href="{{ route('roles') }}" wire:navigate>
-                    <i class="fa-solid fa-users text-secondary"></i>
-                    Roles
-                </a>
-                {{-- @endcan --}}
-                {{-- <a class="btn btn-ghost btn-sm" href="{{ route('users') }}" wire:navigate>
-                    <i class="fa-solid fa-user text-secondary"></i>
-                    Users
-                </a> --}}
-                <a class="btn btn-ghost btn-sm" href="{{ route('organization-user') }}" wire:navigate>
-                    <i class="fa-solid fa-user text-secondary"></i>
-                     Users
-                </a>
+
+
+
+
+
                 <a class="btn btn-ghost btn-sm" href="{{ route('organization-payment') }}" wire:navigate>
                     <i class="fa-regular fa-credit-card text-secondary"></i>
-                     payments
+                    payments
                 </a>
                 <a href="{{ route('approval') }}" class="btn btn-ghost btn-sm">
                     <i class="fa-solid fa-file-invoice text-secondary"></i>
                     Approval
                     <span class="badge badge-secondary">
 
-                
+
                         {{ $notificationsCount > 0 ? $notificationsCount : 0 }}
                     </span>
                 </a>
-                
-                
-                
+
+
+
 
                 <div class="dropdown dropdown-end">
                     <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
@@ -110,7 +122,7 @@ new class extends Component {
                                 <span class="badge">3</span>
                             </a>
                         </li>
-                        <li><a href="{{route('settings')}}" wire:navigate>Settings</a></li>
+                        <li><a href="{{ route('settings') }}" wire:navigate>Settings</a></li>
                         <li><button wire:click="logout">Logout</button></li>
                     </ul>
                 </div>
