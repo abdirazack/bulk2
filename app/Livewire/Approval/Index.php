@@ -73,7 +73,7 @@ class Index extends Component
         //    dd($file_data);
            $retunedstuff =  ProcessPayment::dispatch($file_data, $organizationId, $organization_batch_id, $organization_user_id = auth()->user()->id);
 
-           dd($retunedstuff);
+        //    dd($retunedstuff);
         } else {
             session()->flash('error', 'authorization failed.');
             return;

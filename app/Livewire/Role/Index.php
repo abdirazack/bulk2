@@ -22,18 +22,7 @@ class Index extends Component
         return view('livewire.role.index');
     }
 
-    public function delete($id)
-    {
-        try {
-            Role::findOrFail($id)->delete();
-            $this->roles; // refresh computed property
-            session()->flash('message', 'Role Deleted Successfully.');
-            unset($this->roles);
-        } catch (\Exception $e) {
-            session()->flash('message', 'Role Deletion Failed.');
-        }
-        
-    }
+   
 
     public function create()
     {
@@ -42,23 +31,13 @@ class Index extends Component
 
     public function removePermission($roleId, $permissionId)
     {
-        // dd($roleId, $permissionId);
         $role = Role::findOrFail($roleId);
-        $role->permissions()->detach($permissionId);
-        $this->roles; // refresh computed property
-        session()->flash('message', 'Permission Removed Successfully.');
-        unset($this->roles);
+        $role->revokePermissionTo($permissionId);
+        session()->flash('message', 'Permission removed successfully.');
+        
     }
 
-    // public function addPermission($roleId, $permissionId)
-    // {
-    //     // dd($roleId, $permissionId);
-    //     $role = Role::findOrFail($roleId);
-    //     $role->permissions()->attach($permissionId);
-    //     $this->roles; // refresh computed property
-    //     session()->flash('message', 'Permission Added Successfully.');
-    //     unset($this->roles);
-    // }
+    
 
     public function view($id)
     {

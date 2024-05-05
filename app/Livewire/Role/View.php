@@ -44,19 +44,22 @@ class View extends Component
         public function attach($roleId, $permissionId)
     {
         // dd($roleId, $permissionId);
-        $role = Role::findOrFail($roleId);
-        $role->permissions()->attach($permissionId);
-        session()->flash('message', 'Permission Added Successfully.');
-        $this->refresh();   
+       $permission = Permission::findOrFail($permissionId);
+         $role = Role::findOrFail($roleId);
+         
+         $permission->assignRole($role);
+            session()->flash('message', 'Permission Added Successfully.');
+            $this->refresh();
     }
 
     public function detach($roleId, $permissionId)
     {
         // dd($roleId, $permissionId);
+        $permission = Permission::findOrFail($permissionId);
         $role = Role::findOrFail($roleId);
-        $role->permissions()->detach($permissionId);
+        $permission->removeRole($role);
         session()->flash('message', 'Permission Removed Successfully.');
-        $this->refresh();   
+        $this->refresh();
     }
 
     

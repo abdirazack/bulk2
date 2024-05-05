@@ -17,6 +17,7 @@ use Spatie\Permission\Models\Permission;
 class DatabaseSeeder extends Seeder
 {
     protected static ?string $password;
+    protected static ?string $Userpassword;
     /**
      * Seed the application's database.
      */
@@ -50,7 +51,7 @@ class DatabaseSeeder extends Seeder
             'organization_id' => $org1->id,
             'email' => 'user@gmail.com',
             'username' => 'user',
-            'password' => static::$password ??= Hash::make('user1234'),
+            'password' => static::$Userpassword ??= Hash::make('user1234'),
         ]);
 
         // give admin role some permissions
