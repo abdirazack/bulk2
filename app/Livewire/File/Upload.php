@@ -16,6 +16,8 @@ class Upload extends Component
     public $file;
     public $hasHeaders;
 
+    
+
 
     public $fileData=0;
 
@@ -35,7 +37,7 @@ class Upload extends Component
         $fileData = [];
         $reader = ReaderEntityFactory::createReaderFromFile($this->file->getRealPath());
     
-        try{
+        try {
             $reader->open($this->file->getRealPath());
             foreach ($reader->getSheetIterator() as $sheet) {
                 foreach ($sheet->getRowIterator() as $row) {
@@ -49,23 +51,20 @@ class Upload extends Component
                 }
             }
             $reader->close();
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $reader->close();
             session()->flash('error', 'Error Looping through file.' . $e->getMessage());
+            return redirect()->back()->withInput();
         }
     
         $this->fileData = $fileData;
-
-
-        $fileData = json_encode($fileData);
-
-        session()->flash('success', 'File uploaded successfully, Now make your changes.');
-        
+        $encodedHasHeaders = base64_encode(json_encode($this->hasHeaders));
+        session()->put('fileData', json_encode($this->fileData));
+        session()->flash('success', 'File uploaded successfully. Now make your changes.');
+    
         return redirect()->route('file.preview', [
-            'fileData' => $fileData,
-            'hasHeaders' => $this->hasHeaders,
+            'hasHeaders' => $encodedHasHeaders
         ]);
     }
-
+    
 }
