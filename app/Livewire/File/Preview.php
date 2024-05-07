@@ -2,6 +2,7 @@
 
 namespace App\Livewire\File;
 
+use App\Models\Organization;
 use Livewire\Component;
 use App\Models\UploadedData;
 use App\Models\OrganizationBatch;
@@ -18,6 +19,8 @@ class Preview extends Component
     public $modifiedData = [];
 
     public $hasHeaders;
+
+    
 
     public function mount()
     {
@@ -51,7 +54,7 @@ class Preview extends Component
         ]);
         
         $this->modifiedData = $this->fileData;
-        $organization_batch_id = '';
+    
 
         //check if date and recurring is selected
         if ($this->paymentDate != null) 
@@ -67,9 +70,6 @@ class Preview extends Component
                 $this->modifiedData[$key][] = $this->paymentDate;
        }
     }
-
-
-
         // Create a new instance of OrganizationBatch
         try{
             $organizationBatch = new OrganizationBatch();
@@ -79,21 +79,11 @@ class Preview extends Component
             $organizationBatch->total_amount = array_sum(array_column($this->modifiedData, 3));
             $organizationBatch->status = 'pending';
             $organizationBatch->save();
-
-           $organization_batch_id = $organizationBatch->id;
-        }catch(\Exception $e){
-            // dd($e->getMessage());  
-            session()->flash('error', 'Error saving batch data. Please try again later.' . $e->getMessage()); 
-        }
-
-     
-       
+ 
 
         // Convert modified data to JSON
         $fileDataJson = json_encode($this->modifiedData);
 
-        // Insert data into UploadedData table
-        try{
             $UploadedData = new UploadedData();
             $UploadedData->file_name = 'FILE-' . time();
             $UploadedData->file_data = $fileDataJson;

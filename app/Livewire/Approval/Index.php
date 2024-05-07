@@ -9,10 +9,13 @@ use App\Models\UploadedData;
 use Livewire\WithPagination;
 use App\Models\OrganizationUser;
 use Livewire\Attributes\Computed;
-
+use Illuminate\Support\Facades\Crypt;
 class Index extends Component
 {
     use WithPagination;
+
+    public $data=[];
+  
 
     #[Computed]
     public function uploadedData()
@@ -110,4 +113,17 @@ class Index extends Component
     {
         return OrganizationUser::find($id)->name;
     }
+ 
+
+    public function details($id)
+    {
+        // Encode the ID before redirecting
+        $encodedId = Crypt::encryptString($id);
+        
+        return redirect()->route('details', ['id' => $encodedId]);
+    }
+    
+
+    
+    
 }
