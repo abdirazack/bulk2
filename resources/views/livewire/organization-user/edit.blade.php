@@ -16,7 +16,8 @@
     </div>
     <div class="bg-base-200 p-10 rounded ">
         <form wire:submit.prevent>
-
+<div class="grid  grid-cols-2 gap-4">
+                <div>
             <input Value="{{ $username }}" wire:model="username" id="name" type="text"
                 class="input input-bordered w-full max-w-xs" />
             <div>
@@ -24,8 +25,9 @@
                     <span class="text-red-500">{{ $message }}</span>
                 @enderror
             </div>
-            <br>
-
+            </div>
+            
+ <div>
             <input Value="{{ $email }}" wire:model="email" id="email" type="email"
                 class="input input-bordered w-full max-w-xs" />
             <div>
@@ -33,8 +35,9 @@
                     <span class="text-red-500">{{ $message }}</span>
                 @enderror
             </div>
-            <br>
-           
+            </div>
+            
+            <div>
             <input placeholder="Password" wire:model="password" id="password" type="password"
                 class="input input-bordered w-full max-w-xs" />
             <div>
@@ -42,8 +45,8 @@
                     <span class="text-red-500">{{ $message }}</span>
                 @enderror
             </div>
-            <br>
-            
+            </div>
+             <div>
             <input placeholder="confirm Password" wire:model="password_confirmation" id="password_confirmation"
                 type="password" class="input input-bordered w-full max-w-xs" />
             <div>
@@ -51,12 +54,13 @@
                     <span class="text-red-500">{{ $message }}</span>
                 @enderror
             </div>
-            <br>
-           
+            </div>
+            </div>
+           <div class="flex justify-end mt-5">
             <button wire:click="$dispatch('closeModal')" class="btn btn-secondary me-3">Cancel</button>
 
             <button wire:click="update" class="btn btn-primary">Update</button>
-
+        </div>
         </form>
 
     </div>

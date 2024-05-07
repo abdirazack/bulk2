@@ -46,7 +46,7 @@
                                     <tr class="rounded" wire:key="{{$role->id}}-permissions">
                                         <th></th>
                                         <td colspan="2" class="rounded">
-                                            <h2 class="text-lg font-bold">Permissions</h2>
+                                            <h2 class="text-lg font-bold">Permissions ({{ $role->permissions->count() }})</h2>
                                             <table class="table bg-base-200 p-5">
                                                 
                                                 <tbody>

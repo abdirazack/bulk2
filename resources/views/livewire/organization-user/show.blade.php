@@ -9,13 +9,21 @@
 
         <div class="mt-5">
             <div class="overflow-x-auto">
-                @if (session()->has('message'))
-                    <div class="alert alert-success">
-                        {{ session('message') }}
+                @if (session()->has('success'))
+                    <div class="alert alert-success p-5">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                @if (session()->has('error'))
+                    <div class="alert alert-success p-5">
+                        {{ session('error') }}
                     </div>
                 @endif
                 <div class="flex justify-between m-4">
-                    <h1 class="text-2xl font-bold">User List</h1>
+                    <div class="text-2xl font-bold">
+                        <input type="text" wire:model.live.debounce.250ms="search" class="input input-bordered" placeholder="Search Users">
+                    </div>
+                   
                     @can('create_users')
                         <button x-data=""
                             wire:click="$dispatch('openModal', { component: 'organization-user.create' })"
@@ -40,16 +48,9 @@
                                 <th>{{ $loop->index + 1 }}</th>
                                 <td>{{ $user->username }}</td>
                                 <td>{{ $user->email }}</td>
-                                <td>
-                                    @if ($user->roles->isNotEmpty())
-                                        @foreach ($user->roles as $role)
-                                            {{ $role->name }}
-                                            @if (!$loop->last)
-                                                ,
-                                            @endif
-                                        @endforeach
-                                    @else
-                                    @endif
+                                <td
+                                    class="{{ $user->roles->first() && $user->roles->first()->name === 'admin' ? 'text-red-500' : 'text-blue-500' }}">
+                                    {{ $user->roles->first()?->name ?? '' }}
                                 </td>
 
                                 <td class="text-center">
@@ -63,8 +64,7 @@
                                     @endcan
                                     @can('delete_users')
                                         <button class="btn btn-sm bg-red-700"
-                                            wire:confirm="Are you sure you want to delete this post?"
-                                            wire:click="delete({{ $user->id }})">Delete</button>
+                                            wire:click="$dispatch('openModal', {component: 'organization-user.delete', arguments: {id: {{ $user->id }}}})">Delete</button>
                                     @endcan
                                 </td>
                             </tr>
@@ -78,18 +78,5 @@
             </div>
 
         </div>
-        <x-modal name="create-user" :show="$errors->isNotEmpty()" focusable>
-
-            <div class="bg-base-200 p-5">
-                {{-- modal title --}}
-                <div class="flex justify-between">
-                    <h2 class="text-lg font-medium">Create User</h2>
-                    <button class="btn btn-sm btn-danger" x-on:click="$dispatch('close')">X</button>
-                </div>
-                {{--  --}}
-                <livewire:user.create />
-            </div>
-        </x-modal>
-
     </div>
 </div>

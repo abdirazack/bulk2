@@ -61,12 +61,12 @@
                                         <div class="dropdown dropdown-left dropdown-end">
                                             <div tabindex="0" role="button" class="btn m-1">Action</div>
                                             <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                                              <li >  <span class="btn btn-active btn-ghost btn-sm"
-                                                wire:click="details({{ $uploadedData_item->id }})">Details</button></li>
+                                              <li >  <button class="btn  btn-ghost btn-sm  bg-base-300"
+                                                wire:click="details({{ $uploadedData_item->id }})">Details</wire:click=></li>
                                               <li class="text-center mt-2">
-                                                <button class="btn btn-active btn-neutral btn-sm"
+                                                <button class="btn btn-sm  bg-base-200"
                                                     wire:click="reject({{ $uploadedData_item->id }})">Reject</button></li>
-                                                    <li class="text-center mt-2">   <button class="btn btn-active btn-defult btn-sm"
+                                                    <li class="text-center mt-2">   <button class="btn btn-sm bg-base-100"
                                                         wire:click="approve({{ $uploadedData_item->id }})">Approve</button></li>
                                             </ul>
                                           </div>

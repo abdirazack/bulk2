@@ -15,7 +15,7 @@ use App\Http\Controllers\DashboardController;
 use App\Livewire\File\Preview as FilePreview;
 use App\Livewire\Organization\OrganizationUser;
 use App\Livewire\Approval\Index as ApprovalIndex;
-use App\Livewire\DisplayDetails;
+use App\Livewire\Approval\Details as ApprovalDetails;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 use App\Livewire\OrganizationUser\Show as OrganizationUserShow;
@@ -66,7 +66,7 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('file/preview', FilePreview::class)->name('file.preview')->middleware('auth');
     Route::get('/roles', RoleIndex::class)->name('roles')->middleware('auth');
     Route::get('/approval', ApprovalIndex::class)->name('approval')->middleware('auth');
-    Route::get('/display-details/{id?}', DisplayDetails::class)->name('details')->middleware('auth');
+    Route::get('/display-details/{id?}', ApprovalDetails::class)->name('details')->middleware('auth');
 
 
     Route::get('/view-role/{id?}', RoleView::class)

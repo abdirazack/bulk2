@@ -7,7 +7,7 @@
         @if ($batchInfo && $data)
             <div class="card w-95 bg-base-300 m-4 shadow-lg text-center">
                 <div class="card-body ">
-                    <p>Batch No: {{ $batchInfo->batch_number }} ** Total Records: {{ $batchInfo->total_records }} ** Total Amount: {{ $batchInfo->total_amount }} ** Status: {{ $batchInfo->status }}</p>
+                    <h2> Batch No: {{ $batchInfo->batch_number }} || Total Records: {{ $batchInfo->total_records }} || Total Amount: {{ $batchInfo->total_amount }} || Status: {{ $batchInfo->status }}</h2>
                   
                   
             
@@ -15,7 +15,7 @@
               </div> 
               <div class="overflow-x-auto bg-base-300 mt-4 p-4shadow-xl rounded-xl">
 
-                <table class="table">
+                <table class="table" >
                     <thead>
                         <tr class=" bg-base-200">
                             <th></th>
@@ -28,9 +28,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($data as $index => $row)
+                        @foreach ($data as  $row)
                             <tr class="hover">
-                                <th >{{ $index }}</th> 
+                                <th >{{ $loop->index+1 }}</th> 
                                 <td >{{ $row[0] }}</td> 
                                 <td >{{ $row[1] }}</td> 
                                 <td >{{ $row[2] }}</td> 
@@ -44,6 +44,9 @@
                     </tbody>
                 </table>
             </div>
+               {{
+                $data->links(data: ['scrollTo' => false])
+               }}
         @endif
     </div>
 </div>

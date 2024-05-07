@@ -2,9 +2,10 @@
 
 namespace App\Livewire\OrganizationUser;
 
-use App\Models\OrganizationUser;
 use Livewire\Component;
+use App\Models\OrganizationUser;
 use LivewireUI\Modal\ModalComponent;
+use App\Livewire\OrganizationUser\Show;
 
 class Edit extends ModalComponent
 {
@@ -17,6 +18,11 @@ class Edit extends ModalComponent
     public $password;
 
     public $password_confirmation;
+
+    public static function modalMaxWidth(): string
+    {
+        return '3xl';
+    }
 
     public function mount(OrganizationUser $user)
     {
@@ -50,8 +56,8 @@ class Edit extends ModalComponent
             session()->flash('error', 'Something went wrong.');
         }
 
-        session()->flash('message', 'Organization User Updated Successfully.');
         $this->closeModal();
+        $this->dispatch('userUpdated')->to(Show::class);
     }
 
     public function updateUser()

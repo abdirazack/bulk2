@@ -15,6 +15,11 @@ class Create extends ModalComponent
     public $password;
     public $organization_id;
     public $password_confirmation;
+
+    public static function modalMaxWidth(): string
+    {
+        return '3xl';
+    }
     public function render()
     {
         return view('livewire.organization-user.create');
@@ -48,9 +53,8 @@ class Create extends ModalComponent
         } catch (\Exception $e) {
             session()->flash('error', 'Something went wrong.');
         }
-
-        session()->flash('message', 'Organization User Created Successfully.');
         $this->closeModal();
+        $this->dispatch('userCreated')->to(Show::class);
     }
 
     public function createUser()
