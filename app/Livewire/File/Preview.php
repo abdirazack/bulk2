@@ -24,12 +24,16 @@ class Preview extends Component
 
     public function mount()
     {
-        $fileData = request('fileData');
-        $hasHeaders = request('hasHeaders');
-        if ($hasHeaders) {
+        $fileData = $fileData = session('fileData');
+       
+        $encodedHasHeaders = request('hasHeaders');
+     $decodedHeaders= json_decode(base64_decode($encodedHasHeaders));
+
+    
+        if ($decodedHeaders) {
             array_shift($fileData);
         }
-        $this->hasHeaders = $hasHeaders;
+        $this->hasHeaders = $decodedHeaders;
         $this->fileData = json_decode($fileData, true);
         // dd($this->fileData);
 

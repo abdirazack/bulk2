@@ -94,7 +94,7 @@ new class extends Component {
                         {{ $notificationsCount > 0 ? $notificationsCount : 0 }}
                     </span>
                 </a>
-
+{{-- 
                 <div class="dropdown dropdown-end">
                     <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
                         <div class="w-10 rounded-full">
@@ -118,7 +118,7 @@ new class extends Component {
                         <li><a href="{{ route('settings') }}" wire:navigate>Settings</a></li>
                         <li><button wire:click="logout">Logout</button></li>
                     </ul>
-                </div>
+                </div> --}}
             </div>
         </nav>
     </div>
