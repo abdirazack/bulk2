@@ -40,8 +40,6 @@
                               <th>Account Provider</th>
                                 <th>Account Number</th>
                                 <th>Amount</th>
-                                <th>Is Recurring</th>
-                                <th>Payment Date</th>
                             </tr>
                         </thead>
                         <tbody>

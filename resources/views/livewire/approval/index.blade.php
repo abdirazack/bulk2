@@ -53,9 +53,9 @@
 
 
                                     <td class="text-center">
-                                        <button class="btn btn-primary"
+                                        <button class="btn btn-primary btn-sm"
                                             wire:click="approve({{ $uploadedData_item->id }})">Approve</button>
-                                        <button class="btn btn-secondary"
+                                        <button class="btn btn-secondary btn-sm"
                                             wire:click="reject({{ $uploadedData_item->id }})">Reject</button>
                                     </td>
                                 </tr>
