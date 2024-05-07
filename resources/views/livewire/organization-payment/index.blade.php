@@ -20,12 +20,11 @@
                     </div>
                 @endif
                 <div class="flex justify-between m-4">
+                <div>
+                    <input type="text" wire:model.live.debounce.250ms="search" class="input input-bordered" placeholder="Search Payments">
+                </div>
                     <h1 class="text-2xl font-bold">Payments List</h1>
-                    {{-- <button 
-                             x-data=""
-                                 wire:click="$dispatch('openModal', { component: 'organization-user.create' })"
-                            class="btn btn-primary " >Create User</button> --}}
-
+                    
                 </div>
                 <table class="table bg-base-300 p-5">
                     <!-- head -->
@@ -65,11 +64,11 @@
                                 </td>
 
 
-                                <td>{{ $org->payment_date }}</td>
+                                <td>{{ date('m/d/Y',$org->payment_date->getTimestamp()) }}</td>
 
                                 <td class="text-center">
-                                    <button class="btn btn-sm btn-danger"
-                                        wire:click="$dispatch('openModal', {component: 'organization-payment.edit', arguments: {user: {{ $org->id }}}})">Payment Details</button>
+                                    <button class="btn btn-sm btn-warning"
+                                        wire:click="$dispatch('openModal', {component: 'organization-payment.edit', arguments: {id: {{ $org->id }}}})">View Details</button>
 
                                     {{-- <button class="btn btn-sm bg-red-700"
                                         wire:confirm="Are you sure you want to delete this post?"
@@ -81,7 +80,7 @@
                     </tbody>
                 </table>
                 <div class="">
-                    {{ $this->OrganizationPayments->links() }}
+                    {{ $organizationPayments->links() }}
                 </div>
             </div>
 

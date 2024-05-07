@@ -39,4 +39,15 @@ class OrganizationPayment extends Model
     {
         return $this->belongsTo(OrganizationUser::class, 'organization_user_id');
     }
+
+    public function getAmountAttribute($value)
+    {
+        return number_format($value, 2);
+    }
+
+    // cast the is_recurring attribute to boolean
+    protected $casts = [
+        'is_recurring' => 'boolean',
+        'payment_date' => 'date'
+    ];
 }
