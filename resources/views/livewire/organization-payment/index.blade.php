@@ -19,11 +19,38 @@
                         {{ session('error') }}
                     </div>
                 @endif
-                <div class="flex justify-between m-4">
+                <div class="flex justify-between m-4 flex-col">
                 <div>
                     <input type="text" wire:model.live.debounce.250ms="search" class="input input-bordered" placeholder="Search Payments">
-                </div>
-                    <h1 class="text-2xl font-bold">Payments List</h1>
+                    <input type="text"  id="datepicker" wire:model="dateRangeFilter"  class="input input-bordered" placeholder="Date Range">
+                     <select class="select select-info w-50 max-w-xs" wire:model="statusFilter" >
+                    <option disabled selected>Filter Status</option>
+                    <option>Pending</option>
+                    <option>Rejected</option>
+                    <option>Approved</option>
+                  </select>
+                  <select class="select select-info w-50 max-w-xs" wire:model="accountProviderFilter">
+                    <option disabled selected>Filter Account Provider</option>
+                    <option>Hormuud</option>
+                    <option>somtel</option>
+                    <option>somXc</option>
+                    <option>Amtel</option>
+         
+                  </select>
+
+                  <select class="select select-info w-50 max-w-xs" wire:model="amountFilter">
+                    <option disabled selected>Filter Amount Range</option>
+                    <option>less than 500</option>
+                    <option>greater than 500</option>
+                  
+                  </select>
+                  <button class="btn btn-neutral" wire:click="applyFilters">Apply Filters</button>
+
+                  <h1 class="text-2xl font-bold">Payments List</h1>
+                </div> 
+                
+                
+                   
                     
                 </div>
                 <table class="table bg-base-300 p-5">
@@ -99,4 +126,17 @@
         </x-modal>
 
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
+
+   
+    <script>
+      const picker = new Pikaday({
+    field: document.getElementById('datepicker'),
+    onSelect: function(date) {
+        @this.set('selectedDate', date.toLocaleDateString());
+    }
+});
+
+    </script>
 </div>
