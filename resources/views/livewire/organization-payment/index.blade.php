@@ -1,7 +1,7 @@
 <div>
     <x-slot name="header">
         <h2 class="font-semibold text-xl leading-tight">
-            {{ __('Payments') }}
+            {{ __('Payments List') }}
         </h2>
     </x-slot>
 
@@ -19,41 +19,43 @@
                         {{ session('error') }}
                     </div>
                 @endif
-                <div class="flex justify-between m-4 flex-col">
-                <div>
-                    <input type="text" wire:model.live.debounce.250ms="search" class="input input-bordered" placeholder="Search Payments">
-                    <input type="text"  id="datepicker" wire:model="dateRangeFilter"  class="input input-bordered" placeholder="Date Range">
-                     <select class="select select-info w-50 max-w-xs" wire:model="statusFilter" >
-                    <option disabled selected>Filter Status</option>
-                    <option>Pending</option>
-                    <option>Rejected</option>
-                    <option>Approved</option>
-                  </select>
-                  <select class="select select-info w-50 max-w-xs" wire:model="accountProviderFilter">
-                    <option disabled selected>Filter Account Provider</option>
-                    <option>Hormuud</option>
-                    <option>somtel</option>
-                    <option>somXc</option>
-                    <option>Amtel</option>
-         
-                  </select>
-
-                  <select class="select select-info w-50 max-w-xs" wire:model="amountFilter">
-                    <option disabled selected>Filter Amount Range</option>
-                    <option>less than 500</option>
-                    <option>greater than 500</option>
-                  
-                  </select>
-                  <button class="btn btn-neutral" wire:click="applyFilters">Apply Filters</button>
-
-                  <h1 class="text-2xl font-bold">Payments List</h1>
-                </div> 
                 
-                
-                   
+                <div class="flex  justify-between m-4  flex-col w-full "><div>
+                    <input type="text" wire:model.live.debounce.250ms="search" class="input input-bordered w-50" placeholder="Search Payments">
+                    <input type="text" id="datepicker" wire:model="dateRangeFilter" class="input input-bordered w-50" placeholder="Pick a date">
                     
+                    <select class="select select-info w-50 max-w-xs"  wire:model.live.debounce.250ms="statusFilter">
+                        <option disabled selected>Filter Status</option>
+                        <option value="">Choose Status</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Rejected">Rejected</option>
+                        <option value="Approved">Approved</option>
+                    </select>
+                    
+                    <select class="select select-info w-40 max-w-xs" wire:model.live.debounce.250ms="accountProviderFilter">
+                        <option disabled selected>Filter Account Provider</option>
+                        <option value="">Payment Provider</option>
+                        @foreach ($organizationPayments->pluck('account_provider')->unique() as $accountProvider)
+                            <option value="{{ $accountProvider }}">{{ $accountProvider }}</option>
+                        @endforeach
+                    </select>
+                    
+                    
+                        <select class="select select-info w-30 max-w-xs"  wire:model.live.debounce.250ms="amountFilter">
+                            <option disabled selected>Filter Amount Range</option>
+                            <option value="">Choose Range</option>
+                            <option value="less_than">Less than</option>
+                            <option value="greater_than">Greater than</option>
+                            <option value="equals">Equals</option>
+                        </select>
+                        <input type="number"  wire:model.live.debounce.250ms="amountValue" class="input input-bordered w-40" placeholder="Enter amount">
+                
+                    
+                
+                
                 </div>
-                <table class="table bg-base-300 p-5">
+                
+                <table class="table bg-base-300 p-5 shadow-xl rounded-xl mt-4">
                     <!-- head -->
                     <thead class=" p-5">
                         <tr>

@@ -37,21 +37,23 @@ class Index extends Component
     }
     public function render()
     {
-     
         $organizationPayments = $this->filterOrganizationPayments();
 
-  
-    
         return view('livewire.organization-payment.index', ['organizationPayments' => $organizationPayments]);
     }
+    public function updated($property)
+    {
+
+        $this->filterOrganizationPayments();
+
+    }
+    
   
     public function filterOrganizationPayments()
     {       
-
         // Get the base query
         $query = $this->OrganizationPayments();
 
-    
         // Apply search filter
         $query->where(function ($q) {
             $q->where('account_name', 'like', '%' . $this->search . '%')
@@ -60,11 +62,11 @@ class Index extends Component
               ->orWhere('amount', 'like', '%' . $this->search . '%')
               ->orWhere('payment_date', 'like', '%' . $this->search . '%');
         });
-    
 
         // Apply other filters
         if (!empty($this->statusFilter) || $this->statusFilter !== '') {
-          
+
+
             $query->where('status', $this->statusFilter);
         }
         if (!empty($this->isRecurringFilter) || $this->isRecurringFilter !== '') {
@@ -78,11 +80,9 @@ class Index extends Component
         }
 
         if(!empty($this->dateRangeFilter) || $this->dateRangeFilter !== '') {
-         
             $query->where('payment_date', $this->dateRangeFilter);
         }
         if($this->amountFilter !== '' || !empty($this->amountFilter)) {
-           
             $query->whereBetween('amount', [$this->amountFilter, $this->amountFilter]);
         }
 
@@ -90,9 +90,6 @@ class Index extends Component
         return $query->paginate(20);
     }
     
-    
-    
-
     public function toggleIsRecurring($id)
     {
         $organizationPayment = OrganizationPayment::find($id);
@@ -105,13 +102,5 @@ class Index extends Component
        unset($this->OrganizationPayments);
         session()->flash('success', 'Payment updated successfully');
     }
-    public function applyFilters()
-    {
-
-        $this->filterOrganizationPayments();
- 
-    }
-
-
-   
+    
 }
