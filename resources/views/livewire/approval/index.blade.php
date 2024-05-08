@@ -3,7 +3,7 @@
     <div>
         <x-slot name="header">
             <h2 class="font-semibold text-xl leading-tight">
-                {{ __('Approve') }}
+                {{ __('All Pending Approvals') }}
             </h2>
         </x-slot>
         {{-- Care about people's approval and you will be their prisoner. --}}
@@ -19,10 +19,16 @@
                     {{ session('error') }}
                 </div>
             @endif
+       
             <div class="card-body  items-center text-center">
-
+                <div class="flex justify-between m-4">
+                    <div class="text-2xl font-bold">
+                        <input type="text" wire:model.live.debounce.250ms="search" class="input input-bordered" placeholder="Search Users">
+                    </div>
+                </div>
                @if($uploadedData)
-                <h2 class="card-title">All Pending Approvals</h2>
+ 
+            
 
                 <div class="overflow-x-auto bg-base-300 rounded shadow-lg p-5">
                     <table class="table">

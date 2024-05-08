@@ -15,21 +15,36 @@ class Index extends Component
     use WithPagination;
 
     public $data=[];
+    public $search = '';
   
 
     #[Computed]
     public function uploadedData()
     {
         $organizationId = auth()->user()->organization_id;
-
-        // Fetch pending batches with payments for the logged-in organization
-        return UploadedData::where('organization_id', $organizationId)
+    
+        $query = UploadedData::where('organization_id', $organizationId)
             ->with('organizationBatch')
             ->whereHas('organizationBatch', function ($query) {
                 $query->where('status', 'pending');
-            })
-            ->paginate(5);
-    }   
+            });
+    
+        if (!empty($this->search)) {
+       
+            $query->with('organizationBatch')->whereHas('organizationBatch', function ($query){
+                $query->where('batch_number', 'like', '%' . $this->search . '%')
+                    ->orWhere('created_by', 'like', '%' . $this->search . '%')
+                    ->orWhere('file_name', 'like', '%' . $this->search . '%')
+                    ->orWhere('total_records', 'like', '%' . $this->search . '%')
+                    ->orWhere('total_amount', 'like', '%' . $this->search . '%')
+                    ->orWhere('created_at', 'like', '%' . $this->search . '%')
+                    ->orWhere('status', 'like', '%' . $this->search . '%');
+            });
+        }
+    
+        return $query->paginate(5);
+    }
+       
     public function render()
     {
         $uploadedData = $this->uploadedData;
@@ -121,6 +136,12 @@ class Index extends Component
         $encodedId = Crypt::encryptString($id);
         
         return redirect()->route('details', ['id' => $encodedId]);
+    }
+
+    public function search()
+    {
+        $this->resetPage();
+        $this->uploadedData();
     }
     
 
