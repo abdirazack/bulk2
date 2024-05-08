@@ -22,6 +22,7 @@ class Index extends Component
     public $accountNameFilter='';
     public $dateRangeFilter='';
     public $amountFilter = '';
+    public $amountValue = '';
     
     #[Computed]
     public function OrganizationPayments()
@@ -82,8 +83,9 @@ class Index extends Component
         if(!empty($this->dateRangeFilter) || $this->dateRangeFilter !== '') {
             $query->where('payment_date', $this->dateRangeFilter);
         }
-        if($this->amountFilter !== '' || !empty($this->amountFilter)) {
-            $query->whereBetween('amount', [$this->amountFilter, $this->amountFilter]);
+        if($this->amountFilter !== '' || !empty($this->amountFilter) || $this->amountValue !== '' || !empty($this->amountValue)) {
+
+            $query->whereBetween('amount', [$this->amountValue, $this->amountValue]);
         }
 
         // Return paginated results
