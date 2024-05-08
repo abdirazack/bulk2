@@ -22,7 +22,7 @@
                 
                 <div class="flex  justify-between m-4  flex-col w-full "><div>
                     <input type="text" wire:model.live.debounce.250ms="search" class="input input-bordered w-50" placeholder="Search Payments">
-                    <input type="text" id="datepicker" wire:model="dateRangeFilter" class="input input-bordered w-50" placeholder="Pick a date">
+                    <input type="text" id="datepicker"  wire:model.live.debounce.250ms="selectedDateFilter" class="input input-bordered w-50" placeholder="Pick a date">
                     
                     <select class="select select-info w-50 max-w-xs"  wire:model.live.debounce.250ms="statusFilter">
                         <option disabled selected>Filter Status</option>
@@ -49,12 +49,10 @@
                             <option value="equals">Equals</option>
                         </select>
                         <input type="number"  wire:model.live.debounce.250ms="amountValue" class="input input-bordered w-40" placeholder="Enter amount">
-                
-                    
-                
+
                 
                 </div>
-                
+
                 <table class="table bg-base-300 p-5 shadow-xl rounded-xl mt-4">
                     <!-- head -->
                     <thead class=" p-5">
@@ -136,7 +134,7 @@
       const picker = new Pikaday({
     field: document.getElementById('datepicker'),
     onSelect: function(date) {
-        @this.set('selectedDate', date.toLocaleDateString());
+        @this.set('selectedDateFilter', date.toLocaleDateString());
     }
 });
 

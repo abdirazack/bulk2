@@ -20,7 +20,7 @@ class Index extends Component
     public $isRecurringFilter='';
     public $accountProviderFilter='';
     public $accountNameFilter='';
-    public $dateRangeFilter='';
+    public $selectedDateFilter='';
     public $amountFilter = '';
     public $amountValue = '';
     
@@ -80,13 +80,25 @@ class Index extends Component
             $query->where('account_name', $this->accountNameFilter);
         }
 
-        if(!empty($this->dateRangeFilter) || $this->dateRangeFilter !== '') {
-            $query->where('payment_date', $this->dateRangeFilter);
-        }
-        if($this->amountFilter !== '' || !empty($this->amountFilter) || $this->amountValue !== '' || !empty($this->amountValue)) {
+        if(!empty($this->selectedDateFilter) || $this->selectedDateFilter !== '') {
+            //convert mysql date to php date
+            $this->selectedDateFilter = date('Y-m-d', strtotime($this->selectedDateFilter));
 
-            $query->whereBetween('amount', [$this->amountValue, $this->amountValue]);
+            // dd($this->selectedDateFilter);
+            $query->where('payment_date', $this->selectedDateFilter);
         }
+        if (!empty($this->amountFilter) && !empty($this->amountValue) || $this->amountFilter !== '' && $this->amountValue !== '') {
+            if($this->amountFilter == 'equals' ) {
+                $query->where('amount', '=' ,$this->amountValue);
+            }
+            elseif($this->amountFilter == 'less_than' ){
+                $query->where('amount', '<', $this->amountValue);
+            }
+            elseif($this->amountFilter == 'greater_than') {
+                $query->where('amount', '>', $this->amountValue);
+            }
+        }
+        
 
         // Return paginated results
         return $query->paginate(20);
