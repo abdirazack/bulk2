@@ -10,43 +10,49 @@ use Livewire\WithPagination;
 use App\Models\OrganizationUser;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\Crypt;
+use Spatie\QueryBuilder\QueryBuilder;
+
 class Index extends Component
 {
     use WithPagination;
 
-    public $data=[];
+    public $data = [];
     public $search = '';
-  
+
+    public $sortField = 'created_at';
+
+    public $sortOrder = 'asc';
+
 
     #[Computed]
     public function uploadedData()
     {
-        $organizationId = auth()->user()->organization_id;
-    
-        $query = UploadedData::where('organization_id', $organizationId)
-            ->with('organizationBatch')
-            ->whereHas('organizationBatch', function ($query) {
-                $query->where('status', 'pending');
-            });
-    
-        if (!empty($this->search)) {
-       
-            $query->with('organizationBatch')->whereHas('organizationBatch', function ($query){
-                $query->where('batch_number', 'like', '%' . $this->search . '%')
-                    ->orWhere('created_by', 'like', '%' . $this->search . '%')
-                    ->orWhere('file_name', 'like', '%' . $this->search . '%')
-                    ->orWhere('total_records', 'like', '%' . $this->search . '%')
-                    ->orWhere('total_amount', 'like', '%' . $this->search . '%')
-                    ->orWhere('created_at', 'like', '%' . $this->search . '%')
-                    ->orWhere('status', 'like', '%' . $this->search . '%');
-            });
-        }
-    
-        return $query->paginate(5);
+
+        return QueryBuilder::for(UploadedData::class)
+        ->allowedIncludes(['organizationBatch', 'organizationUser', 'organization'])
+        ->allowedFilters(['file_name', 'created_at',])
+        ->allowedSorts('organizationBatch.batch_number', 'file_name', 'created_at')
+        ->whereHas('organizationBatch', function ($query) {
+            $query->where('status', 'pending');
+        })
+        ->whereHas('organizationBatch', function ($query) {
+            $query->where('batch_number', 'like', '%' . $this->search . '%')
+                ->orWhere('created_by', 'like', '%' . $this->search . '%')
+                ->orWhere('file_name', 'like', '%' . $this->search . '%')
+                ->orWhere('total_records', 'like', '%' . $this->search . '%')
+                ->orWhere('total_amount', 'like', '%' . $this->search . '%')
+                ->orWhere('created_at', 'like', '%' . $this->search . '%')
+                ->orWhere('status', 'like', '%' . $this->search . '%');
+        })
+        ->orderBy($this->sortField, $this->sortOrder)
+        ->paginate(5);
     }
-       
+
+ 
+
     public function render()
     {
+        unset($this->uploadedData);
         $uploadedData = $this->uploadedData;
         return view('livewire.approval.index', compact('uploadedData'));
     }
@@ -88,10 +94,10 @@ class Index extends Component
 
         if ($loginOrg == $organizationId && $organization_batch_id != null) {
             //    call process payment job
-        //    dd($file_data);
-           $retunedstuff =  ProcessPayment::dispatch($file_data, $organizationId, $organization_batch_id, $organization_user_id = auth()->user()->id);
+            //    dd($file_data);
+            $retunedstuff = ProcessPayment::dispatch($file_data, $organizationId, $organization_batch_id, $organization_user_id = auth()->user()->id);
 
-        //    dd($retunedstuff);
+            //    dd($retunedstuff);
         } else {
             session()->flash('error', 'authorization failed.');
             return;
@@ -113,14 +119,14 @@ class Index extends Component
             session()->flash('error', 'Data not found.');
             return;
         }
-        
+
         // Mark all unread notifications for the current user as read
-       
-        
+
+
         // Update the status of the associated organization batch to 'rejected'
         $uploadedData->organizationBatch->status = 'rejected';
         $uploadedData->organizationBatch->save();
-        
+
         session()->flash('success', 'Data rejected successfully.');
     }
 
@@ -128,13 +134,13 @@ class Index extends Component
     {
         return OrganizationUser::find($id)->name;
     }
- 
+
 
     public function details($id)
     {
         // Encode the ID before redirecting
         $encodedId = Crypt::encryptString($id);
-        
+
         return redirect()->route('details', ['id' => $encodedId]);
     }
 
@@ -143,8 +149,18 @@ class Index extends Component
         $this->resetPage();
         $this->uploadedData();
     }
-    
 
-    
-    
+    public function sortBy($field)
+    {
+
+        if ($this->sortField === $field) {
+            $this->sortOrder = $this->sortOrder === 'asc' ? 'desc' : 'asc';
+        } else {
+            $this->sortOrder = 'asc';
+        }
+
+        $this->sortField = $field;
+    }
+
+
 }

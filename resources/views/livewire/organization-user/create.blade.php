@@ -2,6 +2,7 @@
     {{-- Create User form  --}}
     <div class="flex justify-between m-4">
         <h1 class="text-xl font-bold">Create User</h1>
+         <button wire:click="$dispatch('close')" class="btn btn-sm btn-circle btn-ghost ">✕</button>
     </div>
     <div>
         @if (session()->has('message'))
@@ -63,7 +64,7 @@
 
 
             <div class="flex justify-end mt-3">
-                <a wire:click="$dispatch('closeModal')" class="btn btn-secondary me-3">Cancel</a>
+                {{-- <a wire:click="$dispatch('closeModal')" class="btn btn-secondary me-3">Cancel</a> --}}
                 <button type="submit" class="btn btn-primary">Create</button>
             </div>
         </form>

@@ -93,6 +93,8 @@
                                 class="btn theme-controller  btn-wide" aria-label="nord" value="nord" />
                             <input wire:click="toggleTheme()" type="radio" wire:model="theme"
                                 class="btn theme-controller  btn-wide" aria-label="sunset" value="sunset" />
+                            <input wire:click="toggleTheme()" type="radio" wire:model="theme"
+                                class="btn theme-controller  btn-wide" aria-label="somxchange" value="somxchange" />
                         </div>
 
                     </div>

@@ -83,7 +83,7 @@
 
                                 <td class="text-center">
                                     @can('edit_users')
-                                        <button class="btn btn-sm btn-danger"
+                                        <button class="btn btn-sm btn-secondary"
                                             wire:click="$dispatch('openModal', {component: 'organization-user.edit', arguments: {user: {{ $user->id }}}})">Edit</button>
                                     @endcan
                                     @can('view_user_roles')
