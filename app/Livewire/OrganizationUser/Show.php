@@ -16,6 +16,11 @@ class Show extends Component
     #[Url(as: 'S', history: true)]
     public $search = '';
 
+
+    public $sortField = 'created_at';
+
+    public $sortOrder = 'asc';
+
     #[Computed]
     public function organizationUsers()
     {
@@ -27,11 +32,16 @@ class Show extends Component
     #[on('closeModal')]
     public function render()
     {
+        $organizationUsers = $this->organizationUsers->where('username', 'like', '%' . $this->search . '%')
+            ->orWhere('email', 'like', '%' . $this->search . '%')
+            ->orWhere('created_at', 'like', '%' . $this->search . '%')
+            ->orderBy($this->sortField, $this->sortOrder)
+            ->paginate(5);
         return view(
             'livewire.organization-user.show'
             ,
             [
-                'organizationUsers' => $this->organizationUsers->where('username', 'like', '%' . $this->search . '%')->orWhere('email', 'like', '%' . $this->search . '%')->paginate(7)
+                'organizationUsers' => $organizationUsers
             ]
         );
     }
@@ -70,6 +80,17 @@ class Show extends Component
     {
         session()->flash('success', 'User Deleted.');
         $this->render();
+    }
+
+    public function sortBy($field)
+    {
+        if ($this->sortField === $field) {
+            $this->sortOrder = $this->sortOrder === 'asc' ? 'desc' : 'asc';
+        } else {
+            $this->sortOrder = 'asc';
+        }
+
+        $this->sortField = $field;
     }
 
 }

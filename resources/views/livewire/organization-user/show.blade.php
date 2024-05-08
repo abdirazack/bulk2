@@ -36,8 +36,36 @@
                     <thead class=" p-5">
                         <tr>
                             <th></th>
-                            <th>Name</th>
-                            <th>Email</th>
+                            <th>
+                                @if($sortField !== 'username')
+                                    <button wire:click="sortBy('username')">Name &nbsp;
+                                    <i class="fa-solid fa-sort"></i></button>
+                                @else
+                                    <button wire:click="sortBy('username')">
+                                        Name &nbsp;
+                                        @if($sortOrder === 'asc')
+                                            <i class="fa fa-sort-up"></i>
+                                        @else
+                                            <i class="fa fa-sort-down"></i>
+                                        @endif
+                                    </button>
+                                @endif
+                            </th>
+                            <th>
+                                @if($sortField !== 'email')
+                                    <button wire:click="sortBy('email')">Email &nbsp;
+                                    <i class="fa-solid fa-sort"></i></button>
+                                @else
+                                    <button wire:click="sortBy('email')">
+                                        Email &nbsp;
+                                        @if($sortOrder === 'asc')
+                                            <i class="fa fa-sort-up"></i>
+                                        @else
+                                            <i class="fa fa-sort-down"></i>
+                                        @endif
+                                    </button>
+                                @endif
+                            </th>
                             <th>Role</th>
                             <th class="text-center">Action</th>
                         </tr>
