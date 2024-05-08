@@ -15,6 +15,7 @@
         "livewire/volt": "^1.0",
         "power-components/livewire-powergrid": "^5.4",
         "spatie/laravel-permission": "^6.7",
+        "spatie/laravel-query-builder": "^5.8",
         "wire-elements/modal": "^2.0"
     },
     "require-dev": {

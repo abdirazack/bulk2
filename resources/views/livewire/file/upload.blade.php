@@ -19,7 +19,7 @@
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 ">
         <div class="mt-6 flex flex-col items-center gap-5 container mx-auto py-8 justify-center">
-            <h2 class="text-2xl font-semibold text-center text-info">Select a file to Upload </h2>
+            <h2 class="text-2xl font-semibold text-center ">Select a file to Upload </h2>
             <label class="label">
                 <span class="text-base label-text me-3">File has headers?</span>
                 <input type="checkbox" wire:model="hasHeaders" required class="checkbox checkbox-primary" />
@@ -34,14 +34,9 @@
             @error('file')
                 <span class="error text-red-500">{{ $message }}</span>
             @enderror
-            <p class="text-sm text-gray-500">Only .csv, .xlsx, .xls files are allowed</p>
             <span wire:loading wire:target="file" class="loading loading-ring loading-lg"></span>
-          
-
-            
-            <div class="radial-progress" style="--value:{{$ProgressValue}}; --size:12rem; --thickness: 7px;" role="progressbar">
-                {{$ProgressValue}}%
-            </div>
+            <p class="text-sm text-gray-500">Only .csv, .xlsx, .xls files are allowed</p>
+            <button class="btn btn-link btn-sm" wire:click="download_sample">Download Template</button>
         </div>
     </div>
 

@@ -37,12 +37,16 @@ export default {
       daisyui: {
         themes: [
             {
-                mytheme: {
-                  "primary": "#a991f7",
-                  "secondary": "#f6d860",
-                  "accent": "#37cdbe",
-                  "neutral": "#3d4451",
-                  "base-100": "#ffffff",
+              somxchange: {
+                "primary": "#2563eb",
+                "secondary": "#44403c",
+                "accent": "#3730a3",
+                "neutral": "#164e63",
+                "base-100": "#ffedd5",
+                "info": "#67e8f9",
+                "success": "#16a34a",
+                "warning": "#f59e0b",
+                "error": "#dc2626",
                 },
               },
           "light",

@@ -18,7 +18,7 @@ class Preview extends Component
 
     public $modifiedData = [];
 
-    public $hasHeaders;
+    public $hasHeaders= false;
 
 
 
@@ -78,7 +78,7 @@ class Preview extends Component
             $organizationBatch->organization_user_id = auth()->user()->id;
             $organizationBatch->batch_number = 'BATCH-' . time();
             $organizationBatch->total_records = count($this->modifiedData);
-            $organizationBatch->total_amount = array_sum(array_column($this->modifiedData, 3));
+            $organizationBatch->total_amount = array_sum(array_column($this->modifiedData, '3'));
             $organizationBatch->status = 'pending';
             $organizationBatch->save();
 
@@ -96,6 +96,7 @@ class Preview extends Component
         } catch (\Exception $e) {
             // dd($e->getMessage());  
             session()->flash('error', 'Error saving uploaded data. Please try again later.' . $e->getMessage());
+            dd($this->modifiedData, $e->getMessage());
         }
 
         session()->flash('success', 'File uploaded successfully!');
