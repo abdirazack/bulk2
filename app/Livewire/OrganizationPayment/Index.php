@@ -101,7 +101,7 @@ class Index extends Component
         
 
         // Return paginated results
-        return $query->paginate(20);
+        return $query->paginate(5);
     }
     
     public function toggleIsRecurring($id)

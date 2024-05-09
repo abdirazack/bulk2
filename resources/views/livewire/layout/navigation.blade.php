@@ -85,7 +85,7 @@ new class extends Component {
                     <i class="fa-regular fa-credit-card text-secondary"></i>
                     payments
                 </a>
-                <a href="{{ route('approval') }}" class="btn btn-ghost btn-sm">
+                <a href="{{ route('approval') }}" wire:navigate class="btn btn-ghost btn-sm">
                     <i class="fa-solid fa-file-invoice text-secondary"></i>
                     Approval
                     <span class="badge badge-secondary">

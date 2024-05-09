@@ -20,7 +20,7 @@
                     </div>
                 @endif
                 
-                <div class="flex  justify-between m-4  flex-col w-full "><div>
+                <div class="flex  justify-between  flex-col w-full "><div>
                     <input type="text" wire:model.live.debounce.250ms="search" class="input input-bordered w-50" placeholder="Search Payments">
                     <input type="text" id="datepicker"  wire:model.live.debounce.250ms="selectedDateFilter" class="input input-bordered w-50" placeholder="Pick a date">
                     

@@ -1,4 +1,4 @@
-<div class="bg-base-100 p-5">
+<div class="bg-base-200 p-5">
     {{-- Create User form  --}}
     <div class="flex justify-between m-4">
         <h1 class="text-xl font-bold">Create User</h1>
@@ -11,7 +11,7 @@
             </div>
         @endif
     </div>
-    <div class="bg-base-200 p-10 rounded ">
+    <div class="bg-base-100 p-10 rounded ">
         <form wire:submit="save">
             <div class="grid  grid-cols-2 gap-4">
                 <div>

@@ -38,9 +38,9 @@ export default {
         themes: [
             {
               somxchange: {
-                "primary": "#2563eb",
-                "secondary": "#44403c",
-                "accent": "#3730a3",
+                "primary": "#2a211f",
+                "secondary": "#372e2c",
+                "accent": "#b863a4",
                 "neutral": "#164e63",
                 "base-100": "#ffedd5",
                 "info": "#67e8f9",
