@@ -28,7 +28,7 @@ Route::view('/', 'welcome');
 
 Route::get('dashboard', function () {
     return view('dashboard', ['users' => User::all()]);
-    })
+})
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
@@ -41,7 +41,7 @@ Route::view('profile', 'profile')
 // ->middleware('auth');
 
 
-Route::get('/users', UserList::class)->name('users')->middleware('auth');
+// Route::get('/users', UserList::class)->name('users')->middleware('auth');
 
 
 // Route::get('/file-upload', FileUpload::class)->name('file-upload')->middleware('auth');  
@@ -70,8 +70,8 @@ Route::group(['middleware' => ['role:admin']], function () {
 
 
     Route::get('/view-role/{id?}', RoleView::class)
-    ->name('view-role')
-    ->middleware('auth');
+        ->name('view-role')
+        ->middleware('auth');
 
 
 });
