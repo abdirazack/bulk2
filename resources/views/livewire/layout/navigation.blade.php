@@ -87,7 +87,7 @@ new class extends Component {
                 @role('admin')
                 <a class="btn btn-ghost btn-sm" href="{{ route('organization-payment') }}" wire:navigate>
                     <i class="fa-regular fa-credit-card text-secondary"></i>
-                    payments
+                    Payments
                 </a>
                 @endrole
                 @role('admin')  
@@ -104,7 +104,7 @@ new class extends Component {
                     <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
                         <div class="w-10 rounded-full">
                             <img alt="{{ auth()->user()->username }}"
-                            src="{{ Avatar::create(auth()->user()->username)->toBase64() }}"/>
+                            src="{{ Avatar::create(strtoupper(auth()->user()->username))->toBase64() }}"/>
                         </div>
                     </div>
                     <ul tabindex="0"

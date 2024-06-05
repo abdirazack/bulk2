@@ -52,7 +52,7 @@
                                     <td>{{ $this->payments->status }}</td>
                                 </tr>
                                 <tr>
-                                    <td>is_recurring</td>
+                                    <td>Recurring</td>
                                     <td>{{ $this->payments->is_recurring ? 'YES' : 'NO' }}</td>
                                 </tr>
                                 <tr>

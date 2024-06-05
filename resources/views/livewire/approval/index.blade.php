@@ -30,7 +30,7 @@
                     <div></div>
                 </div>
                 @if ($uploadedData)
-                    <div class="overflow-x-auto bg-base-300 rounded shadow p-3">
+                    <div class=" bg-base-300 rounded shadow p-3">
                         <table class="table ">
                             <!-- head -->
                             <thead>
@@ -130,7 +130,7 @@
                                     <th>Account Provider</th>
                                     <th>Account Number</th>
                                     <th>Amount</th>
-                                    <th>Is recurring</th>
+                                    <th>Recurring</th>
                                     <th>Date</th>
                                 </tr>
                             </thead>

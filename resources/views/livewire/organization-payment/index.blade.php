@@ -66,7 +66,7 @@
                             <th>Account Number</th>
                             <th>Amount</th>
                             <th>Status</th>
-                            <th>is_recurring</th>
+                            <th>Recurring</th>
                             <th>Payment Date</th>
                             <th class="text-center">Action</th>
                         </tr>

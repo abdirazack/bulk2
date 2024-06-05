@@ -42,7 +42,7 @@ class OrganizationUser extends Authenticatable
 
 
 
-   
+
 
     // organization has many users
     public function organization(): BelongsTo
@@ -50,5 +50,8 @@ class OrganizationUser extends Authenticatable
         return $this->belongsTo(Organization::class);
     }
 
-    
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class, 'org_model_has_roles', 'model_id', 'role_id');
+    }
 }
