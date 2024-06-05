@@ -112,19 +112,7 @@
             </div>
 
         </div>
-        <x-modal name="create-user" :show="$errors->isNotEmpty()" focusable>
-
-            <div class="bg-base-200 p-5">
-                {{-- modal title --}}
-                <div class="flex justify-between">
-                    <h2 class="text-lg font-medium">Create User</h2>
-                    <button class="btn btn-sm btn-danger" x-on:click="$dispatch('close')">X</button>
-                </div>
-                {{--  --}}
-                <livewire:user.create />
-            </div>
-        </x-modal>
-
+       
     </div>
     <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
