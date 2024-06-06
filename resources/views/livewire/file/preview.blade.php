@@ -44,21 +44,37 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($fileData as $index => $row)
-                                @if ($index > 0)
-                                    <tr wire:key="{{ $index }}">
-                                        @foreach ($row as $cell)
-                                            <td>
-                                                <input type="text" contenteditable="true"
-                                                    class="input input-bordered w-full max-w-xs"
-                                                    wire:model.lazy="fileData.{{ $index }}.{{ $loop->index }}">
-                                            </td>
-                                           
-                                        @endforeach
-                                    </tr>
-                                @endif
-                            @endforeach
-                        </tbody>
+                          
+                                @foreach ($fileData as $index => $row)
+                                    @if ($index > 0)
+                                        <tr wire:key="{{ $index }}">
+                                            @foreach ($row as $cellIndex => $cell)
+                                                <td>
+                                                    @if ($cellIndex == 1)
+                                                        <select class="select select-bordered w-full max-w-xs"
+                                                                wire:model.lazy="fileData.{{ $index }}.{{ $cellIndex }}">
+                                                            <option value="">{{ $cell }}</option>
+                                                            <!-- Assuming $options is an array of your dropdown options -->
+                                                            @foreach ($options as $option)
+                                                                <option value="{{ $option }}" {{ $option == $cell ? 'selected' : '' }}>
+                                                                    {{ $option }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    @else
+                                                        <input type="text" contenteditable="true"
+                                                               class="input input-bordered w-full max-w-xs"
+                                                               wire:model.lazy="fileData.{{ $index }}.{{ $cellIndex }}">
+                                                    @endif
+                                                </td>
+                                            @endforeach
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
+                            
+                        
+                        
                     </table>
                     <span wire:loading wire:target="fileData" class="loading loading-ring loading-lg"></span>
                     <div class="flex justify-end gap-12 mt-4">

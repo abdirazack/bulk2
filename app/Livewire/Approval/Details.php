@@ -44,8 +44,6 @@ class Details extends Component
     $total = count($this->displayDetails);
     $data = collect($this->displayDetails)->slice(($currentPage - 1) * $perPage, $perPage)->all();
     $this->data = new LengthAwarePaginator($data, $total, $perPage, $currentPage);
-
-        
     }
 
     public function render()

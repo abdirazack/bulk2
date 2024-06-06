@@ -20,7 +20,7 @@ class Preview extends Component
 
     public $hasHeaders= false;
 
-
+    public $options = ['Option1', 'Option2', 'Option3'];
 
     public function mount()
     {
@@ -36,6 +36,7 @@ class Preview extends Component
         $this->hasHeaders = $decodedHeaders;
         $this->fileData = json_decode($fileData, true);
         // dd($this->fileData);
+        $this->options = $this->options;
 
     }
 
@@ -46,6 +47,7 @@ class Preview extends Component
             ,
             [
                 'fileData' => $this->fileData,
+                'options' => $this->options
             ]
         );
     }
