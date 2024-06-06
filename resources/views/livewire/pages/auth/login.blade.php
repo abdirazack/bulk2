@@ -23,7 +23,7 @@ new #[Layout('layouts.guest')] class extends Component
         //put user theme in session
         Session::put('theme', 'dracula');
 
-        $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+        $this->redirectIntended(default: route('dashboard', absolute: false));
     }
 }; ?>
 
