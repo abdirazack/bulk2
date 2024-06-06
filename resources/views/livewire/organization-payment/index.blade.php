@@ -81,7 +81,7 @@
                                 <td>{{ $org->account_name }}</td>
                                 <td>{{ $org->account_provider }}</td>
                                 <td>{{ $org->account_number }}</td>
-                                <td>{{ $org->amount }}</td>
+                                <td>${{ $org->amount }}</td>
                                 <td>{{ $org->status }}</td>
                                 <td class="">
                                     <input type="checkbox" wire:click="toggleIsRecurring({{ $org->id }})"

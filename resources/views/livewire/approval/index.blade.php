@@ -85,7 +85,7 @@
                                         <td>{{ $uploadedData_item->file_name }}</td>
                                         <td>{{ $uploadedData_item->organizationBatch->batch_number }}</td>
                                         <td>{{ $uploadedData_item->user->username }}</td>
-                                        <td>{{ $uploadedData_item->organizationBatch->total_amount }}</td>
+                                        <td>${{ $uploadedData_item->organizationBatch->total_amount }}</td>
                                         <td>{{ $uploadedData_item->organizationBatch->status }}</td>
                                         <td>{{ $uploadedData_item->organizationBatch->total_records }}</td>
                                         <td>{{ $uploadedData_item->organizationBatch->created_at }}</td>
