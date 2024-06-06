@@ -20,10 +20,6 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 ">
         <div class="mt-6 flex flex-col items-center gap-5 container mx-auto py-8 justify-center">
             <h2 class="text-2xl font-semibold text-center ">Select a file to Upload </h2>
-            <label class="label">
-                <span class="text-base label-text me-3">File has headers?</span>
-                <input type="checkbox" wire:model="hasHeaders" required class="checkbox checkbox-primary" />
-            </label>
             <div class="join" >
             <input type="file" x-data type="file" wire:model="file" required
                 accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"

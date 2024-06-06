@@ -24,7 +24,8 @@ class Details extends Component
 
         $this->id = Crypt::decryptString($id);
       
-        $this->displayDetails = UploadedData::where('id', $this->id)-> with('organizationBatch')->first();
+        $this->displayDetails = UploadedData::where('id', $this->id)->with('organizationBatch')->first();
+
 
         if (is_null($this->displayDetails)) {
             session()->flash('error', 'Uploaded data not found.');
@@ -45,12 +46,12 @@ class Details extends Component
     $data = collect($this->displayDetails)->slice(($currentPage - 1) * $perPage, $perPage)->all();
     $this->data = new LengthAwarePaginator($data, $total, $perPage, $currentPage);
 
-        
     }
 
     public function render()
     {
         $data = $this->data;
+        // dd($data);
         return view('livewire.approval.details', compact('data'));
     }
     public function updatedPage($page)

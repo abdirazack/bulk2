@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
+use App\Models\OrganizationUser;
 
 class LoginForm extends Form
 {
@@ -40,8 +41,9 @@ class LoginForm extends Form
         }
         $user = Auth::user();
 
+
         // Check if the user has a role using Spatie's Laravel Permission package
-        if (!$user->hasAnyRole($user->getRoleNames())) {
+        if (!OrganizationUser::find($user->id)->hasAnyRole('admin', 'user')) {
             Auth::logout();
             throw ValidationException::withMessages([
                 'form.email' => trans('auth.no_role'),

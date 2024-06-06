@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-
+use App\Models\AccountProvider;
 use App\Models\User;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -24,13 +24,13 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(50)->create();
-       $org1 = Organization::create(['name' => 'Organization 1', 'email' => 'org1@gmail.com', 'phone' => '666666666', 'address' => '1234 Main St']);
-       
-        
+        $org1 = Organization::create(['name' => 'Organization 1', 'email' => 'org1@gmail.com', 'phone' => '666666666', 'address' => '1234 Main St']);
 
-       $admin =  Role::create(['name' => 'admin']);
 
-       $user = Role::create(['name' => 'user']);
+
+        $admin = Role::create(['name' => 'admin']);
+
+        $user = Role::create(['name' => 'user']);
 
         $create_users = Permission::create(['name' => 'create_users']);
         $edit_users = Permission::create(['name' => 'edit_users']);
@@ -47,7 +47,7 @@ class DatabaseSeeder extends Seeder
             'password' => static::$password ??= Hash::make('admin1234'),
         ]);
 
-        $normal_user =  OrganizationUser::create([
+        $normal_user = OrganizationUser::create([
             'organization_id' => $org1->id,
             'email' => 'user@gmail.com',
             'username' => 'user',
@@ -55,12 +55,17 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // give admin role some permissions
-        $admin->givePermissionTo( Permission::all());
+        $admin->givePermissionTo(Permission::all());
 
-        $user->givePermissionTo( $view_users);
+        $user->givePermissionTo($view_users);
 
 
         $admin_user->assignRole($admin);
         $normal_user->assignRole($user);
+
+
+        AccountProvider::create(['name' => 'EVCPlus']);
+        AccountProvider::create(['name' => 'E-Dahab']);
+        AccountProvider::create(['name' => 'Taaj']);
     }
 }
