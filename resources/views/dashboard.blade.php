@@ -5,193 +5,106 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl bg-base-100 mx-auto sm:px-6 lg:px-8">
-            <div class="bg-base-200 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-base-200">
-                    <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <!-- Card 1 -->
-                        <div class="card w-full bg-base-100 shadow-xl">
-                            <div class="card-body">
-                                <h3 class="card-title">Wallet information</h3>
-                                <div class="card-actions justify-start">
-                                    <button class="btn btn-sm">
-                                        Total Amount
-                                        <div class="badge badge-accent badge-outline">434</div>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+    @php
 
-                        <!-- Card 2 -->
-                        <div class="card w-full bg-base-100 shadow-xl">
-                            <div class="card-body">
-                                <h3 class="card-title"> Batches information </h3>
-                                <div class="card-actions justify-start flex-wrap">
-                                    <button class="btn btn-sm mb-2">
-                                       Approved 
-                                        <div class="badge badge-outline">3424</div>
-                                        
-                                    </button>
-                                    <button class="btn btn-sm mb-2">
-                                        Pending
-                                        <div class="badge badge-outline">3424</div>
-                                        Rejected
-                                        <div class="badge badge-outline">3424</div>
-                                    </button>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                             <!-- Card 2 -->
-                             <div class="card w-full bg-base-100 shadow-xl">
-                                <div class="card-body">
-                                    <h3 class="card-title">Payment information </h3>
-                                    <div class="card-actions justify-start flex-wrap">
-                                        <div class="btn btn-sm mb-1">
-                                            Success 
-                                            <div class="badge badge-outline">3424</div>
-                                            Total Amount
-                                            <div class="badge badge-outline">3424</div>
-                                            
-                                            Pending 
-                                            <div class="badge badge-outline">3424</div>
-                                            Total Amount
-                                            <div class="badge badge-outline">3424</div>
-                                        </button>
-                                        
-                                       
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card w-full bg-base-100 shadow-xl">
-                                <div class="card-body">
-                                    <h3 class="card-title">Users information </h3>
-                                    <div class="card-actions justify-start flex-wrap">
-                                        <div class="btn btn-sm mb-2">
-                                            Active 
-                                            <div class="badge badge-outline">3424</div>
-                                            suspend 
-                                            <div class="badge badge-outline">3424</div>
-                                            Roles 
-                                            <div class="badge badge-outline">3424</div>
-                                            Total Amount
-                                            <div class="badge badge-outline">3424</div>
-                                        </div>
-                                       
-                                    </div>
-                                </div>
-                            </div>
-                           
+        //CREATE SAMPLE DATA FOR THE VARIABLES
+        $totalAmount = 0;
+        $totalBatches = 0;
+        $totalApprovedBatches = 0;
+        $totalPendingBatches = 0;
+        $totalRejectedBatches = 0;
+        $totalSuccessPayments = 0;
+        $totalPendingPayments = 0;
+        $totalActiveUsers = 0;
+        $totalSuspendedUsers = 0;
 
-                            <div class="card w-full bg-base-100 shadow-xl">
-                                <div class="card-body">
-                                    <h3 class="card-title">Latest Transactions </h3>
-                                    <div class="card-actions justify-start flex-wrap">
-                                        <div>
-                                            <table class="table table-xs">
-                                              <thead>
-                                                <tr>
-                                                  <th></th> 
-                                                  <th>Name</th> 
-                                                  <th>Job</th> 
-                                                  <th>company</th> 
-                                                  <th>location</th> 
-                                                  <th>Last Login</th> 
-                                                  <th>Favorite Color</th>
-                                                </tr>
-                                              </thead> 
-                                              <tbody>
-                                                <tr>
-                                                  <th>1</th> 
-                                                  <td>Cy Ganderton</td> 
-                                                  <td>Quality Control Specialist</td> 
-                                                  <td>Littel, Schaden and Vandervort</td> 
-                                                  <td>Canada</td> 
-                                                  <td>12/16/2020</td> 
-                                                  <td>Blue</td>
-                                                </tr>
-                                                <tr>
-                                                  <th>2</th> 
-                                                  <td>Hart Hagerty</td> 
-                                                  <td>Desktop Support Technician</td> 
-                                                  <td>Zemlak, Daniel and Leannon</td> 
-                                                  <td>United States</td> 
-                                                  <td>12/5/2020</td> 
-                                                  <td>Purple</td>
-                                                </tr>
-                                                <tr>
-                                                  <th>3</th> 
-                                                  <td>Brice Swyre</td> 
-                                                  <td>Tax Accountant</td> 
-                                                  <td>Carroll Group</td> 
-                                                  <td>China</td> 
-                                                  <td>8/15/2020</td> 
-                                                  <td>Red</td>
-                                                </tr>
-                                                <tr>
-                                                  <th>4</th> 
-                                                  <td>Marjy Ferencz</td> 
-                                                  <td>Office Assistant I</td> 
-                                                  <td>Rowe-Schoen</td> 
-                                                  <td>Russia</td> 
-                                                  <td>3/25/2021</td> 
-                                                  <td>Crimson</td>
-                                                </tr>
-                                                <tr>
-                                                  <th>5</th> 
-                                                  <td>Yancy Tear</td> 
-                                                  <td>Community Outreach Specialist</td> 
-                                                  <td>Wyman-Ledner</td> 
-                                                  <td>Brazil</td> 
-                                                  <td>5/22/2020</td> 
-                                                  <td>Indigo</td>
-                                                </tr>
-                                                <tr>
-                                                  <th>6</th> 
-                                                  <td>Irma Vasilik</td> 
-                                                  <td>Editor</td> 
-                                                  <td>Wiza, Bins and Emard</td> 
-                                                  <td>Venezuela</td> 
-                                                  <td>12/8/2020</td> 
-                                                  <td>Purple</td>
-                                                </tr>
-                                                <tr>
-                                                  <th>7</th> 
-                                                  <td>Meghann Durtnal</td> 
-                                                  <td>Staff Accountant IV</td> 
-                                                  <td>Schuster-Schimmel</td> 
-                                                  <td>Philippines</td> 
-                                                  <td>2/17/2021</td> 
-                                                  <td>Yellow</td>
-                                                </tr>
-                                                <tr>
-                                                  <th>8</th> 
-                                                  <td>Sammy Seston</td> 
-                                                  <td>Accountant I</td> 
-                                                  <td>O'Hara, Welch and Keebler</td> 
-                                                  <td>Indonesia</td> 
-                                                  <td>5/23/2020</td> 
-                                                  <td>Crimson</td>
-                                                </tr>
-                                                <tr>
-                                                  <th>9</th> 
-                                                  <td>Lesya Tinham</td> 
-                                                  <td>Safety Technician IV</td> 
-                                                  <td>Turner-Kuhlman</td> 
-                                                  <td>Philippines</td> 
-                                                  <td>2/21/2021</td> 
-                                                  <td>Maroon</td>
-                                                </tr>
-                                              </tfoot>
-                                            </table>
-                                          </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <!-- Additional Cards can be added similarly -->
-                    </div>
+       $totalApproved = 0;
+
+    @endphp
+ <div class="py-12">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Card 1: Wallet Information -->
+            <div class="bg-gray-900 text-white rounded-lg shadow-md p-6">
+                <h3 class="text-lg font-semibold mb-4">Wallet Information</h3>
+                <div class="flex justify-between items-center">
+                    <span>Total Amount</span>
+                    <span class="bg-blue-500 text-white px-2 py-1 rounded">{{ $totalAmount ? $totalAmount : 0 }}</span>
                 </div>
+            </div>
+
+            <!-- Card 2: Batches Information -->
+            <div class="bg-gray-900 text-white rounded-lg shadow-md p-6">
+                <h3 class="text-lg font-semibold mb-4">Batches Information</h3>
+                <div class="mb-4">
+                    <span class="inline-block bg-green-500 text-white px-2 py-1 rounded mr-2">Approved</span>
+                    <span class="inline-block bg-yellow-500 text-white px-2 py-1 rounded mr-2">Pending</span>
+                    <span class="inline-block bg-red-500 text-white px-2 py-1 rounded">Rejected</span>
+                </div>
+                <span class="text-gray-600">Total Approved: {{ $totalApproved ? $totalApproved : 0 }}</span>
+            </div>
+
+            <!-- Card 3: Payment Information -->
+            <div class="bg-gray-900 text-white rounded-lg shadow-md p-6">
+                <h3 class="text-lg font-semibold mb-4">Payment Information</h3>
+                <div>
+                    <span class="inline-block bg-green-500 text-white px-2 py-1 rounded mr-2">Success</span>
+                    <span class="text-gray-600">Total Success Payments: {{ $totalSuccessPayments ? $totalSuccessPayments : 0 }}</span>
+                </div>
+                <div class="mt-4">
+                    <span class="inline-block bg-yellow-500 text-white px-2 py-1 rounded mr-2">Pending</span>
+                    <span class="text-gray-600">Total Pending Payments: {{ $totalPendingPayments ? $totalPendingPayments : 0 }}</span>
+                </div>
+            </div>
+
+            <!-- Card 4: Users Information -->
+            <div class="bg-gray-900 text-white rounded-lg shadow-md p-6">
+                <h3 class="text-lg font-semibold mb-4">Users Information</h3>
+                <div>
+                    <span class="inline-block bg-blue-500 text-white px-2 py-1 rounded mr-2">Active</span>
+                    <span class="text-gray-600">Total Active Users: {{ $totalActiveUsers ? $totalActiveUsers : 0 }}</span>
+                </div>
+                <div class="mt-4">
+                    <span class="inline-block bg-red-500 text-white px-2 py-1 rounded mr-2">Suspended</span>
+                    <span class="text-gray-600">Total Suspended Users: {{ $totalSuspendedUsers ? $totalSuspendedUsers : 0 }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+     <!-- Latest Transactions -->
+     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="bg-gray-900 text-white rounded-lg shadow-md p-6 mt-6">
+            <h3 class="text-lg font-semibold mb-4">Latest Transactions</h3>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Job</th>
+                            <th>Company</th>
+                            <th>Location</th>
+                            <th>Last Login</th>
+                            <th>Favorite Color</th>
+                        </tr>
+                    
+                    <tbody>
+                      
+                        <tr>
+                            <td>1</td>
+                            <td>done</td>
+                            <td>test</td>
+                            <td>yes</td>
+                            <td>dsgsdgs</td>
+                            <td>sdgsgs/td>
+                            <td>sdg</td>
+                        </tr>
+               
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

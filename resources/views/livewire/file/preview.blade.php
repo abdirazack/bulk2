@@ -41,21 +41,42 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($fileData as $index => $row)
-                            <tr wire:key="{{ $index }}">
-                                @foreach ($row as $cell)
+                        <tbody>
+                            @foreach ($fileData as $index => $row)
+                                <tr wire:key="{{ $index }}">
+                                    @foreach ($row as $cellIndex => $cell)
+                                    @if ($cellIndex == 1)
+                                        <td>
+                                            <select class="select select-bordered w-full max-w-xs"
+                                                    wire:model.lazy="fileData.{{ $index }}.{{ $cellIndex }}">
+                                                <option value="">Select an option</option>
+                                                @foreach ($accountProviders as $accountprovider)
+                                                    @php 
+                                                    @endphp
+                                                    <option value="{{ $accountprovider }}" 
+                                                        {{ $cell == $accountprovider ? 'selected' : '' }}>
+                                                        {{ trim(ucfirst($accountprovider)) }}
+                                                    </option>
+                                                @endforeach
+                                                </select>
+                                            </td>
+                                        @else
+                                            <td>
+                                                <input type="text" contenteditable="true"
+                                                       class="input input-bordered w-full max-w-xs"
+                                                       wire:model.lazy="fileData.{{ $index }}.{{ $cellIndex }}">
+                                            </td>
+                                        @endif
+                                    @endforeach
                                     <td>
-                                        <input type="text" contenteditable="true"
-                                            class="input input-bordered w-full max-w-xs"
-                                            wire:model.lazy="fileData.{{ $index }}.{{ $loop->index }}">
+                                        <button wire:click.prevent="deleteRow({{ $index }})" class="btn btn-danger bg-red-500">Delete</button>
                                     </td>
-                                @endforeach
-                                 <td>
-            <button wire:click.prevent="deleteRow({{ $index }})" class="btn btn-danger bg-red-500">Delete</button>
-        </td>
-                            </tr>
-                        @endforeach
+                                </tr>
+                            @endforeach
+                        </tbody>
+                        
                     </tbody>
+                    
                 </table>
                 <span wire:loading wire:target="fileData" class="loading loading-ring loading-lg"></span>
                 <div class="flex justify-end gap-12 mt-4">
