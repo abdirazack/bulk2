@@ -66,40 +66,45 @@ new class extends Component {
                                     Users
                                 </a>
                             </li>
+                            @role('admin')
                             <li>
                                 <a class="btn btn-ghost btn-sm" href="{{ route('roles') }}" wire:navigate>
                                     <i class="fa-solid fa-users text-secondary"></i>
                                     Roles
                                 </a>
                             </li>
+                            @endrole
                         </ul>
                     </div>
               
+              @can('upload_files')
                 <a class="btn btn-ghost btn-sm  {{ request()->routeIs('dashboard') ? 'active' : '' }}"
                     href="{{ route('file-upload') }}" wire:navigate>
                     <i class="fa-solid fa-upload text-secondary"></i>
                     Upload
                 </a>
-
+                @endcan
+                @role('admin')
                 <a class="btn btn-ghost btn-sm" href="{{ route('organization-payment') }}" wire:navigate>
                     <i class="fa-regular fa-credit-card text-secondary"></i>
-                    payments
+                    Payments
                 </a>
+                @endrole
+                @role('admin')  
                 <a href="{{ route('approval') }}" wire:navigate class="btn btn-ghost btn-sm">
                     <i class="fa-solid fa-file-invoice text-secondary"></i>
                     Approval
                     <span class="badge badge-secondary">
-
-
                         {{ $notificationsCount > 0 ? $notificationsCount : 0 }}
                     </span>
                 </a>
+                @endrole
  
                 <div class="dropdown dropdown-end">
                     <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
                         <div class="w-10 rounded-full">
                             <img alt="{{ auth()->user()->username }}"
-                            src="{{ Avatar::create(auth()->user()->username)->toBase64() }}"/>
+                            src="{{ Avatar::create(strtoupper(auth()->user()->username))->toBase64() }}"/>
                         </div>
                     </div>
                     <ul tabindex="0"

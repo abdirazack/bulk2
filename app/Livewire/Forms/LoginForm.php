@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
+use App\Models\OrganizationUser;
 
 class LoginForm extends Form
 {
@@ -31,13 +32,24 @@ class LoginForm extends Form
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only(['email', 'password']), $this->remember)) {
+        if (!Auth::attempt($this->only(['email', 'password']), $this->remember)) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
                 'form.email' => trans('auth.failed'),
             ]);
         }
+        $user = Auth::user();
+
+
+        // Check if the user has a role using Spatie's Laravel Permission package
+        if (!OrganizationUser::find($user->id)->hasAnyRole('admin', 'user')) {
+            Auth::logout();
+            throw ValidationException::withMessages([
+                'form.email' => trans('auth.no_role'),
+            ]);
+        }
+
 
         RateLimiter::clear($this->throttleKey());
 
@@ -53,7 +65,7 @@ class LoginForm extends Form
      */
     protected function ensureIsNotRateLimited(): void
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        if (!RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
             return;
         }
 
@@ -74,6 +86,6 @@ class LoginForm extends Form
      */
     protected function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->email).'|'.request()->ip());
+        return Str::transliterate(Str::lower($this->email) . '|' . request()->ip());
     }
 }

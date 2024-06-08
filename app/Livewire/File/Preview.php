@@ -11,48 +11,38 @@ class Preview extends Component
 {
     public $progress;
     public $fileData = [];
-
     public $recurring;
-
     public $paymentDate;
-
     public $modifiedData = [];
-
-    public $hasHeaders= false;
-
-    public $options = ['Option1', 'Option2', 'Option3'];
 
     public function mount()
     {
-        $fileData = $fileData = session('fileData');
-
-        $encodedHasHeaders = request('hasHeaders');
-        $decodedHeaders = json_decode(base64_decode($encodedHasHeaders));
-
-
-        if ($decodedHeaders) {
-            array_shift($fileData);
+        $fileData = session('fileData');
+        if (is_null($fileData)) {
+            session()->flash('error', 'No file data found. Please upload a file.');
+            return redirect()->route('file-upload');
         }
-        $this->hasHeaders = $decodedHeaders;
-        $this->fileData = json_decode($fileData, true);
-        // dd($this->fileData);
-        $this->options = $this->options;
 
+        $this->fileData = json_decode($fileData, true);
+        if (is_null($this->fileData)) {
+            session()->flash('error', 'File data could not be parsed. Please try again.');
+            return redirect()->route('file-upload');
+        }
     }
 
     public function render()
     {
-        return view(
-            'livewire.file.preview'
-            ,
-            [
-                'fileData' => $this->fileData,
-                'options' => $this->options
-            ]
-        );
+        return view('livewire.file.preview', [
+            'fileData' => $this->fileData,
+        ]);
     }
 
-    public function saveModifiedData()
+    public function deleteRow($index)
+    {
+        unset($this->fileData[$index]);
+    }
+
+    public function saveModifiedData() 
     {
         // validate payment date
         $val = $this->validate([
@@ -61,8 +51,7 @@ class Preview extends Component
 
         $this->modifiedData = $this->fileData;
 
-
-        //check if date and recurring is selected
+        // Check if date and recurring are selected
         if ($this->paymentDate != null) {
             foreach ($this->modifiedData as $key => $value) {
                 if ($this->recurring == null) {
@@ -70,20 +59,19 @@ class Preview extends Component
                 } else {
                     $this->modifiedData[$key][] = true;
                 }
-
                 $this->modifiedData[$key][] = $this->paymentDate;
             }
         }
-        // Create a new instance of OrganizationBatch
+        $batchNumber = strtoupper(substr(uniqid(), -6));
+
         try {
             $organizationBatch = new OrganizationBatch();
             $organizationBatch->organization_user_id = auth()->user()->id;
-            $organizationBatch->batch_number = 'BATCH-' . time();
-            $organizationBatch->total_records = count($this->modifiedData);
-            $organizationBatch->total_amount = array_sum(array_column($this->modifiedData, '3'));
+            $organizationBatch->batch_number =$batchNumber;    
+            $organizationBatch->total_records = count($this->modifiedData); // Exclude header row
+            $organizationBatch->total_amount = array_sum(array_column($this->modifiedData, 3));
             $organizationBatch->status = 'pending';
             $organizationBatch->save();
-
 
             // Convert modified data to JSON
             $fileDataJson = json_encode($this->modifiedData);
@@ -96,13 +84,11 @@ class Preview extends Component
             $UploadedData->organization_batch_id = $organizationBatch->id;
             $UploadedData->save();
         } catch (\Exception $e) {
-            // dd($e->getMessage());  
-            session()->flash('error', 'Error saving uploaded data. Please try again later.' . $e->getMessage());
-            dd($this->modifiedData, $e->getMessage());
+            session()->flash('error', 'Error saving uploaded data. Please try again later. ' . $e->getMessage());
+            return;
         }
 
         session()->flash('success', 'File uploaded successfully!');
-
         return redirect()->route('approval');
     }
 
@@ -110,5 +96,4 @@ class Preview extends Component
     {
         return redirect()->route('file-upload');
     }
-
 }
