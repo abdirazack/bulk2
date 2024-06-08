@@ -89,8 +89,6 @@
                                         {{ $org->is_recurring ? 'checked' : '' }} /> &nbsp;
                                          {{ $org->is_recurring ? 'YES' : 'NO' }}
                                 </td>
-
-
                                 <td>{{ date('m/d/Y',$org->payment_date->getTimestamp()) }}</td>
 
                                 <td class="text-center">
@@ -114,17 +112,28 @@
         </div>
        
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+    
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
-
-   
+    <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
     <script>
-      const picker = new Pikaday({
-    field: document.getElementById('datepicker'),
-    onSelect: function(date) {
-        @this.set('selectedDateFilter', date.toLocaleDateString());
-    }
-});
+        document.addEventListener("DOMContentLoaded", function() {
+            initializePikaday();
 
+            Livewire.hook('message.processed', (message, component) => {
+                initializePikaday();
+            });
+
+            function initializePikaday() {
+                if (!document.getElementById('datepicker')) return;
+
+                const picker = new Pikaday({
+                    field: document.getElementById('datepicker'),
+                    onSelect: function(date) {
+                       
+                        Livewire.emit('dateSelected', date.toLocaleDateString());
+                    }
+                });
+            }
+        });
     </script>
 </div>

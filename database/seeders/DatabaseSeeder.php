@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 
 
+
 class DatabaseSeeder extends Seeder
 {
     protected static ?string $password;

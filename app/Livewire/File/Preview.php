@@ -2,10 +2,11 @@
 
 namespace App\Livewire\File;
 
-use App\Models\Organization;
 use Livewire\Component;
 use App\Models\UploadedData;
+use App\Models\AccountProvider;
 use App\Models\OrganizationBatch;
+
 
 class Preview extends Component
 {
@@ -14,6 +15,7 @@ class Preview extends Component
     public $recurring;
     public $paymentDate;
     public $modifiedData = [];
+    public $AccountProviders = [];
 
     public function mount()
     {
@@ -30,19 +32,53 @@ class Preview extends Component
         }
     }
 
+    protected function getTrimmedAccountProviders()
+    {
+        // Fetch account providers and trim their names
+        return AccountProvider::pluck('name')->map(function ($name) {
+            return trim($name);
+        })->toArray();
+    }
     public function render()
     {
+        $AccountProviders = $this->getTrimmedAccountProviders();
+
+        $this->compareAccount($this->fileData, $AccountProviders);
+
         return view('livewire.file.preview', [
             'fileData' => $this->fileData,
+            'accountProviders' => $AccountProviders
         ]);
     }
+
+    public function compareAccount($fileData, $accountProviders)
+    {
+
+        if (empty($fileData) || empty($accountProviders)) {
+            return false;
+        }
+
+        foreach ($fileData as $row) {
+
+            if (empty($row[1])) {
+                return redirect()->route('file-upload')->with('error', 'Account provider not found.');
+            }
+            $account_provider = trim($row[1]);
+
+            if (!in_array($account_provider, $accountProviders)) {
+                return redirect()->route('file-upload')->with('error', 'Account provider not found.');
+            }
+        }
+        return true;
+    }
+
 
     public function deleteRow($index)
     {
         unset($this->fileData[$index]);
     }
 
-    public function saveModifiedData() 
+    public function saveModifiedData()
     {
         // validate payment date
         $val = $this->validate([
@@ -50,6 +86,7 @@ class Preview extends Component
         ]);
 
         $this->modifiedData = $this->fileData;
+
 
         // Check if date and recurring are selected
         if ($this->paymentDate != null) {
@@ -67,7 +104,7 @@ class Preview extends Component
         try {
             $organizationBatch = new OrganizationBatch();
             $organizationBatch->organization_user_id = auth()->user()->id;
-            $organizationBatch->batch_number =$batchNumber;    
+            $organizationBatch->batch_number = $batchNumber;
             $organizationBatch->total_records = count($this->modifiedData); // Exclude header row
             $organizationBatch->total_amount = array_sum(array_column($this->modifiedData, 3));
             $organizationBatch->status = 'pending';

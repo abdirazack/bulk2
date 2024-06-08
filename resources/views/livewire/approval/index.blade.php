@@ -20,12 +20,12 @@
                 </div>
             @endif
 
-            <div class="card-body   text-center">
+            <div class="card-body  text-center">
                 <div class="flex justify-between m-4">
 
                     <div class="text-2xl font-bold">
                         <input type="text" wire:model.live.debounce.250ms="search" class="input input-bordered"
-                            placeholder="Search Users">
+                            placeholder="Search By File Name">
                     </div>
                     <div></div>
                 </div>
@@ -95,10 +95,10 @@
                                       
                                     </td> --}}
                                         <td>
-                                            <div class="dropdown dropdown-left">
+                                            <div class="dropdown dropdown-left mt-12 dropdown-bottom dropdown-end">
                                                 <div tabindex="0" role="button" class="btn btn-sm btn-primary">Action</div>
                                                 <ul tabindex="0"
-                                                    class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                                                    class="dropdown-content z-[1] menu p-2 shadow bg-base-300 rounded-box w-52">
                                                     <li> <button class="btn  btn-ghost btn-sm  bg-base-300"
                                                             wire:click="details({{ $uploadedData_item->id }})">Details
                                                             </wire:click=>
@@ -148,8 +148,6 @@
                                 </tr>
                             </tbody>
                 @endforeach
-                <tfoot>
-                </tfoot>
                 </table>
             </div>
         @else
