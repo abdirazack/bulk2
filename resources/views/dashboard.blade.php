@@ -33,6 +33,8 @@
                 </div>
             </div>
 
+            <livewire:dashboardstats />
+
             <!-- Card 2: Batches Information -->
             <div class="bg-gray-900 text-white rounded-lg shadow-md p-6">
                 <h3 class="text-lg font-semibold mb-4">Batches Information</h3>
