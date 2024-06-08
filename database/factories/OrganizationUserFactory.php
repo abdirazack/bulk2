@@ -24,6 +24,7 @@ class OrganizationUserFactory extends Factory
             'organization_id' => Organization::factory(),
             'email' => $this->faker->unique()->safeEmail,
             'username' => $this->faker->userName,
+            'email_verified_at' => '2024-06-06 10:10:22',
             'password' => static::$password ??= Hash::make('password'),
         ];
     }

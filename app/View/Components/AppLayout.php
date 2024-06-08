@@ -11,7 +11,7 @@ class AppLayout extends Component
     /**
      * Get the view / contents that represents the component.
      */
-    #[on('theme-changed')]
+    #[On('theme-changed')]
     public function refresh()
     {
         $this->render();
@@ -20,4 +20,5 @@ class AppLayout extends Component
     {
         return view('layouts.app');
     }
+
 }

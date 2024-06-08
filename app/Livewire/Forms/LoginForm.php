@@ -40,7 +40,7 @@ class LoginForm extends Form
             ]);
         }
         $user = Auth::user();
-
+    
 
         // Check if the user has a role using Spatie's Laravel Permission package
         if (!OrganizationUser::find($user->id)->hasAnyRole('admin', 'user')) {
