@@ -89,6 +89,10 @@ new class extends Component {
                     <i class="fa-regular fa-credit-card text-secondary"></i>
                     Payments
                 </a>
+                <a class="btn btn-ghost btn-sm" href="{{ route('reports') }}" wire:navigate>
+                    <i class="fa-regular fa-credit-card text-secondary"></i>
+                    Reports
+                </a>
                 @endrole
                 @role('admin')  
                 <a href="{{ route('approval') }}" wire:navigate class="btn btn-ghost btn-sm">

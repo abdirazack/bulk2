@@ -1,37 +1,25 @@
 <?php
 
-use App\Models\User;
-use App\Livewire\Setting;
-use App\Http\Livewire\Details;
-use App\Livewire\User\UserList;
-use App\Http\Livewire\ViewDetails;
-
-use Illuminate\Support\Facades\Route;
-use App\Livewire\Role\View as RoleView;
-use App\Livewire\Role\Index as RoleIndex;
-use App\Livewire\File\Upload as FileUpload;
-use App\Livewire\OrganizationPayment\Index;
-use App\Http\Controllers\DashboardController;
-use App\Livewire\File\Preview as FilePreview;
-use App\Livewire\Organization\OrganizationUser;
-use App\Livewire\Approval\Index as ApprovalIndex;
+use app\Livewire\Analytics\Index as Analytics;
 use App\Livewire\Approval\Details as ApprovalDetails;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
-
+use App\Livewire\Approval\Index as ApprovalIndex;
+use App\Livewire\File\Preview as FilePreview;
+use App\Livewire\File\Upload as FileUpload;
+use App\Livewire\OrganizationPayment\Index as OrganizationPayment;
 use App\Livewire\OrganizationUser\Show as OrganizationUserShow;
 use App\Livewire\OrganizationUser\View as OrganizationUserView;
-use App\Livewire\OrganizationPayment\Index as OrganizationPayment;
-
+use App\Livewire\Report\index as IndexReport;
+use App\Livewire\Role\Index as RoleIndex;
+use App\Livewire\Role\View as RoleView;
+use App\Livewire\Setting;
+use App\Models\User;
+use Illuminate\Support\Facades\Route;
+use App\Livewire\Anylitics\index as AnalyticsIndex;
+use App\Livewire\Anylitics\Details as AnalyticsDetails;
 
 Route::view('/', 'welcome');
-
-
-Route::get('dashboard', function () {
-    return view('dashboard', ['users' => User::all()]);
-})
-    ->middleware(['auth', 'verified'])
+  Route::get('/dashboard', AnalyticsIndex::class)->middleware(['auth', 'verified'])
     ->name('dashboard');
-
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
@@ -40,11 +28,9 @@ Route::view('profile', 'profile')
 // ->name('organization-user')
 // ->middleware('auth');
 
-
 // Route::get('/users', UserList::class)->name('users')->middleware('auth');
 
-
-// Route::get('/file-upload', FileUpload::class)->name('file-upload')->middleware('auth');  
+// Route::get('/file-upload', FileUpload::class)->name('file-upload')->middleware('auth');
 
 //organization-user
 Route::get('/organization-user', OrganizationUserShow::class)->name('organization-user')->middleware('auth');
@@ -67,15 +53,13 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/roles', RoleIndex::class)->name('roles')->middleware('auth');
     Route::get('/approval', ApprovalIndex::class)->name('approval')->middleware('auth');
     Route::get('/display-details/{id?}', ApprovalDetails::class)->name('details')->middleware('auth');
+    Route::get('/reports', IndexReport::class)->name('reports')->middleware('auth');
 
+    Route::get('/dashboard-details/{id?}', AnalyticsDetails::class)->name('analytics-details')->middleware('auth');
 
     Route::get('/view-role/{id?}', RoleView::class)
         ->name('view-role')
         ->middleware('auth');
-
-
 });
-
-
 
 require __DIR__ . '/auth.php';

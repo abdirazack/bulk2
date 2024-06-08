@@ -13,6 +13,7 @@ class OrganizationBatch extends Model
 
     protected $fillable = [
         'batch_number',
+        'organization_user_id',
         'total_records',
         'total_amount',
         'status'
