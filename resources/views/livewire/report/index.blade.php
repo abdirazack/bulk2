@@ -25,89 +25,23 @@
             <button id="generateBtn" class="btn btn-primary w-full mt-4" wire:click="generateReport" style="display: none;">Generate</button>
         </div>
     </div>
-
-
- 
-
 </div>
 
 <script>
     function showFields() {
-        var params = document.getElementById('params').value;
-        var additionalFields = document.getElementById('additional-fields');
-        var generateBtn = document.getElementById('generateBtn');
+        const params = document.getElementById('params').value;
+        const additionalFields = document.getElementById('additional-fields');
+        const generateBtn = document.getElementById('generateBtn');
 
         additionalFields.innerHTML = ''; // Clear any existing fields
 
         if (params === '1' || params === '2' || params === '3') {
-            // Create Start Date field
-            var startDateLabel = document.createElement('label');
-            startDateLabel.innerHTML = 'Start Date:';
-            startDateLabel.className = 'block text-sm font-medium text-gray-700';
+            createField('Start Date:', 'start_date', 'date', additionalFields);
+            createField('End Date:', 'end_date', 'date', additionalFields);
 
-            var startDateInput = document.createElement('input');
-            startDateInput.type = 'date';
-            startDateInput.name = 'start_date';
-            startDateInput.id = 'start_date'; // Set an ID for easier access
-            startDateInput.className = 'input input-bordered w-full mt-1';
-            startDateInput.setAttribute('wire:model', 'start_date');
-
-            // Create End Date field
-            var endDateLabel = document.createElement('label');
-            endDateLabel.innerHTML = 'End Date:';
-            endDateLabel.className = 'block text-sm font-medium text-gray-700';
-
-            var endDateInput = document.createElement('input');
-            endDateInput.type = 'date';
-            endDateInput.name = 'end_date';
-            endDateInput.id = 'end_date'; // Set an ID for easier access
-            endDateInput.className = 'input input-bordered w-full mt-1';
-            endDateInput.setAttribute('wire:model', 'end_date');
-
-
-
-            var filterSelect = document.createElement('select');
-            filterSelect.name = 'filter';
-            filterSelect.id = 'filter'; // Set an ID for easier access
-            filterSelect.className = 'select select-bordered w-full mt-1';
-            filterSelect.setAttribute('wire:model', 'filter');
-   
-
-       
-
-            if(params === '1' || params === '2') {
-                            // Create Filter selector
-            var filterLabel = document.createElement('label');
-            filterLabel.innerHTML = 'Filter:';
-            filterLabel.className = 'block text-sm font-medium text-gray-700';
-                     // Add options to the select
-
-            var option1 = document.createElement('option');
-            option1.value = 'option1';
-            option1.innerHTML = 'Option 1';
-            option1.setAttribute('wire:model', 'filter');
-                var option2 = document.createElement('option');
-            option2.value = 'option2';
-            option2.innerHTML = 'Option 2';
-            option2.setAttribute('wire:model', 'filter');
-   
-
-            filterSelect.appendChild(option1);
-            filterSelect.appendChild(option2);
-            additionalFields.appendChild(filterSelect);
-            
-            generateBtn.style.display = 'block';
+            if (params === '1' || params === '2') {
+                createFilterSelect(additionalFields);
             }
-   
-
-     
-
-            additionalFields.appendChild(startDateLabel);
-            additionalFields.appendChild(startDateInput);
-            additionalFields.appendChild(endDateLabel);
-            additionalFields.appendChild(endDateInput);
-            additionalFields.appendChild(filterLabel);
- 
 
             generateBtn.style.display = 'block';
         } else {
@@ -115,5 +49,46 @@
         }
     }
 
+    function createField(labelText, id, type, container) {
+        const label = document.createElement('label');
+        label.innerHTML = labelText;
+        label.className = 'block text-sm font-medium text-gray-700';
 
+        const input = document.createElement('input');
+        input.type = type;
+        input.name = id;
+        input.id = id;
+        input.className = 'input input-bordered w-full mt-1';
+        input.setAttribute('wire:model', id);
+
+        container.appendChild(label);
+        container.appendChild(input);
+    }
+
+    function createFilterSelect(container) {
+        const filterLabel = document.createElement('label');
+        filterLabel.innerHTML = 'Filter:';
+        filterLabel.className = 'block text-sm font-medium text-gray-700';
+
+        const filterSelect = document.createElement('select');
+        filterSelect.name = 'filter';
+        filterSelect.id = 'filter';
+        filterSelect.className = 'select select-bordered w-full mt-1';
+        filterSelect.setAttribute('wire:model', 'filter');
+
+        const options = [
+            { value: 'option1', text: 'Option 1' },
+            { value: 'option2', text: 'Option 2' }
+        ];
+
+        options.forEach(option => {
+            const opt = document.createElement('option');
+            opt.value = option.value;
+            opt.innerHTML = option.text;
+            filterSelect.appendChild(opt);
+        });
+
+        container.appendChild(filterLabel);
+        container.appendChild(filterSelect);
+    }
 </script>
