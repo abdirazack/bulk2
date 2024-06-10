@@ -1,9 +1,11 @@
-<div>
-  <x-slot name="header">
-      <h2 class="font-semibold text-xl leading-tight">
-          {{ __('Display Recurring Payment Details') }}
-      </h2>
-  </x-slot>
+<x-slot name="header">
+  <h2 class="font-semibold text-xl leading-tight">
+      {{ __('Recurring Payment Records') }}
+  </h2>
+</x-slot>
+<div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+  <div class="mt-6">
+      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
  <div class="card w-95 bg-base-300 m-4 shadow-lg text-center">
     <table class="table">
       <!-- head -->
@@ -34,5 +36,6 @@
           </tr>
       </tbody>
     </table>
+  </div>
   </div>
 </div>

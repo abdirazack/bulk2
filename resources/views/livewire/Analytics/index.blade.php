@@ -125,14 +125,14 @@
 
                         
              <!-- Latest Transactions -->
-             <div class="bg-base-300 text-white rounded-lg shadow-md p-6 mt-6">
+             <div class="bg-base-900 text-white rounded-lg shadow-md p-6 mt-6">
                 <h3 class="text-lg font-semibold mb-4">Latest Transactions</h3>
                 <div class="table-responsive">
                     <table class="table-auto w-full">
                         <thead>
                             <tr>
                                 <th class="px-4 py-2">#</th>
-                                <th class="px-4 py-2">Account Name</th>
+                                <th class="px-4 py-2">Name</th>
                                 <th class="px-4 py-2">Amount</th>
                                 <th class="px-4 py-2">Date</th>
                                 <th class="px-4 py-2">Status</th>
@@ -144,8 +144,8 @@
                                     <td class="border px-4 py-2">{{ $transaction->id }}</td>
                                     <td class="border px-4 py-2">{{ $transaction->account_name }}</td>
                                     <td class="border px-4 py-2">{{ number_format($transaction->amount, 2) }}</td>
-                                    <td class="border px-4 py-2">{{ $transaction->payment_date }}</td>
-                                    <td class="border px-4 py-2">{{ $transaction->status }}</td>
+                                    <td class="border px-4 py-2">{{ date_format($transaction->payment_date, 'd/m/Y h:i A') }}</td>
+                                    <td class="border px-4 py-2">{{ ucfirst($transaction->status) }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

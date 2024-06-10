@@ -22,7 +22,7 @@
                 
                 <div class="flex  justify-between  flex-col w-full "><div>
                     <input type="text" wire:model.live.debounce.250ms="search" class="input input-bordered w-50" placeholder="Search Payments">
-                    <input type="text" id="datepicker"  wire:model.live.debounce.250ms="selectedDateFilter" class="input input-bordered w-50" placeholder="Pick a date">
+                    <input type="date" id="datepicker"  wire:model.live.debounce.250ms="selectedDateFilter" class="input input-bordered w-50" placeholder="Pick a date">
                     
                     <select class="select select-info w-50 max-w-xs"  wire:model.live.debounce.250ms="statusFilter">
                         <option disabled selected>Filter Status</option>
@@ -112,28 +112,4 @@
         </div>
        
     </div>
-    
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
-    <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            initializePikaday();
-
-            Livewire.hook('message.processed', (message, component) => {
-                initializePikaday();
-            });
-
-            function initializePikaday() {
-                if (!document.getElementById('datepicker')) return;
-
-                const picker = new Pikaday({
-                    field: document.getElementById('datepicker'),
-                    onSelect: function(date) {
-                       
-                        Livewire.emit('dateSelected', date.toLocaleDateString());
-                    }
-                });
-            }
-        });
-    </script>
 </div>
