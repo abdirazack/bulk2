@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class OrganizationWallet extends Model
 {
@@ -16,7 +16,8 @@ class OrganizationWallet extends Model
         'organization_id',
         'balance',
     ];
-    protected $guarded =['id'];
+
+    protected $guarded = ['id'];
 
     public function organization()
     {

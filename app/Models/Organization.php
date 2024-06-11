@@ -2,20 +2,17 @@
 
 namespace App\Models;
 
-use App\Models\OrganizationUser;
-use App\Models\OrganizationWallet;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Organization extends Model
 {
     use HasFactory, SoftDeletes;
-    
+
     protected $table = 'organizations';
 
-    
-   protected $guarded = ['id'];
+    protected $guarded = ['id'];
 
     public function users()
     {

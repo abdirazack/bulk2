@@ -2,16 +2,12 @@
 
 namespace App\Livewire\OrganizationUser;
 
-use Livewire\Attributes\Computed;
-use Livewire\Component;
-
 use App\Models\OrganizationUser;
+use Livewire\Attributes\Computed;
 use LivewireUI\Modal\ModalComponent;
-use App\Livewire\OrganizationUser\Show;
 
 class Delete extends ModalComponent
 {
-
     public $id;
 
     public $user;
@@ -31,8 +27,9 @@ class Delete extends ModalComponent
     {
         // find user by id
         $this->user = OrganizationUser::find($id);
-        if (!$this->user) {
+        if (! $this->user) {
             session()->flash('error', 'User not found.');
+
             return;
         } else {
             $this->id = $id;
@@ -53,7 +50,7 @@ class Delete extends ModalComponent
                 $this->dispatch('userDeleted')->to(Show::class);
             }
         } catch (\Exception $e) {
-            session()->flash('error', 'Organization User is associated with some records.' . $e->getMessage());
+            session()->flash('error', 'Organization User is associated with some records.'.$e->getMessage());
         }
     }
 }

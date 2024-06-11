@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\OrganizationWallet;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Seeder;
 
 class OrganizationWalletsTableSeeder extends Seeder
 {

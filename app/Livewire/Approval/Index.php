@@ -2,14 +2,14 @@
 
 namespace App\Livewire\Approval;
 
-use Livewire\Component;
-use App\Models\Activities;
 use App\Jobs\ProcessPayment;
-use App\Models\UploadedData;
-use Livewire\WithPagination;
+use App\Models\Activities;
 use App\Models\OrganizationUser;
-use Livewire\Attributes\Computed;
+use App\Models\UploadedData;
 use Illuminate\Support\Facades\Crypt;
+use Livewire\Attributes\Computed;
+use Livewire\Component;
+use Livewire\WithPagination;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class Index extends Component
@@ -17,43 +17,42 @@ class Index extends Component
     use WithPagination;
 
     public $data = [];
+
     public $search = '';
 
     public $sortField = 'created_at';
 
     public $sortOrder = 'asc';
 
-
     #[Computed]
     public function uploadedData()
     {
 
         return QueryBuilder::for(UploadedData::class)
-        ->allowedIncludes(['organizationBatch', 'organizationUser', 'organization'])
-        ->allowedFilters(['file_name', 'created_at',])
-        ->allowedSorts('organizationBatch.batch_number', 'file_name', 'created_at')
-        ->whereHas('organizationBatch', function ($query) {
-            $query->where('status', 'pending');
-        })
-        ->whereHas('organizationBatch', function ($query) {
-            $query->where('batch_number', 'like', '%' . $this->search . '%')
-                ->orWhere('created_by', 'like', '%' . $this->search . '%')
-                ->orWhere('file_name', 'like', '%' . $this->search . '%')
-                ->orWhere('total_records', 'like', '%' . $this->search . '%')
-                ->orWhere('total_amount', 'like', '%' . $this->search . '%')
-                ->orWhere('created_at', 'like', '%' . $this->search . '%')
-                ->orWhere('status', 'like', '%' . $this->search . '%');
-        })
-        ->orderBy($this->sortField, $this->sortOrder)
-        ->paginate(5);
+            ->allowedIncludes(['organizationBatch', 'organizationUser', 'organization'])
+            ->allowedFilters(['file_name', 'created_at'])
+            ->allowedSorts('organizationBatch.batch_number', 'file_name', 'created_at')
+            ->whereHas('organizationBatch', function ($query) {
+                $query->where('status', 'pending');
+            })
+            ->whereHas('organizationBatch', function ($query) {
+                $query->where('batch_number', 'like', '%'.$this->search.'%')
+                    ->orWhere('created_by', 'like', '%'.$this->search.'%')
+                    ->orWhere('file_name', 'like', '%'.$this->search.'%')
+                    ->orWhere('total_records', 'like', '%'.$this->search.'%')
+                    ->orWhere('total_amount', 'like', '%'.$this->search.'%')
+                    ->orWhere('created_at', 'like', '%'.$this->search.'%')
+                    ->orWhere('status', 'like', '%'.$this->search.'%');
+            })
+            ->orderBy($this->sortField, $this->sortOrder)
+            ->paginate(5);
     }
-
- 
 
     public function render()
     {
         unset($this->uploadedData);
         $uploadedData = $this->uploadedData;
+
         return view('livewire.approval.index', compact('uploadedData'));
     }
 
@@ -63,8 +62,9 @@ class Index extends Component
         $loginOrg = auth()->user()->organization_id;
         $uploadedData = UploadedData::with('organizationBatch')->find($id);
 
-        if (!$uploadedData) {
+        if (! $uploadedData) {
             session()->flash('error', 'Data not found.');
+
             return;
         }
 
@@ -100,14 +100,14 @@ class Index extends Component
             //    dd($retunedstuff);
         } else {
             session()->flash('error', 'authorization failed.');
+
             return;
         }
         Activities::create([
             'organization_user_id' => auth()->user()->id,
             'action' => 'approved',
-            'description' => 'Data approved successfully.'
+            'description' => 'Data approved successfully.',
         ]);
-
 
         session()->flash('success', 'Data approved successfully.');
     }
@@ -115,13 +115,13 @@ class Index extends Component
     public function reject($id)
     {
         $uploadedData = UploadedData::with('organizationBatch')->find($id);
-        if (!$uploadedData) {
+        if (! $uploadedData) {
             session()->flash('error', 'Data not found.');
+
             return;
         }
 
         // Mark all unread notifications for the current user as read
-
 
         // Update the status of the associated organization batch to 'rejected'
         $uploadedData->organizationBatch->status = 'rejected';
@@ -134,7 +134,6 @@ class Index extends Component
     {
         return OrganizationUser::find($id)->name;
     }
-
 
     public function details($id)
     {
@@ -161,6 +160,4 @@ class Index extends Component
 
         $this->sortField = $field;
     }
-
-
 }

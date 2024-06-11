@@ -3,9 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\OrganizationUser;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Seeder;
 
 class OrganizationUsersTableSeeder extends Seeder
 {

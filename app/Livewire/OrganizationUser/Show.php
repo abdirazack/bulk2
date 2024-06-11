@@ -2,12 +2,12 @@
 
 namespace App\Livewire\OrganizationUser;
 
-use Livewire\Attributes\Url;
-use Livewire\Component;
-use Livewire\Attributes\On;
-use Livewire\WithPagination;
 use App\Models\OrganizationUser;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
+use Livewire\Attributes\Url;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 class Show extends Component
 {
@@ -15,7 +15,6 @@ class Show extends Component
 
     #[Url(as: 'S', history: true)]
     public $search = '';
-
 
     public $sortField = 'created_at';
 
@@ -32,16 +31,16 @@ class Show extends Component
     #[on('closeModal')]
     public function render()
     {
-        $organizationUsers = $this->organizationUsers->where('username', 'like', '%' . $this->search . '%')
-            ->orWhere('email', 'like', '%' . $this->search . '%')
-            ->orWhere('created_at', 'like', '%' . $this->search . '%')
+        $organizationUsers = $this->organizationUsers->where('username', 'like', '%'.$this->search.'%')
+            ->orWhere('email', 'like', '%'.$this->search.'%')
+            ->orWhere('created_at', 'like', '%'.$this->search.'%')
             ->orderBy($this->sortField, $this->sortOrder)
             ->paginate(5);
+
         return view(
-            'livewire.organization-user.show'
-            ,
+            'livewire.organization-user.show',
             [
-                'organizationUsers' => $organizationUsers
+                'organizationUsers' => $organizationUsers,
             ]
         );
     }
@@ -69,12 +68,14 @@ class Show extends Component
         session()->flash('success', 'User Created Successfully.');
         $this->render();
     }
+
     #[On('userUpdated')]
     public function userUpdated()
     {
         session()->flash('success', 'User Updated Successfully.');
         $this->render();
     }
+
     #[On('userDeleted')]
     public function userDeleted()
     {
@@ -92,5 +93,4 @@ class Show extends Component
 
         $this->sortField = $field;
     }
-
 }

@@ -16,9 +16,9 @@ class AppLayout extends Component
     {
         $this->render();
     }
+
     public function render(): View
     {
         return view('layouts.app');
     }
-
 }

@@ -17,7 +17,7 @@ class OrganizationWalletFactory extends Factory
     public function definition(): array
     {
         return [
-            
+
             // 'organization_id' => \App\Models\Organization::factory(),
             // 'balance' => $this->faker->randomFloat(2, 0, 1000000),
         ];

@@ -2,17 +2,15 @@
 
 namespace App\Livewire\Role;
 
-
-use Livewire\Component;
-
-use Livewire\Attributes\On;
 use Livewire\Attributes\Computed;
-use Spatie\Permission\Models\Role;
+use Livewire\Component;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class View extends Component
 {
     public $role_id = null;
+
     // computed roles
     #[Computed('roles')]
     public function roles()
@@ -26,12 +24,10 @@ class View extends Component
         return Permission::whereNotIn('id', $this->roles->permissions->pluck('id'))->get();
     }
 
-
     public function render()
     {
         return view('livewire.role.view');
     }
-
 
     public function mount($id)
     {
@@ -39,7 +35,6 @@ class View extends Component
         $this->roles = Role::findOrFail($id)->load('permissions');
         $this->permissions = Permission::whereNotIn('id', $this->roles->permissions->pluck('id'))->get();
     }
-
 
     public function attach($roleId, $permissionId)
     {
@@ -61,7 +56,6 @@ class View extends Component
         session()->flash('message', 'Permission Removed Successfully.');
         $this->refresh();
     }
-
 
     public function refresh()
     {
