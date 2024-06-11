@@ -18,6 +18,8 @@
         "spatie/laravel-query-builder": "^5.8",
         "wire-elements/modal": "^2.0"
     },
+
+    
     "require-dev": {
         "fakerphp/faker": "^1.23",
         "laravel/pint": "^1.13",

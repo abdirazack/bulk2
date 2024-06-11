@@ -50,8 +50,7 @@ class Index extends Component
 
         return view('livewire.organization-payment.index', ['organizationPayments' => $organizationPayments]);
     }
-
-    public function updated($property)
+    public function updated()
     {
 
         $this->filterOrganizationPayments();
