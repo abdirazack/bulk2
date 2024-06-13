@@ -11,6 +11,7 @@ use Livewire\Component;
 
 class index extends Component
 {
+
     public $batches = [
         'approve' => 0,
         'reject' => 0,
@@ -24,6 +25,8 @@ class index extends Component
     public $totalSuccessPayments;
 
     public $totalPendingPayments;
+
+    public $totalRejectedPayments;
 
     public $totalActiveUsers;
 
@@ -61,6 +64,7 @@ class index extends Component
         // Payment Information
         $this->totalSuccessPayments = OrganizationPayment::where('status', 'success')->sum('amount');
         $this->totalPendingPayments = OrganizationPayment::where('status', 'pending')->sum('amount');
+        $this->totalRejectedPayments = OrganizationPayment::where('status', 'rejected')->sum('amount');
 
         // // Users Information
         // $this->totalActiveUsers = OrganizationUser::where('status', 'active')->count();
