@@ -43,6 +43,7 @@ class index extends Component
     public $recentTransactionsCount;
 
     public $topAccountProviders;
+    public $lastUpdated;
 
     public function mount()
     {
@@ -53,6 +54,11 @@ class index extends Component
         } else {
             $this->walletBalance = 0;
         }
+        //get last updated time wallet if it is null then display N/A
+        $this->lastUpdated = $wallet->updated_at 
+    ? Carbon::parse($wallet->updated_at)->diffForHumans() 
+    : ($wallet->created_at ? Carbon::parse($wallet->created_at)->diffForHumans() : 'N/A');
+
 
         // Batches Information
         $this->batches['approve'] = OrganizationBatch::where('status', 'approved')->count();
