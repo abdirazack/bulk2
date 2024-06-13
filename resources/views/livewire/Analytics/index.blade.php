@@ -1,9 +1,9 @@
-<!-- resources/views/livewire/dashboard.blade.php -->
-<x-slot name="header">
-    <h2 class="font-semibold text-xl leading-tight">
-        {{ __('Dashboard') }}
-    </h2>
-</x-slot>
+<div>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl leading-tight">
+            {{ __(' Dashboard') }}
+        </h2>
+    </x-slot>
 
 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
     <div class="mt-6">
@@ -42,6 +42,10 @@
                     <div class="mt-4">
                         <span class="inline-block bg-yellow-500 text-white px-2 py-1 rounded mr-2">Pending</span>
                         <span class="text-base-600">Total Pending Payments: {{ number_format($totalPendingPayments, 2) }}</span>
+                    </div>
+                    <div class="mt-4">
+                        <span class="inline-block bg-yellow-500 text-white px-2 py-1 rounded mr-2">Rejected</span>
+                        <span class="text-base-600">Total Rejected Payments: {{ number_format($totalRejectedPayments, 2) }}</span>
                     </div>
                 </div>
 
@@ -153,5 +157,7 @@
                 </div>
             </div>
         </div>
+
+    </div>
   
 

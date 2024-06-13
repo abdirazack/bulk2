@@ -9,6 +9,7 @@ use App\Models\UploadedData;
 use Livewire\WithPagination;
 use App\Models\OrganizationUser;
 use Livewire\Attributes\Computed;
+use App\Models\OrganizationWallet;
 use Illuminate\Support\Facades\Crypt;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -73,21 +74,20 @@ class Index extends Component
         $organizationId = $uploadedData->organization_id;
         $organization_batch_id = $uploadedData->organization_batch_id;
 
-        //check login org  wallet and sum of amount in file_data
 
-        // $loginOrgWallet = OrganizationWallet::find($loginOrg)->wallet;
-        // //check if login org wallet exists
-        // if (!$loginOrgWallet) {
-        //     session()->flash('error', 'Wallet not found.');
-        //     return;
-        // }
-        // if (is_null($loginOrgWallet->balance)) {
-        //     $loginOrgWallet->balance = 0;
-        // }
-        // if ($loginOrgWallet->balance < array_sum(array_column($file_data, 3))) {
-        //     session()->flash('error', 'Insufficient balance.');
-        //     return;
-        // }
+        $loginOrgWallet = OrganizationWallet::find($loginOrg);
+        //check if login org wallet exists
+        if (!$loginOrgWallet) {
+            return redirect()->with('error', 'organization wallet not found.');
+
+        }
+        if (is_null($loginOrgWallet->balance)) {
+            $loginOrgWallet->balance = 0;
+        }
+        if ($loginOrgWallet->balance < array_sum(array_column($file_data, 3))) {
+            session()->flash('error', 'Insufficient balance.');
+            return;
+        }
 
         $uploadedData->organizationBatch->status = 'approved';
         $uploadedData->organizationBatch->save();
@@ -97,7 +97,7 @@ class Index extends Component
             //    dd($file_data);
             $retunedstuff = ProcessPayment::dispatch($file_data, $organizationId, $organization_batch_id, $organization_user_id = auth()->user()->id);
 
-            //    dd($retunedstuff);
+        
         } else {
             session()->flash('error', 'authorization failed.');
             return;

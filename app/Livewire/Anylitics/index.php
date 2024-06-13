@@ -11,7 +11,7 @@ use Illuminate\Support\Carbon;
 
 class index extends Component
 {
-   
+
     public $batches = [
         'approve' => 0,
         'reject' => 0,
@@ -22,6 +22,7 @@ class index extends Component
     public $walletBalance;
     public $totalSuccessPayments;
     public $totalPendingPayments;
+    public $totalRejectedPayments;
     public $totalActiveUsers;
     public $totalSuspendedUsers;
     public $recentTransactions;
@@ -53,14 +54,15 @@ class index extends Component
         // Payment Information
         $this->totalSuccessPayments = OrganizationPayment::where('status', 'success')->sum('amount');
         $this->totalPendingPayments = OrganizationPayment::where('status', 'pending')->sum('amount');
+        $this->totalRejectedPayments = OrganizationPayment::where('status', 'rejected')->sum('amount');
 
         // // Users Information
         // $this->totalActiveUsers = OrganizationUser::where('status', 'active')->count();
         // $this->totalSuspendedUsers = OrganizationUser::where('status', 'suspended')->count();
-        
+
         // Recent Transactions
         $this->recentTransactions = OrganizationPayment::orderBy('payment_date', 'desc')->take(10)->get();
-         // Recurring Transactions
+        // Recurring Transactions
         $this->recurringTransactionsCount = OrganizationPayment::where('is_recurring', 1)->count();
         $this->recurringTotalAmount = OrganizationPayment::where('is_recurring', 1)->sum('amount');
         $this->closestDueRecurringPayments = OrganizationPayment::where('is_recurring', 1)
@@ -68,18 +70,17 @@ class index extends Component
             ->orderBy('payment_date', 'asc')
             ->take(1)
             ->get();
- 
-         $this->topAccountProviders = OrganizationPayment::select('account_provider', \DB::raw('count(*) as count'))
-         ->groupBy('account_provider')
-         ->orderBy('count', 'desc')
-         ->take(3)
-         ->get();
-     
+
+        $this->topAccountProviders = OrganizationPayment::select('account_provider', \DB::raw('count(*) as count'))
+            ->groupBy('account_provider')
+            ->orderBy('count', 'desc')
+            ->take(3)
+            ->get();
     }
 
     public function render()
     {
-        return view('livewire.Analytics.index',[ 'totalUsers' => OrganizationUser::count()]);
+        return view('livewire.Analytics.index', ['totalUsers' => OrganizationUser::count()]);
     }
 
     public function viewDetails()
