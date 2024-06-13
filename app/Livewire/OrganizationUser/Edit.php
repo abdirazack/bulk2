@@ -2,17 +2,15 @@
 
 namespace App\Livewire\OrganizationUser;
 
-use Livewire\Component;
 use App\Models\OrganizationUser;
 use LivewireUI\Modal\ModalComponent;
-use App\Livewire\OrganizationUser\Show;
 
 class Edit extends ModalComponent
 {
-
     public $user;
 
     public $username;
+
     public $email;
 
     public $password;
@@ -33,19 +31,17 @@ class Edit extends ModalComponent
 
     }
 
-
     public function render()
     {
         return view('livewire.organization-user.edit');
     }
 
-
     // update function with error handling
     public function update()
     {
         $this->validate([
-            'username' => 'required|unique:organization_users,username,' . $this->user->id,
-            'email' => 'required|email|unique:organization_users,email,' . $this->user->id,
+            'username' => 'required|unique:organization_users,username,'.$this->user->id,
+            'email' => 'required|email|unique:organization_users,email,'.$this->user->id,
             'password' => 'nullable|confirmed',
             'password_confirmation' => 'nullable|same:password',
         ]);
@@ -68,5 +64,4 @@ class Edit extends ModalComponent
             'password' => $this->password ? bcrypt($this->password) : $this->user->password,
         ]);
     }
-
 }

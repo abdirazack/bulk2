@@ -2,19 +2,23 @@
 
 namespace App\Livewire\File;
 
-use Livewire\Component;
-use App\Models\UploadedData;
 use App\Models\AccountProvider;
 use App\Models\OrganizationBatch;
-
+use App\Models\UploadedData;
+use Livewire\Component;
 
 class Preview extends Component
 {
     public $progress;
+
     public $fileData = [];
+
     public $recurring;
+
     public $paymentDate;
+
     public $modifiedData = [];
+
     public $AccountProviders = [];
 
     public function mount()
@@ -22,12 +26,14 @@ class Preview extends Component
         $fileData = session('fileData');
         if (is_null($fileData)) {
             session()->flash('error', 'No file data found. Please upload a file.');
+
             return redirect()->route('file-upload');
         }
 
         $this->fileData = json_decode($fileData, true);
         if (is_null($this->fileData)) {
             session()->flash('error', 'File data could not be parsed. Please try again.');
+
             return redirect()->route('file-upload');
         }
     }
@@ -39,6 +45,7 @@ class Preview extends Component
             return trim($name);
         })->toArray();
     }
+
     public function render()
     {
         $AccountProviders = $this->getTrimmedAccountProviders();
@@ -47,7 +54,7 @@ class Preview extends Component
 
         return view('livewire.file.preview', [
             'fileData' => $this->fileData,
-            'accountProviders' => $AccountProviders
+            'accountProviders' => $AccountProviders,
         ]);
     }
 
@@ -65,13 +72,13 @@ class Preview extends Component
             }
             $account_provider = trim($row[1]);
 
-            if (!in_array($account_provider, $accountProviders)) {
+            if (! in_array($account_provider, $accountProviders)) {
                 return redirect()->route('file-upload')->with('error', 'Account provider not found.');
             }
         }
+
         return true;
     }
-
 
     public function deleteRow($index)
     {
@@ -86,7 +93,6 @@ class Preview extends Component
         ]);
 
         $this->modifiedData = $this->fileData;
-
 
         // Check if date and recurring are selected
         if ($this->paymentDate != null) {
@@ -114,18 +120,20 @@ class Preview extends Component
             $fileDataJson = json_encode($this->modifiedData);
 
             $UploadedData = new UploadedData();
-            $UploadedData->file_name = 'FILE-' . time();
+            $UploadedData->file_name = 'FILE-'.time();
             $UploadedData->file_data = $fileDataJson;
             $UploadedData->created_by = auth()->user()->id;
             $UploadedData->organization_id = auth()->user()->organization_id;
             $UploadedData->organization_batch_id = $organizationBatch->id;
             $UploadedData->save();
         } catch (\Exception $e) {
-            session()->flash('error', 'Error saving uploaded data. Please try again later. ' . $e->getMessage());
+            session()->flash('error', 'Error saving uploaded data. Please try again later. '.$e->getMessage());
+
             return;
         }
 
         session()->flash('success', 'File uploaded successfully!');
+
         return redirect()->route('approval');
     }
 

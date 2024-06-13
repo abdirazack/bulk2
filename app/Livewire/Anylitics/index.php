@@ -2,12 +2,12 @@
 
 namespace App\Livewire\Anylitics;
 
-use Livewire\Component;
-use App\Models\OrganizationPayment;
 use App\Models\OrganizationBatch;
+use App\Models\OrganizationPayment;
 use App\Models\OrganizationUser;
 use App\Models\OrganizationWallet;
 use Illuminate\Support\Carbon;
+use Livewire\Component;
 
 class index extends Component
 {
@@ -19,19 +19,30 @@ class index extends Component
         'approveAmount' => 0,
         'pendingAmount' => 0,
     ];
-    public $walletBalance;
-    public $totalSuccessPayments;
-    public $totalPendingPayments;
-    public $totalRejectedPayments;
-    public $totalActiveUsers;
-    public $totalSuspendedUsers;
-    public $recentTransactions;
-    public $recurringTransactionsCount;
-    public $recurringTotalAmount;
-    public $closestDueRecurringPayments;
-    public $recentTransactionsCount;
-    public $topAccountProviders;
 
+    public $walletBalance;
+
+    public $totalSuccessPayments;
+
+    public $totalPendingPayments;
+
+    public $totalRejectedPayments;
+
+    public $totalActiveUsers;
+
+    public $totalSuspendedUsers;
+
+    public $recentTransactions;
+
+    public $recurringTransactionsCount;
+
+    public $recurringTotalAmount;
+
+    public $closestDueRecurringPayments;
+
+    public $recentTransactionsCount;
+
+    public $topAccountProviders;
 
     public function mount()
     {
@@ -42,7 +53,6 @@ class index extends Component
         } else {
             $this->walletBalance = 0;
         }
-
 
         // Batches Information
         $this->batches['approve'] = OrganizationBatch::where('status', 'approved')->count();
@@ -76,6 +86,7 @@ class index extends Component
             ->orderBy('count', 'desc')
             ->take(3)
             ->get();
+
     }
 
     public function render()

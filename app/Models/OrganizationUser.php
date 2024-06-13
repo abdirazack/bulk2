@@ -2,22 +2,17 @@
 
 namespace App\Models;
 
-
-use App\Models\Organization;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 class OrganizationUser extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable, SoftDeletes, HasRoles;
+    use HasFactory, HasRoles, Notifiable, SoftDeletes;
 
     protected $table = 'organization_users';
 
@@ -40,11 +35,6 @@ class OrganizationUser extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-
-
-
-
-
     // organization has many users
     public function organization(): BelongsTo
     {
@@ -55,5 +45,4 @@ class OrganizationUser extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasRole($roles);
     }
-
 }

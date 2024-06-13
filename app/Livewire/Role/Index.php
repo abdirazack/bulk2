@@ -2,30 +2,24 @@
 
 namespace App\Livewire\Role;
 
-
-use Livewire\Component;
-use Livewire\Attributes\On;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
+use Livewire\Component;
 use Spatie\Permission\Models\Role;
 
 class Index extends Component
 {
-
-    
-
     #[Computed('roles')]
     public function roles()
     {
         return Role::with('permissions')->get();
     }
 
-
     public function render()
     {
         return view('livewire.role.index');
     }
 
-   
     public function create()
     {
         return redirect()->route('organization-user');
@@ -39,8 +33,6 @@ class Index extends Component
         $this->dispatch('permissionRemoved')->to(Index::class);
     }
 
-    
-
     public function view($id)
     {
         return redirect()->route('view-role', ['id' => $id]);
@@ -53,6 +45,4 @@ class Index extends Component
         unset($this->roles);
         $this->render();
     }
-
-
 }

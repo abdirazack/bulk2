@@ -1,6 +1,7 @@
 <?php
 
-use app\Livewire\Analytics\Index as Analytics;
+use App\Livewire\Anylitics\Details as AnalyticsDetails;
+use App\Livewire\Anylitics\index as AnalyticsIndex;
 use App\Livewire\Approval\Details as ApprovalDetails;
 use App\Livewire\Approval\Index as ApprovalIndex;
 use App\Livewire\File\Preview as FilePreview;
@@ -14,11 +15,9 @@ use App\Livewire\Role\View as RoleView;
 use App\Livewire\Setting;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
-use App\Livewire\Anylitics\index as AnalyticsIndex;
-use App\Livewire\Anylitics\Details as AnalyticsDetails;
 
 Route::view('/', 'welcome');
-  Route::get('/dashboard', AnalyticsIndex::class)->middleware(['auth', 'verified'])
+Route::get('/dashboard', AnalyticsIndex::class)->middleware(['auth', 'verified'])
     ->name('dashboard');
 Route::view('profile', 'profile')
     ->middleware(['auth'])
@@ -62,4 +61,4 @@ Route::group(['middleware' => ['role:admin']], function () {
         ->middleware('auth');
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

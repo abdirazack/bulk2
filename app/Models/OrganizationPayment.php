@@ -2,11 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Organization;
-use App\Models\OrganizationBatch;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class OrganizationPayment extends Model
 {
@@ -22,7 +20,7 @@ class OrganizationPayment extends Model
         'amount',
         'payment_date',
         'status',
-        'is_recurring'
+        'is_recurring',
     ];
 
     public function organization()
@@ -33,7 +31,7 @@ class OrganizationPayment extends Model
     public function organizationBatch()
     {
         return $this->belongsTo(OrganizationBatch::class);
-    } 
+    }
 
     public function user()
     {
@@ -48,6 +46,6 @@ class OrganizationPayment extends Model
     // cast the is_recurring attribute to boolean
     protected $casts = [
         'is_recurring' => 'boolean',
-        'payment_date' => 'date'
+        'payment_date' => 'date',
     ];
 }

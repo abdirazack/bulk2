@@ -3,22 +3,21 @@
 namespace Database\Seeders;
 
 use App\Models\AccountProvider;
-use App\Models\User;
-
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Organization;
-use Illuminate\Database\Seeder;
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\OrganizationUser;
-use Spatie\Permission\Models\Role;
+use App\Models\User;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
-
-
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
     protected static ?string $password;
+
     protected static ?string $Userpassword;
+
     /**
      * Seed the application's database.
      */
@@ -26,8 +25,6 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(50)->create();
         $org1 = Organization::create(['name' => 'Organization 1', 'email' => 'org1@gmail.com', 'phone' => '666666666', 'address' => '1234 Main St']);
-
-
 
         $admin = Role::create(['name' => 'admin']);
 
@@ -60,10 +57,8 @@ class DatabaseSeeder extends Seeder
 
         $user->givePermissionTo($view_users);
 
-
         $admin_user->assignRole($admin);
         $normal_user->assignRole($user);
-
 
         AccountProvider::create(['name' => 'EVCPlus']);
         AccountProvider::create(['name' => 'E-Dahab']);

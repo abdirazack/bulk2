@@ -3,9 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\AccountProvider;
-use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Seeder;
 
 class AccountProviderTableSeeder extends Seeder
 {

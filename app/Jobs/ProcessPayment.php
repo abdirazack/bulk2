@@ -2,22 +2,25 @@
 
 namespace App\Jobs;
 
-use Illuminate\Bus\Queueable;
 use App\Models\OrganizationPayment;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use Exception;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
-use Exception;
 
 class ProcessPayment implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $modifiedData;
+
     protected $organization_id;
+
     protected $organization_batch_id;
+
     protected $organization_user_id;
 
     /**
@@ -44,7 +47,7 @@ class ProcessPayment implements ShouldQueue
                 }
 
                 // Access the data using the correct keys
-                list($name, $account_provider, $account_number, $amount, $recurring, $payment_date) = $data;
+                [$name, $account_provider, $account_number, $amount, $recurring, $payment_date] = $data;
 
                 // Create a new OrganizationPayment instance
                 $organizationPayment = new OrganizationPayment([
@@ -71,7 +74,7 @@ class ProcessPayment implements ShouldQueue
 
             } catch (Exception $e) {
                 // Log the error
-                Log::error("Error processing payment: " . $e->getMessage());
+                Log::error('Error processing payment: '.$e->getMessage());
                 // Optionally, handle the error (e.g., send notification)
             }
         }
@@ -100,7 +103,7 @@ class ProcessPayment implements ShouldQueue
     {
 
         //hit api here
-        
+
         // Implement Hormuud payment logic here
     }
 
