@@ -21,7 +21,7 @@ export default {
         },
        
     },
-
+    important: true,
     plugins: [require("daisyui"),forms],
 
     daisyui: {

@@ -52,7 +52,7 @@
                                     @foreach ($row as $cellIndex => $cell)
                                     @if ($cellIndex == 1)
                                         <td>
-                                            <select class="select select-bordered w-full max-w-xs"
+                                            <select class="select select-bordered w-full max-w-xs "
                                                     wire:model.lazy="fileData.{{ $index }}.{{ $cellIndex }}">
                                                 <option value="">Select an option</option>
                                                 @foreach ($accountProviders as $accountprovider)
@@ -64,7 +64,7 @@
                                                     </option>
                                                 @endforeach
                                                 </select>
-                                            </td>
+                                            </td> 
                                         @else
                                             <td>
                                                 <input type="text" contenteditable="true"
