@@ -15,7 +15,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
 class ProcessPayment implements ShouldQueue
-{
+{ 
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $modifiedData;
