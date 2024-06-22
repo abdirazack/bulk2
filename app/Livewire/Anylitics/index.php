@@ -2,12 +2,13 @@
 
 namespace App\Livewire\Anylitics;
 
-use App\Models\OrganizationBatch;
-use App\Models\OrganizationPayment;
-use App\Models\OrganizationUser;
-use App\Models\OrganizationWallet;
-use Illuminate\Support\Carbon;
 use Livewire\Component;
+use Illuminate\Support\Carbon;
+use App\Models\OrganizationUser;
+use App\Models\OrganizationBatch;
+use App\Models\OrganizationWallet;
+use Illuminate\Support\Facades\DB;
+use App\Models\OrganizationPayment;
 
 class index extends Component
 {
@@ -46,10 +47,12 @@ class index extends Component
 
     public function mount()
     {
+        
         // Wallet Information
         $wallet = OrganizationWallet::where('organization_id', auth()->user()->organization_id)->first();
+        // dd( $wallet  );
         if ($wallet) {
-            $this->walletBalance = $wallet->sum('balance');
+            $this->walletBalance = $wallet->balance;
         } else {
             $this->walletBalance = 0;
         }
@@ -81,7 +84,7 @@ class index extends Component
             ->take(1)
             ->get();
 
-        $this->topAccountProviders = OrganizationPayment::select('account_provider', \DB::raw('count(*) as count'))
+        $this->topAccountProviders = OrganizationPayment::select('account_provider', DB::raw('count(*) as count'))
             ->groupBy('account_provider')
             ->orderBy('count', 'desc')
             ->take(3)
