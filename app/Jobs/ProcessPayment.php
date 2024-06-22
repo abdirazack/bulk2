@@ -12,7 +12,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
 class ProcessPayment implements ShouldQueue
-{
+{ 
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $modifiedData;
