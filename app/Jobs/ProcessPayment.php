@@ -2,14 +2,17 @@
 
 namespace App\Jobs;
 
-use App\Models\OrganizationPayment;
 use Exception;
 use Illuminate\Bus\Queueable;
+use App\Models\OrganizationWallet;
+use App\Models\OrganizationPayment;
+use function Livewire\Volt\updated;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
+
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
 
 class ProcessPayment implements ShouldQueue
 {
@@ -65,16 +68,17 @@ class ProcessPayment implements ShouldQueue
 
                 // Save the organization payment
                 $organizationPayment->save();
+                $data = $this->updatedWallet($this->organization_id, $amount);
+
 
                 // Call payment service or API based on account provider
                 //$this->processPaymentByProvider($account_provider, $organizationPayment);
 
                 // Log the successful payment
                 Log::info("Processed payment for account provider: $account_provider, Payment ID: {$organizationPayment->id}");
-
             } catch (Exception $e) {
                 // Log the error
-                Log::error('Error processing payment: '.$e->getMessage());
+                Log::error('Error processing payment: ' . $e->getMessage());
                 // Optionally, handle the error (e.g., send notification)
             }
         }
@@ -96,6 +100,13 @@ class ProcessPayment implements ShouldQueue
                 Log::warning("Unknown account provider: $account_provider");
                 break;
         }
+    }
+
+    protected function updatedWallet($organization_id, $amount)
+    {
+        $wallet = OrganizationWallet::where('organization_id', $organization_id)->first();
+        $wallet->balance -= $amount;
+        $wallet->save();
     }
 
     // Stub methods for payment processing - should be replaced with actual implementations

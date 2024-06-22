@@ -6,7 +6,7 @@
 
 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
     <div class="mt-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <!-- Card 1: Wallet Information -->
             <div class="bg-base-300 text-white rounded-lg shadow-md p-6">
                 <h3 class="text-lg font-semibold mb-4">Wallet Information</h3>
