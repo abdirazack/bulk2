@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
-use App\Models\Organization;
-use App\Models\OrganizationPayment;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class ProcessedPayment extends Model
 {
     use HasFactory;
+
     protected $table = 'processed_payments';
+
     protected $fillable = [
         'organization_id',
         'organization_payment_id',

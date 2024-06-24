@@ -2,17 +2,16 @@
 
 namespace App\Livewire\Anylitics;
 
-use Livewire\Component;
-use Illuminate\Support\Carbon;
-use App\Models\OrganizationUser;
 use App\Models\OrganizationBatch;
-use App\Models\OrganizationWallet;
-use Illuminate\Support\Facades\DB;
 use App\Models\OrganizationPayment;
+use App\Models\OrganizationUser;
+use App\Models\OrganizationWallet;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
+use Livewire\Component;
 
 class index extends Component
 {
-
     public $batches = [
         'approve' => 0,
         'reject' => 0,
@@ -44,11 +43,12 @@ class index extends Component
     public $recentTransactionsCount;
 
     public $topAccountProviders;
+
     public $lastUpdated;
 
     public function mount()
     {
-        
+
         // Wallet Information
         $wallet = OrganizationWallet::where('organization_id', auth()->user()->organization_id)->first();
         // dd( $wallet  );
@@ -58,10 +58,9 @@ class index extends Component
             $this->walletBalance = 0;
         }
         //get last updated time wallet if it is null then display N/A
-        $this->lastUpdated = $wallet->updated_at 
-    ? Carbon::parse($wallet->updated_at)->diffForHumans() 
+        $this->lastUpdated = $wallet->updated_at
+    ? Carbon::parse($wallet->updated_at)->diffForHumans()
     : ($wallet->created_at ? Carbon::parse($wallet->created_at)->diffForHumans() : 'N/A');
-
 
         // Batches Information
         $this->batches['approve'] = OrganizationBatch::where('status', 'approved')->count();

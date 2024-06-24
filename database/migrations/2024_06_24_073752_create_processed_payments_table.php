@@ -23,7 +23,7 @@ return new class extends Migration
 
             $table->foreign('organization_id')->references('id')->on('organizations');
             $table->foreign('organization_payment_id')->references('id')->on('organization_payments');
-            
+
         });
     }
 

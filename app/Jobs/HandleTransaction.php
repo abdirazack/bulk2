@@ -2,17 +2,16 @@
 
 namespace App\Jobs;
 
-use Exception;
 use App\Models\Organization;
-use Illuminate\Bus\Queueable;
-use App\Models\ProcessedPayment;
-use App\Models\OrganizationWallet;
-use Illuminate\Support\Facades\DB;
 use App\Models\OrganizationPayment;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Models\ProcessedPayment;
+use Exception;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\DB;
 
 class HandleTransaction implements ShouldQueue
 {
@@ -47,39 +46,39 @@ class HandleTransaction implements ShouldQueue
                     $this->change_organization_payment_status($this->organizationPayment);
                 }
                 break;
-           
+
             default:
                 throw new Exception('Invalid account provider');
         }
     }
 
-
     public function create_processed_payments(OrganizationPayment $organizationPayment): void
     {
-       //create processed payments record
-       try{
+        //create processed payments record
+        try {
             DB::beginTransaction();
-               $processed_payment = new ProcessedPayment();
-               $processed_payment->organization_id = $organizationPayment->organization_id;
-               $processed_payment->organization_payment_id = $organizationPayment->organization_payment_id;
-               $processed_payment->amount = $this->organizationPayment->amount;
-               $processed_payment->account_number = $this->organizationPayment->account_number;
-               $processed_payment->account_provider = $this->organizationPayment->account_provider;
-               $processed_payment->status = 'success';
-               $processed_payment->save();
+            $processed_payment = new ProcessedPayment();
+            $processed_payment->organization_id = $organizationPayment->organization_id;
+            $processed_payment->organization_payment_id = $organizationPayment->organization_payment_id;
+            $processed_payment->amount = $this->organizationPayment->amount;
+            $processed_payment->account_number = $this->organizationPayment->account_number;
+            $processed_payment->account_provider = $this->organizationPayment->account_provider;
+            $processed_payment->status = 'success';
+            $processed_payment->save();
             DB::commit();
-         }
-         catch(Exception $e){
+        } catch (Exception $e) {
             DB::rollBack();
             throw new Exception($e->getMessage());
-       }
+        }
     }
 
     public function update_organization_wallet(int $organization_id, int $amount): void
     {
         //update organization wallet
         $organization = Organization::find($organization_id);
-        if($organization === null) throw new Exception('Organization not found');
+        if ($organization === null) {
+            throw new Exception('Organization not found');
+        }
 
         $org_wallet = $organization->wallet;
         $org_wallet->amount = $org_wallet->amount - $amount;

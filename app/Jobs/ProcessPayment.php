@@ -2,22 +2,18 @@
 
 namespace App\Jobs;
 
+use App\Models\OrganizationPayment;
 use Exception;
 use Illuminate\Bus\Queueable;
-use App\Jobs\HandleTransaction;
-use App\Models\OrganizationWallet;
-use App\Models\OrganizationPayment;
-use function Livewire\Volt\updated;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Queue\SerializesModels;
-
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ProcessPayment implements ShouldQueue
-{ 
+{
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $modifiedData;
@@ -60,36 +56,35 @@ class ProcessPayment implements ShouldQueue
                 //if the payment_date is today dispatch HandleTransaction job
                 if ($organizationPayment->payment_date == now()->toDateString()) {
                     HandleTransaction::dispatch($organizationPayment);
-                }               
-               
+                }
+
                 Log::info("Processed payment for account provider: $account_provider, Payment ID: {$organizationPayment->id}");
             } catch (Exception $e) {
                 // Log the error
-                Log::error('Error processing payment: ' . $e->getMessage());
-                Throw new Exception('Error Processing Payment'. $e->getMessage());
+                Log::error('Error processing payment: '.$e->getMessage());
+                throw new Exception('Error Processing Payment'.$e->getMessage());
             }
         }
 
-        
     }
 
     public function create_organization_payment($data): OrganizationPayment
     {
         try {
             DB::beginTransaction();
-                $organizationPayment = new OrganizationPayment([
-                    'organization_id' => $this->organization_id,
-                    'organization_batch_id' => $this->organization_batch_id,
-                    'organization_user_id' => $this->organization_user_id,
-                    'account_provider' => $data['account_provider'],
-                    'account_name' => $data['name'],
-                    'account_number' => $data['account_number'],
-                    'amount' => $data['amount'],
-                    'payment_date' => $data['payment_date'],
-                    'status' => 'pending',
-                    'is_recurring' => $data['recurring'],
-                ]);
-                $organizationPayment->save();
+            $organizationPayment = new OrganizationPayment([
+                'organization_id' => $this->organization_id,
+                'organization_batch_id' => $this->organization_batch_id,
+                'organization_user_id' => $this->organization_user_id,
+                'account_provider' => $data['account_provider'],
+                'account_name' => $data['name'],
+                'account_number' => $data['account_number'],
+                'amount' => $data['amount'],
+                'payment_date' => $data['payment_date'],
+                'status' => 'pending',
+                'is_recurring' => $data['recurring'],
+            ]);
+            $organizationPayment->save();
             DB::commit();
 
             return $organizationPayment;

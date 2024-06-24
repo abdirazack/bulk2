@@ -74,10 +74,9 @@ class Index extends Component
         $organizationId = $uploadedData->organization_id;
         $organization_batch_id = $uploadedData->organization_batch_id;
 
-
         $loginOrgWallet = OrganizationWallet::find($loginOrg);
         //check if login org wallet exists
-        if (!$loginOrgWallet) {
+        if (! $loginOrgWallet) {
             return redirect()->with('error', 'organization wallet not found.');
 
         }
@@ -86,6 +85,7 @@ class Index extends Component
         }
         if ($loginOrgWallet->balance < array_sum(array_column($file_data, 3))) {
             session()->flash('error', 'Insufficient balance.');
+
             return;
         }
 
@@ -96,7 +96,6 @@ class Index extends Component
 
             $retunedstuff = ProcessPayment::dispatch($file_data, $organizationId, $organization_batch_id, $organization_user_id = auth()->user()->id);
 
-        
         } else {
             session()->flash('error', 'authorization failed.');
 
