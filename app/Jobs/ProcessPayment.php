@@ -4,13 +4,14 @@ namespace App\Jobs;
 
 use Exception;
 use Illuminate\Bus\Queueable;
+use App\Jobs\HandleTransaction;
 use App\Models\OrganizationWallet;
 use App\Models\OrganizationPayment;
 use function Livewire\Volt\updated;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
@@ -44,11 +45,7 @@ class ProcessPayment implements ShouldQueue
     {
         foreach ($this->modifiedData as $data) {
             try {
-                // Check if the keys match the expected headers
-                if ($data[0] === 'name' && $data[1] === 'account_provider' && $data[2] === 'account_number' && $data[3] === 'amount') {
-                    continue; // Skip the header row
-                }
-
+               
                 // Access the data using the correct keys
                 [$name, $account_provider, $account_number, $amount, $recurring, $payment_date] = $data;
 
@@ -68,13 +65,10 @@ class ProcessPayment implements ShouldQueue
 
                 // Save the organization payment
                 $organizationPayment->save();
-                $data = $this->updatedWallet($this->organization_id, $amount);
 
-
-                // Call payment service or API based on account provider
-                //$this->processPaymentByProvider($account_provider, $organizationPayment);
-
-                // Log the successful payment
+                //dispatch HandleTransaction job
+                HandleTransaction::dispatch($organizationPayment);
+               
                 Log::info("Processed payment for account provider: $account_provider, Payment ID: {$organizationPayment->id}");
             } catch (Exception $e) {
                 // Log the error
@@ -84,42 +78,5 @@ class ProcessPayment implements ShouldQueue
         }
     }
 
-    /**
-     * Process payment by provider.
-     */
-    protected function processPaymentByProvider(string $account_provider, OrganizationPayment $organizationPayment)
-    {
-        switch ($account_provider) {
-            case 'hormuud':
-                $this->HormuudPayment($organizationPayment);
-                break;
-            case 'somnet':
-                $this->SomnetPayment($organizationPayment);
-                break;
-            default:
-                Log::warning("Unknown account provider: $account_provider");
-                break;
-        }
-    }
-
-    protected function updatedWallet($organization_id, $amount)
-    {
-        $wallet = OrganizationWallet::where('organization_id', $organization_id)->first();
-        $wallet->balance -= $amount;
-        $wallet->save();
-    }
-
-    // Stub methods for payment processing - should be replaced with actual implementations
-    protected function HormuudPayment(OrganizationPayment $organizationPayment)
-    {
-
-        //hit api here
-
-        // Implement Hormuud payment logic here
-    }
-
-    protected function SomnetPayment(OrganizationPayment $organizationPayment)
-    {
-        // Implement Somnet payment logic here
-    }
+    
 }

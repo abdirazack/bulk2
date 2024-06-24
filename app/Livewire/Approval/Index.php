@@ -93,8 +93,7 @@ class Index extends Component
         $uploadedData->organizationBatch->save();
 
         if ($loginOrg == $organizationId && $organization_batch_id != null) {
-            //    call process payment job
-            //    dd($file_data);
+
             $retunedstuff = ProcessPayment::dispatch($file_data, $organizationId, $organization_batch_id, $organization_user_id = auth()->user()->id);
 
         

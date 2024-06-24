@@ -175,4 +175,10 @@
             </div>
         </div>
     </div>
+
+    <div wire:loading>
+                <div class="fixed top-0 left-0 right-0 bottom-0 bg-base-300 bg-opacity-50 z-50 flex items-center justify-center" >
+                <span class="loading loading-spinner loading-lg"></span>
+                </div>
+            </div>
 </div>
