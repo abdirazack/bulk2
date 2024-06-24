@@ -17,22 +17,19 @@ class ProcessPayment implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $modifiedData;
-
-    protected $organization_id;
-
-    protected $organization_batch_id;
-
-    protected $organization_user_id;
+    protected $organizationId;
+    protected $batchId;
+    protected $organizationUserId;
 
     /**
      * Create a new job instance.
      */
-    public function __construct(array $modifiedData, int $organizationId, int $batchId, $organization_user_id)
+    public function __construct(array $modifiedData, int $organizationId, int $batchId, int $organizationUserId)
     {
         $this->modifiedData = $modifiedData;
-        $this->organization_id = $organizationId;
-        $this->organization_batch_id = $batchId;
-        $this->organization_user_id = $organization_user_id;
+        $this->organizationId = $organizationId;
+        $this->batchId = $batchId;
+        $this->organizationUserId = $organizationUserId;
     }
 
     /**
@@ -42,40 +39,46 @@ class ProcessPayment implements ShouldQueue
     {
         foreach ($this->modifiedData as $data) {
             // Access the data using the correct keys
-            [$name, $account_provider, $account_number, $amount, $recurring, $payment_date] = $data;
+            [$name, $accountProvider, $accountNumber, $amount, $recurring, $paymentDate] = $data;
             try {
-                $organizationPayment = $this->create_organization_payment([
+                $organizationPayment = $this->createOrganizationPayment([
                     'name' => $name,
-                    'account_provider' => $account_provider,
-                    'account_number' => $account_number,
+                    'account_provider' => $accountProvider,
+                    'account_number' => $accountNumber,
                     'amount' => $amount,
                     'recurring' => $recurring,
-                    'payment_date' => $payment_date,
+                    'payment_date' => $paymentDate,
                 ]);
 
-                //if the payment_date is today dispatch HandleTransaction job
+                // If the payment date is today, dispatch HandleTransaction job
                 if ($organizationPayment->payment_date == now()->toDateString()) {
                     HandleTransaction::dispatch($organizationPayment);
                 }
 
-                Log::info("Processed payment for account provider: $account_provider, Payment ID: {$organizationPayment->id}");
+                Log::info("Processed payment for account provider: $accountProvider, Payment ID: {$organizationPayment->id}");
             } catch (Exception $e) {
                 // Log the error
                 Log::error('Error processing payment: '.$e->getMessage());
-                throw new Exception('Error Processing Payment'.$e->getMessage());
+                throw new Exception('Error processing payment: '.$e->getMessage());
             }
         }
-
     }
 
-    public function create_organization_payment($data): OrganizationPayment
+    /**
+     * Create an organization payment.
+     *
+     * @param array $data
+     * @return OrganizationPayment
+     * @throws Exception
+     */
+    protected function createOrganizationPayment(array $data): OrganizationPayment
     {
         try {
             DB::beginTransaction();
-            $organizationPayment = new OrganizationPayment([
-                'organization_id' => $this->organization_id,
-                'organization_batch_id' => $this->organization_batch_id,
-                'organization_user_id' => $this->organization_user_id,
+            $organizationPayment = OrganizationPayment::create([
+                'organization_id' => $this->organizationId,
+                'organization_batch_id' => $this->batchId,
+                'organization_user_id' => $this->organizationUserId,
                 'account_provider' => $data['account_provider'],
                 'account_name' => $data['name'],
                 'account_number' => $data['account_number'],
@@ -84,13 +87,13 @@ class ProcessPayment implements ShouldQueue
                 'status' => 'pending',
                 'is_recurring' => $data['recurring'],
             ]);
-            $organizationPayment->save();
             DB::commit();
 
             return $organizationPayment;
         } catch (Exception $e) {
             DB::rollBack();
-            throw new Exception($e->getMessage());
+            Log::error('Error creating organization payment: '.$e->getMessage());
+            throw new Exception('Error creating organization payment: '.$e->getMessage());
         }
     }
 }

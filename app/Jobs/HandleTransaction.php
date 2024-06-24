@@ -12,12 +12,13 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class HandleTransaction implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $organizationPayment;
+    protected $organizationPayment;
 
     /**
      * Create a new job instance.
@@ -32,70 +33,54 @@ class HandleTransaction implements ShouldQueue
      */
     public function handle(): void
     {
-        $organization_id = $this->organizationPayment->organization_id;
-        $amount = $this->organizationPayment->amount;
-        $account_number = $this->organizationPayment->account_number;
-        $account_provider = $this->organizationPayment->account_provider;
-
-        switch ($account_provider) {
-            case 'premier_bank':
-                $data = $this->premier_bank_gateway($this->organizationPayment);
-                if ($data) {
-                    $this->create_processed_payments($this->organizationPayment);
-                    $this->update_organization_wallet($organization_id, $amount);
-                    $this->change_organization_payment_status($this->organizationPayment);
-                }
-                break;
-
-            default:
-                throw new Exception('Invalid account provider');
-        }
-    }
-
-    public function create_processed_payments(OrganizationPayment $organizationPayment): void
-    {
-        //create processed payments record
         try {
-            DB::beginTransaction();
-            $processed_payment = new ProcessedPayment();
-            $processed_payment->organization_id = $organizationPayment->organization_id;
-            $processed_payment->organization_payment_id = $organizationPayment->organization_payment_id;
-            $processed_payment->amount = $this->organizationPayment->amount;
-            $processed_payment->account_number = $this->organizationPayment->account_number;
-            $processed_payment->account_provider = $this->organizationPayment->account_provider;
-            $processed_payment->status = 'success';
-            $processed_payment->save();
-            DB::commit();
+            switch ($this->organizationPayment->account_provider) {
+                case 'premier_bank':
+                    $data = $this->premierBankGateway();
+                    if ($data) {
+                        DB::transaction(function () {
+                            $this->createProcessedPayment();
+                            $this->updateOrganizationWallet();
+                            $this->changeOrganizationPaymentStatus();
+                        });
+                    }
+                    break;
+
+                default:
+                    throw new Exception('Invalid account provider');
+            }
         } catch (Exception $e) {
-            DB::rollBack();
-            throw new Exception($e->getMessage());
+            Log::error('Transaction handling failed', ['exception' => $e]);
+            throw $e; // Re-throw the exception to let the queue handle retries
         }
     }
 
-    public function update_organization_wallet(int $organization_id, int $amount): void
+    protected function createProcessedPayment(): void
     {
-        //update organization wallet
-        $organization = Organization::find($organization_id);
-        if ($organization === null) {
-            throw new Exception('Organization not found');
-        }
-
-        $org_wallet = $organization->wallet;
-        $org_wallet->amount = $org_wallet->amount - $amount;
-        $org_wallet->save();
+        ProcessedPayment::create([
+            'organization_id' => $this->organizationPayment->organization_id,
+            'organization_payment_id' => $this->organizationPayment->id,
+            'amount' => $this->organizationPayment->amount,
+            'account_number' => $this->organizationPayment->account_number,
+            'account_provider' => $this->organizationPayment->account_provider,
+            'status' => 'success',
+        ]);
     }
 
-    public function change_organization_payment_status(OrganizationPayment $organizationPayment): void
+    protected function updateOrganizationWallet(): void
     {
-        //change organization payment status
-        $organizationPayment = $this->organizationPayment;
-        $organizationPayment->status = 'success';
-        $organizationPayment->save();
+        $organization = Organization::findOrFail($this->organizationPayment->organization_id);
+        $organization->wallet->decrement('amount', $this->organizationPayment->amount);
     }
 
-    public function premier_bank_gateway(OrganizationPayment $organizationPayment): bool
+    protected function changeOrganizationPaymentStatus(): void
     {
-        //premier bank gateway
+        $this->organizationPayment->update(['status' => 'success']);
+    }
+
+    protected function premierBankGateway(): bool
+    {
+        // Simulate Premier Bank gateway logic
         return true;
     }
 }
