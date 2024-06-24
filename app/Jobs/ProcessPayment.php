@@ -66,13 +66,16 @@ class ProcessPayment implements ShouldQueue
                 // Save the organization payment
                 $organizationPayment->save();
 
-                //dispatch HandleTransaction job
-                HandleTransaction::dispatch($organizationPayment);
+                //if the payment_date is today dispatch HandleTransaction job
+                if ($organizationPayment->payment_date == now()->toDateString()) {
+                    HandleTransaction::dispatch($organizationPayment);
+                }               
                
                 Log::info("Processed payment for account provider: $account_provider, Payment ID: {$organizationPayment->id}");
             } catch (Exception $e) {
                 // Log the error
                 Log::error('Error processing payment: ' . $e->getMessage());
+                Throw new Exception('Error Processing Payment'. $e->getMessage());
                 // Optionally, handle the error (e.g., send notification)
             }
         }
