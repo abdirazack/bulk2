@@ -40,11 +40,11 @@
                 <div class="flex justify-between">
                     <div>
                         <h4 class="text-md font-semibold mb-2">Approved Amount</h4>
-                        <span class="text-blue-600 inline-block text-white px-3 py-1 rounded">{{ "Total : $".number_format($batches['approveAmount'], 2) }}</span>
+                        <span class="text-blue-600 inline-block px-3 py-1 rounded">{{ "Total : $".number_format($batches['approveAmount'], 2) }}</span>
                     </div>
                     <div>
                         <h4 class="text-md font-semibold mb-2">Pending Amount</h4>
-                        <span class="text-blue-600 inline-block  text-white px-3 py-1 rounded">{{"Total : $".number_format($batches['pendingAmount'], 2) }}</span>
+                        <span class="text-blue-600 inline-block px-3 py-1 rounded">{{"Total : $".number_format($batches['pendingAmount'], 2) }}</span>
                     </div>
                 </div>
             </div>

@@ -14,6 +14,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\DB;
 
 class ProcessPayment implements ShouldQueue
 { 
@@ -44,27 +45,17 @@ class ProcessPayment implements ShouldQueue
     public function handle(): void
     {
         foreach ($this->modifiedData as $data) {
+            // Access the data using the correct keys
+            [$name, $account_provider, $account_number, $amount, $recurring, $payment_date] = $data;
             try {
-               
-                // Access the data using the correct keys
-                [$name, $account_provider, $account_number, $amount, $recurring, $payment_date] = $data;
-
-                // Create a new OrganizationPayment instance
-                $organizationPayment = new OrganizationPayment([
-                    'organization_id' => $this->organization_id,
-                    'organization_batch_id' => $this->organization_batch_id,
-                    'organization_user_id' => $this->organization_user_id,
+                $organizationPayment = $this->create_organization_payment([
+                    'name' => $name,
                     'account_provider' => $account_provider,
-                    'account_name' => $name,
                     'account_number' => $account_number,
                     'amount' => $amount,
+                    'recurring' => $recurring,
                     'payment_date' => $payment_date,
-                    'status' => 'pending',
-                    'is_recurring' => $recurring,
                 ]);
-
-                // Save the organization payment
-                $organizationPayment->save();
 
                 //if the payment_date is today dispatch HandleTransaction job
                 if ($organizationPayment->payment_date == now()->toDateString()) {
@@ -76,10 +67,35 @@ class ProcessPayment implements ShouldQueue
                 // Log the error
                 Log::error('Error processing payment: ' . $e->getMessage());
                 Throw new Exception('Error Processing Payment'. $e->getMessage());
-                // Optionally, handle the error (e.g., send notification)
             }
         }
+
+        
     }
 
-    
+    public function create_organization_payment($data): OrganizationPayment
+    {
+        try {
+            DB::beginTransaction();
+                $organizationPayment = new OrganizationPayment([
+                    'organization_id' => $this->organization_id,
+                    'organization_batch_id' => $this->organization_batch_id,
+                    'organization_user_id' => $this->organization_user_id,
+                    'account_provider' => $data['account_provider'],
+                    'account_name' => $data['name'],
+                    'account_number' => $data['account_number'],
+                    'amount' => $data['amount'],
+                    'payment_date' => $data['payment_date'],
+                    'status' => 'pending',
+                    'is_recurring' => $data['recurring'],
+                ]);
+                $organizationPayment->save();
+            DB::commit();
+
+            return $organizationPayment;
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw new Exception($e->getMessage());
+        }
+    }
 }
